@@ -9,8 +9,9 @@ const T = {
     badge: "Indie Hacker · 独立开发",
     line1: "Java 工程师，业余做点小工具。",
     line2: "做有用的小东西，从想法到上线。",
+    about: "简介",
     built: "做过的东西",
-    writing: "写的东西",
+    work: "项目经历",
     tech: "常用技术",
     live: "上线",
     switchLabel: "English",
@@ -20,8 +21,9 @@ const T = {
     badge: "Indie Hacker",
     line1: "Java engineer. Building small, useful tools on the side.",
     line2: "From idea to launch.",
+    about: "About",
     built: "Things I've built",
-    writing: "Writing",
+    work: "Work",
     tech: "Tech I use",
     live: "Live",
     switchLabel: "中文",
@@ -78,130 +80,179 @@ const SKILLS = [
   "PostgreSQL / Neon", "Vercel",
 ];
 
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3">
+      <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">{children}</h2>
+      <div className="flex-1 h-px bg-zinc-800" />
+    </div>
+  );
+}
+
 export default function Home({ lang }: { lang: Lang }) {
   const t = T[lang];
   const pages = listPages(lang);
   const skills = [...SKILLS, lang === "zh" ? "AI 集成" : "AI integration"];
-  return (
-    <main className="min-h-screen max-w-3xl mx-auto px-6 py-20 space-y-24">
 
-      {/* Hero */}
-      <section className="space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 text-xs text-zinc-400">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          {t.badge}
-        </div>
-        <h1 className="text-5xl font-bold tracking-tight">
-          Michael
-        </h1>
-        <p className="text-xl text-zinc-400 leading-relaxed max-w-xl">
-          {t.line1}<br />
-          {t.line2}
-        </p>
-        <div className="flex gap-4 text-sm">
-          <a href="https://github.com/opc-x" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors">
-            GitHub <ExternalLink size={12} />
-          </a>
-          {lang === "en" && (
-            <a href="https://x.com/Michaelcjfw" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors">
-              X <ExternalLink size={12} />
+  const nav = [
+    { id: "about", label: t.about },
+    { id: "built", label: t.built },
+    ...(pages.length > 0 ? [{ id: "work", label: t.work }] : []),
+    { id: "tech", label: t.tech },
+  ];
+  const external = [
+    { label: "GitHub", href: "https://github.com/opc-x" },
+    ...(lang === "en" ? [{ label: "X", href: "https://x.com/Michaelcjfw" }] : []),
+  ];
+  const navLink = "text-zinc-400 hover:text-zinc-100 transition-colors";
+
+  return (
+    <div className="min-h-screen lg:flex">
+
+      {/* 语言切换：大屏固定在右上角，小屏放在顶部导航右侧 */}
+      <Link href={t.switchHref}
+        className="hidden lg:block fixed z-50 right-6 top-[calc(env(safe-area-inset-top,0px)+0.75rem)] px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-950/80 backdrop-blur text-xs text-zinc-300 hover:text-white hover:border-zinc-600 transition-colors">
+        {t.switchLabel}
+      </Link>
+
+      {/* 左侧导航：大屏显示 */}
+      <aside className="hidden lg:flex sticky top-0 h-screen w-60 shrink-0 flex-col gap-10 border-r border-zinc-900 px-8 py-20">
+        <a href="#about" className="text-lg font-bold tracking-tight">Michael</a>
+        <nav className="flex flex-col gap-3 text-sm">
+          {nav.map((n) => (
+            <a key={n.id} href={`#${n.id}`} className={navLink}>{n.label}</a>
+          ))}
+          {pages.map((pg) => (
+            <a key={pg.href} href={pg.href} className={`${navLink} pl-3 border-l border-zinc-800`}>{pg.title}</a>
+          ))}
+        </nav>
+        <div className="mt-auto flex flex-col gap-3 text-sm">
+          {external.map((e) => (
+            <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer"
+              className={`flex items-center gap-1.5 ${navLink}`}>
+              {e.label} <ExternalLink size={12} />
             </a>
-          )}
+          ))}
+        </div>
+      </aside>
+
+      {/* 顶部导航：小屏显示，横向滑动 */}
+      <header className="lg:hidden sticky top-0 z-40 border-b border-zinc-900 bg-zinc-950/90 backdrop-blur pt-[env(safe-area-inset-top,0px)]">
+        <div className="flex items-center gap-3 pr-4">
+          <nav className="flex-1 min-w-0 flex items-center gap-5 overflow-x-auto whitespace-nowrap px-5 py-3 text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <a href="#about" className="font-bold text-zinc-100">Michael</a>
+            {nav.map((n) => (
+              <a key={n.id} href={`#${n.id}`} className={navLink}>{n.label}</a>
+            ))}
+          </nav>
           <Link href={t.switchHref}
-            className="ml-auto text-zinc-500 hover:text-zinc-100 transition-colors">
+            className="shrink-0 px-3 py-1 rounded-full border border-zinc-800 text-xs text-zinc-300 hover:text-white hover:border-zinc-600 transition-colors">
             {t.switchLabel}
           </Link>
         </div>
-      </section>
+      </header>
 
-      {/* Products */}
-      <section className="space-y-6">
-        <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">{t.built}</h2>
-          <div className="flex-1 h-px bg-zinc-800" />
+      <main className="flex-1 min-w-0">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20 space-y-20 sm:space-y-24">
+
+          {/* 简介 */}
+          <section id="about" className="scroll-mt-20 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 text-xs text-zinc-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {t.badge}
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Michael</h1>
+            <p className="text-lg sm:text-xl text-zinc-400 leading-relaxed max-w-xl">
+              {t.line1}<br />
+              {t.line2}
+            </p>
+            <div className="flex flex-wrap gap-4 text-sm lg:hidden">
+              {external.map((e) => (
+                <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer"
+                  className={`flex items-center gap-1.5 ${navLink}`}>
+                  {e.label} <ExternalLink size={12} />
+                </a>
+              ))}
+            </div>
+          </section>
+
+          {/* 做过的东西 */}
+          <section id="built" className="scroll-mt-20 space-y-6">
+            <SectionTitle>{t.built}</SectionTitle>
+            <div className="grid gap-4">
+              {PRODUCTS.map((p) => {
+                const Icon = p.icon;
+                const isWip = p.status === "wip";
+                const name = typeof p.name === "string" ? p.name : p.name[lang];
+                return (
+                  <a
+                    key={name}
+                    href={p.url}
+                    target={isWip ? undefined : "_blank"}
+                    rel="noopener noreferrer"
+                    className={`group flex items-start gap-4 p-4 sm:p-5 rounded-xl border transition-all duration-200 ${
+                      isWip
+                        ? "border-zinc-800 bg-zinc-900/30 cursor-default"
+                        : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 hover:bg-zinc-900"
+                    }`}
+                  >
+                    <div className={`mt-0.5 p-2 rounded-lg shrink-0 ${isWip ? "bg-zinc-800 text-zinc-600" : "bg-zinc-800 text-zinc-300 group-hover:text-white transition-colors"}`}>
+                      <Icon size={18} />
+                    </div>
+                    <div className="flex-1 min-w-0 space-y-1">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span className={`font-semibold ${isWip ? "text-zinc-600" : "text-zinc-100"}`}>{name}</span>
+                        <span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
+                          isWip ? "bg-zinc-800 text-zinc-600" : "bg-zinc-800 text-zinc-400"
+                        }`}>{p.tag[lang]}</span>
+                        {!isWip && (
+                          <span className="ml-auto flex items-center gap-1 text-xs text-emerald-500 whitespace-nowrap">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            {t.live}
+                          </span>
+                        )}
+                      </div>
+                      <p className={`text-sm leading-relaxed ${isWip ? "text-zinc-700" : "text-zinc-400"}`}>{p.desc[lang]}</p>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* 项目经历：public/pages/*.html，放进去就自动出现 */}
+          {pages.length > 0 && (
+            <section id="work" className="scroll-mt-20 space-y-6">
+              <SectionTitle>{t.work}</SectionTitle>
+              <div className="grid gap-2">
+                {pages.map((pg) => (
+                  <a key={pg.href} href={pg.href}
+                    className="group flex items-center gap-3 px-4 py-3 rounded-lg border border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 hover:bg-zinc-900 transition-all">
+                    <FileText size={16} className="shrink-0 text-zinc-500 group-hover:text-zinc-200 transition-colors" />
+                    <span className="text-zinc-200">{pg.title}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* 常用技术 */}
+          <section id="tech" className="scroll-mt-20 space-y-6">
+            <SectionTitle>{t.tech}</SectionTitle>
+            <div className="flex flex-wrap gap-2">
+              {skills.map((s) => (
+                <span key={s} className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-sm text-zinc-300">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <footer className="pt-8 border-t border-zinc-800 text-xs text-zinc-600">
+            <span>© 2026 Michael</span>
+          </footer>
         </div>
-        <div className="grid gap-4">
-          {PRODUCTS.map((p) => {
-            const Icon = p.icon;
-            const isWip = p.status === "wip";
-            const name = typeof p.name === "string" ? p.name : p.name[lang];
-            return (
-              <a
-                key={name}
-                href={p.url}
-                target={isWip ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                className={`group flex items-start gap-4 p-5 rounded-xl border transition-all duration-200 ${
-                  isWip
-                    ? "border-zinc-800 bg-zinc-900/30 cursor-default"
-                    : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 hover:bg-zinc-900"
-                }`}
-              >
-                <div className={`mt-0.5 p-2 rounded-lg ${isWip ? "bg-zinc-800 text-zinc-600" : "bg-zinc-800 text-zinc-300 group-hover:text-white transition-colors"}`}>
-                  <Icon size={18} />
-                </div>
-                <div className="flex-1 min-w-0 space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className={`font-semibold ${isWip ? "text-zinc-600" : "text-zinc-100"}`}>{name}</span>
-                    <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${
-                      isWip ? "bg-zinc-800 text-zinc-600" : "bg-zinc-800 text-zinc-400"
-                    }`}>{p.tag[lang]}</span>
-                    {!isWip && (
-                      <span className="ml-auto flex items-center gap-1 text-xs text-emerald-500">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                        {t.live}
-                      </span>
-                    )}
-                  </div>
-                  <p className={`text-sm leading-relaxed ${isWip ? "text-zinc-700" : "text-zinc-400"}`}>{p.desc[lang]}</p>
-                </div>
-              </a>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Writing: public/pages/*.html，放进去就自动出现 */}
-      {pages.length > 0 && (
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">{t.writing}</h2>
-            <div className="flex-1 h-px bg-zinc-800" />
-          </div>
-          <div className="grid gap-2">
-            {pages.map((pg) => (
-              <a key={pg.href} href={pg.href}
-                className="group flex items-center gap-3 px-4 py-3 rounded-lg border border-zinc-800 bg-zinc-900/50 hover:border-zinc-600 hover:bg-zinc-900 transition-all">
-                <FileText size={16} className="text-zinc-500 group-hover:text-zinc-200 transition-colors" />
-                <span className="text-zinc-200">{pg.title}</span>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Skills */}
-      <section className="space-y-6">
-        <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">{t.tech}</h2>
-          <div className="flex-1 h-px bg-zinc-800" />
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {skills.map((s) => (
-            <span key={s} className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-sm text-zinc-300">
-              {s}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="pt-8 border-t border-zinc-800 text-xs text-zinc-600 flex items-center justify-between">
-        <span>© 2026 Michael</span>
-      </footer>
-
-    </main>
+      </main>
+    </div>
   );
 }
