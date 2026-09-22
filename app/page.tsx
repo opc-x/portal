@@ -62,6 +62,10 @@ export default function Page() {
             className="flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors">
             GitHub <ExternalLink size={12} />
           </a>
+          <a href="https://x.com/Michaelcjfw" target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 transition-colors">
+            X <ExternalLink size={12} />
+          </a>
         </div>
       </section>
 
