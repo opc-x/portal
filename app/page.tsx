@@ -49,14 +49,14 @@ export default function Page() {
       <section className="space-y-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 text-xs text-zinc-400">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          独立构建者 · 一人公司
+          Indie Hacker · 独立开发
         </div>
         <h1 className="text-5xl font-bold tracking-tight">
           opc-x
         </h1>
         <p className="text-xl text-zinc-400 leading-relaxed max-w-xl">
-          精准构建有用的产品。<br />
-          从想法到上线，一个人搞定。
+          做有用的小东西。<br />
+          从想法到上线。
         </p>
         <div className="flex gap-4 text-sm">
           <a href="https://github.com/opc-x" target="_blank" rel="noopener noreferrer"
