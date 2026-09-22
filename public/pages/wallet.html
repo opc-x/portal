@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自持钱包</title>
+  <style>
+    body { margin: 0; background: #09090b; color: #e4e4e7; font: 16px/1.8 -apple-system, "PingFang SC", "Noto Sans SC", sans-serif; }
+    main { max-width: 700px; margin: 0 auto; padding: 56px 20px 80px; }
+    a { color: #a1a1aa; } a:hover { color: #fafafa; }
+    h1 { font-size: 30px; line-height: 1.3; margin: 24px 0 8px; }
+    .lead { color: #a1a1aa; margin: 0 0 8px; }
+    .meta { font-size: 13px; color: #71717a; margin: 0 0 32px; }
+    h2 { font-size: 19px; margin: 44px 0 10px; padding-top: 16px; border-top: 1px solid #27272a; }
+    h3 { font-size: 16px; margin: 24px 0 4px; color: #fafafa; }
+    p, li { color: #a1a1aa; }
+    ol, ul { padding-left: 1.3em; }
+    li { margin: 4px 0; }
+    b { color: #e4e4e7; font-weight: 600; }
+    code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.88em; background: #18181b; border: 1px solid #27272a; padding: 1px 6px; border-radius: 4px; color: #d4d4d8; }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+    .flow span { padding: 4px 12px; border: 1px solid #3f3f46; border-radius: 999px; font-size: 14px; color: #e4e4e7; background: #18181b; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tags span { font-size: 13px; padding: 2px 10px; border-radius: 6px; background: #18181b; border: 1px solid #27272a; color: #d4d4d8; }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="/#work">← 返回</a>
+    <h1>自持钱包</h1>
+    <p class="lead">一个非托管的多链钱包。私钥和资产都在用户自己手机上，后端只负责组交易、广播和同步链上状态，永远碰不到私钥。</p>
+    <p class="meta">角色：Java 后端，负责转账链路</p>
+    <div class="tags"><span>Java</span><span>Spring</span><span>MySQL</span><span>多链节点</span></div>
+
+    <h2>产品有哪几块</h2>
+    <ul>
+      <li><b>资产展示：</b>多条链上的余额和交易记录。</li>
+      <li><b>转账收款：</b>发起转账、生成收款地址。</li>
+      <li><b>兑换：</b>链上币种之间互换。</li>
+      <li><b>法币坡道：</b>法币和数字资产之间的出入金。</li>
+    </ul>
+
+    <h2>转账链路：组 → 记 → 发 → 盯</h2>
+    <div class="flow"><span>组交易</span><span>落单据</span><span>签名广播</span><span>盯确认</span></div>
+    <ol>
+      <li><b>组交易：</b>后端帮 App 查好 nonce，按链上行情估出慢、中、快三档手续费。防止连发两笔撞号，也防止手续费太低一直卡着不上链。</li>
+      <li><b>落单据：</b>发出前先在本地记一张单，请求号建唯一索引。用户连点两次，也只会有一笔。</li>
+      <li><b>签名广播：</b>交易在手机本地签名，后端只拿签好的交易去广播。广播失败就原样重发同一笔，不会多扣钱。</li>
+      <li><b>盯确认：</b>轮询到确认数达标为止，状态一律以链上为准回写本地。长时间不上链，就提示用户加速。</li>
+    </ol>
+
+    <h2>难点</h2>
+    <h3>私钥不出手机</h3>
+    <p>后端的所有接口都只接收已签名的交易，从设计上保证服务器被攻破也拿不到用户的钱。</p>
+    <h3>状态和链上一致</h3>
+    <p>链上交易可能被替换、可能长时间卡在内存池、也可能因为分叉回滚。本地状态只是参考，最终一律以链上确认结果为准。</p>
+
+    <h2>其他做过的</h2>
+    <p>盲盒抢购的高并发处理，以及 NFT 图片裁剪服务的 JVM 调优。</p>
+  </main>
+</body>
+</html>
