@@ -27,8 +27,8 @@ const PRODUCTS = [
   },
   {
     name: "下一个",
-    tag: "孵化中",
-    desc: "正在构建中 — 想法永远比时间多",
+    tag: "在做",
+    desc: "还在做，做好了放上来",
     url: "#",
     icon: Zap,
     status: "wip",
@@ -38,7 +38,6 @@ const PRODUCTS = [
 const SKILLS = [
   "Next.js / React", "TypeScript", "Tailwind CSS",
   "PostgreSQL / Neon", "Vercel", "AI 集成",
-  "产品设计", "独立开发", "快速交付",
 ];
 
 export default function Page() {
@@ -52,11 +51,11 @@ export default function Page() {
           Indie Hacker · 独立开发
         </div>
         <h1 className="text-5xl font-bold tracking-tight">
-          opc-x
+          Michael
         </h1>
         <p className="text-xl text-zinc-400 leading-relaxed max-w-xl">
-          做有用的小东西。<br />
-          从想法到上线。
+          Java 工程师，业余做点小工具。<br />
+          做有用的小东西，从想法到上线。
         </p>
         <div className="flex gap-4 text-sm">
           <a href="https://github.com/opc-x" target="_blank" rel="noopener noreferrer"
@@ -69,7 +68,7 @@ export default function Page() {
       {/* Products */}
       <section className="space-y-6">
         <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">产品矩阵</h2>
+          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">做过的东西</h2>
           <div className="flex-1 h-px bg-zinc-800" />
         </div>
         <div className="grid gap-4">
@@ -115,7 +114,7 @@ export default function Page() {
       {/* Skills */}
       <section className="space-y-6">
         <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">能力栈</h2>
+          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">常用技术</h2>
           <div className="flex-1 h-px bg-zinc-800" />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -129,8 +128,7 @@ export default function Page() {
 
       {/* Footer */}
       <footer className="pt-8 border-t border-zinc-800 text-xs text-zinc-600 flex items-center justify-between">
-        <span>© 2026 opc-x</span>
-        <span>独立构建，持续迭代</span>
+        <span>© 2026 Michael</span>
       </footer>
 
     </main>
