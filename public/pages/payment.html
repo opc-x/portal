@@ -9,7 +9,7 @@
       --ground:#09090b; --surface:#111113; --lane:#18181b; --lane2:#111113;
       --ink:#e4e4e7; --muted:#a1a1aa; --line:#71717a; --node:#1c1c20; --nodeStroke:#3f3f46;
       --tech:#7f9c95; --a:#4FC0AF; --aSoft:#12302b; --b:#E0A64A; --bSoft:#33281A;
-      --risk:#F87171; --riskSoft:#351D22;
+      --risk:#F87171; --riskSoft:#351D22; --mon:#60A5FA; --monSoft:#172336;
     }
     body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.7 -apple-system,"PingFang SC","Noto Sans SC",sans-serif; }
     main { max-width:1400px; margin:0 auto; padding:40px 20px 72px; }
@@ -27,6 +27,10 @@
     .risk-strip { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; padding:14px 20px; border-top:1px solid var(--risk); background:var(--riskSoft); font-size:13px; }
     .risk-strip strong { color:var(--risk); }
     .risk-strip .arrow { color:var(--risk); }
+    .sw.mon { border-color:var(--mon); background:var(--monSoft); }
+    .mon-strip { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; padding:14px 20px; border-top:1px solid var(--mon); background:var(--monSoft); font-size:13px; }
+    .mon-strip strong { color:var(--mon); }
+    .mon-strip .arrow { color:var(--mon); }
     .pillars { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
     .pillar { border-top:3px solid; padding-top:12px; }
     .pillar.a { border-color:var(--a); } .pillar.b { border-color:var(--b); }
@@ -68,12 +72,21 @@
         <span class="arrow">→</span>
         <span>查清后处理资金；仍不明则继续查或转人工</span>
       </div>
+      <div class="mon-strip" aria-label="监控告警">
+        <strong>监控告警</strong>
+        <span>出款中积压 · 代付成功率 · 渠道余额 · 对账差异 · 定时任务失败</span>
+        <span class="arrow">→</span>
+        <span>超过阈值推送告警群</span>
+        <span class="arrow">→</span>
+        <span>自动处理不了的，人工兜底</span>
+      </div>
     </div>
     <p class="hint">手机上可以左右滑动看全图。</p>
     <div class="legend">
       <span><i class="sw a"></i>防重复</span>
       <span><i class="sw b"></i>最终一致</span>
       <span><i class="sw risk"></i>结果未知</span>
+      <span><i class="sw mon"></i>监控告警</span>
       <span style="font-family:ui-monospace,monospace;color:var(--tech)">小字 = 用到的技术</span>
     </div>
     <div class="pillars">
@@ -82,6 +95,7 @@
         <p><b>防连点：</b>请求号建唯一索引，Redis 令牌挡在前面，Redis 挂了也有索引兜底。</p>
         <p><b>单号幂等：</b>同一个商户订单号，渠道只打一次款。</p>
         <p><b>条件更新：</b>回调和查单同时到，只有一个能改状态、记账。</p>
+        <p><b>监控告警：</b>盯积压、成功率、渠道余额、对账差异，超阈值推送告警群，人工兜底。</p>
         <p><b>结果通知：</b>定终态时同事务写通知任务；通知服务异步发送，失败重试不影响出款状态。</p>
       </div>
       <div class="pillar b">
