@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { ExternalLink, Zap, Target, MessageSquare, BookOpen, FileText } from "lucide-react";
+import fs from "fs";
+import path from "path";
 import { listPages } from "@/lib/pages";
+
+// 头像：放一张 public/avatar.jpg（或 .png / .webp）就会替换掉字母头像
+const AVATAR = ["avatar.jpg", "avatar.png", "avatar.webp"].find((f) =>
+  fs.existsSync(path.join(process.cwd(), "public", f)),
+);
 
 export type Lang = "zh" | "en";
 
@@ -9,8 +16,9 @@ const T = {
     badge: "Indie Hacker · 独立开发",
     line1: "Java 工程师，业余做点小工具。",
     line2: "做有用的小东西，从想法到上线。",
+    slogan: "做有用的小东西",
     about: "简介",
-    built: "做过的东西",
+    built: "个人作品",
     work: "项目经历",
     tech: "常用技术",
     live: "上线",
@@ -21,8 +29,9 @@ const T = {
     badge: "Indie Hacker",
     line1: "Java engineer. Building small, useful tools on the side.",
     line2: "From idea to launch.",
+    slogan: "Building small, useful things",
     about: "About",
-    built: "Things I've built",
+    built: "Side projects",
     work: "Work",
     tech: "Tech I use",
     live: "Live",
@@ -117,13 +126,26 @@ export default function Home({ lang }: { lang: Lang }) {
 
       {/* 左侧导航：大屏显示 */}
       <aside className="hidden lg:flex sticky top-0 h-screen w-60 shrink-0 flex-col gap-10 border-r border-zinc-900 px-8 py-20">
-        <a href="#about" className="text-lg font-bold tracking-tight">Michael</a>
+        <a href="#about" className="flex flex-col gap-4">
+          {AVATAR ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={`/${AVATAR}`} alt="Michael" className="w-16 h-16 rounded-full object-cover border border-zinc-800" />
+          ) : (
+            <span className="w-16 h-16 rounded-full grid place-items-center bg-gradient-to-br from-emerald-400/25 to-zinc-800 border border-zinc-700 text-2xl font-bold text-zinc-100">M</span>
+          )}
+          <span className="space-y-1">
+            <span className="block text-lg font-bold tracking-tight text-zinc-100">Michael</span>
+            <span className="block text-xs text-zinc-500">{t.slogan}</span>
+          </span>
+        </a>
         <nav className="flex flex-col gap-3 text-sm">
           {nav.map((n) => (
-            <a key={n.id} href={`#${n.id}`} className={navLink}>{n.label}</a>
-          ))}
-          {pages.map((pg) => (
-            <a key={pg.href} href={pg.href} className={`${navLink} pl-3 border-l border-zinc-800`}>{pg.title}</a>
+            <div key={n.id} className="flex flex-col gap-3">
+              <a href={`#${n.id}`} className={navLink}>{n.label}</a>
+              {n.id === "work" && pages.map((pg) => (
+                <a key={pg.href} href={pg.href} className={`${navLink} pl-3 border-l border-zinc-800`}>{pg.title}</a>
+              ))}
+            </div>
           ))}
         </nav>
         <div className="mt-auto flex flex-col gap-3 text-sm">
