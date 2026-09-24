@@ -41,7 +41,7 @@
     .fails { width:100%; border-collapse:collapse; margin-bottom:40px; font-size:14px; }
     .fails th, .fails td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--nodeStroke); vertical-align:top; }
     .fails th { font-size:12px; letter-spacing:.08em; color:var(--muted); font-weight:600; border-bottom-color:var(--line); }
-    .fails td:first-child { color:var(--ink); width:34%; }
+    .fails td:first-child { color:var(--ink); width:32%; font-weight:500; }
     .fails td:last-child { color:var(--muted); }
     .fails tr:last-child td { border-bottom:none; }
     @media (max-width: 640px) { .fails td:first-child { width:42%; } .fails th, .fails td { padding:10px 8px; } }
@@ -91,14 +91,14 @@
     </div>
     <h2 class="sec">异常处理</h2>
     <table class="fails">
-      <thead><tr><th>遇到什么</th><th>怎么处理</th></tr></thead>
+      <thead><tr><th>出什么事</th><th>我们怎么做</th></tr></thead>
       <tbody>
-        <tr><td>请求超时、发请求前后宕机，结果未知</td><td>保留冻结和出款中，按原商户单号去查渠道；查清了再动资金，仍不明就继续查或转人工。绝不重发</td></tr>
-        <tr><td>渠道返回明确失败码</td><td>渠道侧原因就换渠道、换新单号重发；用户侧原因就解冻退回余额，让用户改完再提</td></tr>
-        <tr><td>回调丢了</td><td>XXL-Job 定时查单主动去问，超过 2 小时还没结果转人工</td></tr>
-        <tr><td>出款中积压、成功率下降、渠道余额不足</td><td>监控告警推送告警群，人工在后台关掉这个渠道并联系渠道方</td></tr>
-        <tr><td>收款行退票，状态和实际资金不一致</td><td>T+1 两次对账逐笔比对，差异进差异表，自动销账，剩下的人工核销</td></tr>
-        <tr><td>通知发送失败</td><td>通知任务重试，不影响出款状态和资金</td></tr>
+        <tr><td>渠道超时了，钱打没打出去我们不知道</td><td>不重发。钱继续冻着，拿原来的单号去问渠道；问清楚了再动钱，一直问不到就转人工</td></tr>
+        <tr><td>渠道明确回复这笔失败了</td><td>如果是渠道自己的问题，换一家渠道、用新单号重发；如果是卡号户名不对，解冻退回，让用户改完再提</td></tr>
+        <tr><td>渠道一直没给我们回调</td><td>定时任务拿单号主动去问渠道；超过 2 小时还问不到结果，转人工</td></tr>
+        <tr><td>卡在出款中的单子突然变多</td><td>告警发到群里，人工先把这家渠道关掉，再去找渠道方</td></tr>
+        <tr><td>渠道说成功了，银行又把钱退回来</td><td>第二天对账逐笔比对，比出来的差异进差异表，能自动处理的自动处理，剩下的人工</td></tr>
+        <tr><td>通知没发出去</td><td>通知任务自己重试，钱和单子的状态都不受影响</td></tr>
       </tbody>
     </table>
     <div class="pillars">
