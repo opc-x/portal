@@ -37,7 +37,13 @@
     .mon-strip { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; padding:14px 20px; border-top:1px solid var(--mon); background:var(--monSoft); font-size:13px; }
     .mon-strip strong { color:var(--mon); }
     .mon-strip .arrow { color:var(--mon); }
-    .sec { font-size:17px; margin:40px 0 12px; }
+    .more { margin-top:28px; border-top:1px solid var(--nodeStroke); }
+    .more > summary { cursor:pointer; list-style:none; padding:14px 0; font-size:14px; color:var(--muted); }
+    .more > summary::-webkit-details-marker { display:none; }
+    .more > summary::before { content:"+ "; color:var(--a); font-family:ui-monospace,monospace; }
+    .more[open] > summary::before { content:"− "; }
+    .more > summary:hover { color:var(--ink); }
+    .sec { font-size:17px; margin:24px 0 12px; }
     .fails { width:100%; border-collapse:collapse; margin-bottom:40px; font-size:14px; }
     .fails th, .fails td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--nodeStroke); vertical-align:top; }
     .fails th { font-size:12px; letter-spacing:.08em; color:var(--muted); font-weight:600; border-bottom-color:var(--line); }
@@ -91,18 +97,18 @@
     <div class="legend">
       <span><i class="sw a"></i>防重复</span>
       <span><i class="sw b"></i>最终一致</span>
-      <span style="font-family:ui-monospace,monospace;color:var(--tech)">小字 = 用到的技术</span>
     </div>
+    <details class="more">
+      <summary>异常处理 · 三条主线</summary>
     <h2 class="sec">异常处理</h2>
     <table class="fails">
       <thead><tr><th>问题</th><th>方案</th></tr></thead>
       <tbody>
-        <tr><td>渠道超时了，钱打没打出去我们不知道</td><td>不重发，钱继续冻着。XXL-Job 补偿任务拿原来的商户单号调渠道的查单接口，问清楚了再动钱；超过 2 小时还问不到就转人工。单号上的唯一索引保证就算重发也只会打一次</td></tr>
+        <tr><td>请求超时，或者发请求前、发请求后我们自己宕机了，钱打没打出去不知道</td><td>不重发，钱继续冻着。XXL-Job 补偿任务拿原来的商户单号调渠道的查单接口，问清楚了再动钱；超过 2 小时还问不到就转人工。单号上的唯一索引保证就算重发也只会打一次</td></tr>
         <tr><td>渠道明确回复这笔失败了</td><td>先用错误码映射表分类。渠道自己的问题，由渠道路由按优先级选下一家，雪花 ID 生成新单号重发；卡号户名不对属于用户侧，调钱包解冻退回，让用户改完再提</td></tr>
         <tr><td>渠道一直没给我们回调</td><td>XXL-Job 每 5 分钟扫一遍 status = 出款中且超时的单，走（状态，更新时间）联合索引，每批 500 条，拿单号去查渠道</td></tr>
         <tr><td>卡在出款中的单子突然变多</td><td>监控出款中超 30 分钟的单量和代付成功率，超过阈值推送告警群；人工在配置中心关掉这家渠道，改完即时生效，再去找渠道方</td></tr>
         <tr><td>渠道说成功了，银行又把钱退回来</td><td>T+1 对账：渠道账单对出款流水，出款流水对账变流水。差异进差异表，每日销账任务自动处理跨日在途，剩下的在后台人工核销</td></tr>
-        <tr><td>通知没发出去</td><td>确认结果时在同一个事务里写本地消息表，通知服务异步扫描发送，失败按次数重试，钱和单子的状态都不受影响</td></tr>
       </tbody>
     </table>
     <div class="pillars">
@@ -124,6 +130,7 @@
         <p><b>结果通知：</b>确认结果时在同一个事务里写通知任务，通知服务异步发送，失败重试不影响出款状态。</p>
       </div>
     </div>
+    </details>
   </main>
 </body>
 </html>
