@@ -5,58 +5,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>自持钱包</title>
   <style>
-    body { margin: 0; background: #09090b; color: #e4e4e7; font: 16px/1.8 -apple-system, "PingFang SC", "Noto Sans SC", sans-serif; }
-    main { max-width: 700px; margin: 0 auto; padding: 56px 20px 80px; }
-    a { color: #a1a1aa; } a:hover { color: #fafafa; }
-    h1 { font-size: 30px; line-height: 1.3; margin: 24px 0 8px; }
-    .lead { color: #a1a1aa; margin: 0 0 8px; }
-    .meta { font-size: 13px; color: #71717a; margin: 0 0 32px; }
-    h2 { font-size: 19px; margin: 44px 0 10px; padding-top: 16px; border-top: 1px solid #27272a; }
-    h3 { font-size: 16px; margin: 24px 0 4px; color: #fafafa; }
-    p, li { color: #a1a1aa; }
-    ol, ul { padding-left: 1.3em; }
-    li { margin: 4px 0; }
-    b { color: #e4e4e7; font-weight: 600; }
-    code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.88em; background: #18181b; border: 1px solid #27272a; padding: 1px 6px; border-radius: 4px; color: #d4d4d8; }
-    .flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
-    .flow span { padding: 4px 12px; border: 1px solid #3f3f46; border-radius: 999px; font-size: 14px; color: #e4e4e7; background: #18181b; }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tags span { font-size: 13px; padding: 2px 10px; border-radius: 6px; background: #18181b; border: 1px solid #27272a; color: #d4d4d8; }
+    :root {
+      --ground:#09090b; --surface:#111113; --lane:#18181b; --lane2:#111113;
+      --ink:#e4e4e7; --muted:#a1a1aa; --line:#71717a; --node:#1c1c20; --nodeStroke:#3f3f46;
+      --tech:#7f9c95; --a:#4FC0AF; --aSoft:#12302b; --b:#E0A64A; --bSoft:#33281A;
+      --risk:#F87171; --riskSoft:#351D22; --mon:#60A5FA; --monSoft:#172336;
+    }
+    body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.7 -apple-system,"PingFang SC","Noto Sans SC",sans-serif; }
+    main { max-width:1560px; margin:0 auto; padding:40px 20px 72px; }
+    a { color:var(--muted); } a:hover { color:#fafafa; }
+    h1 { font-size:28px; margin:20px 0 6px; }
+    .thesis { margin:0 0 28px; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px;
+      font-family:ui-monospace,"JetBrains Mono",monospace; font-size:19px; font-weight:500; letter-spacing:-.01em; }
+    .thesis .s1 { color:var(--a); }
+    .thesis .s2 { color:var(--b); }
+    .thesis .s3 { color:var(--mon); }
+    .thesis .sep { color:#3f3f46; }
+    @media (max-width: 640px) { .thesis { font-size:15px; } }
+    .diagram { background:var(--surface); border:1px solid var(--nodeStroke); border-radius:12px; overflow-x:auto; }
+    .diagram svg { display:block; min-width:1420px; width:100%; height:auto; }
+    .hint { display:none; font-size:13px; color:#71717a; margin:8px 2px 0; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 20px; margin:14px 2px 32px; font-size:14px; color:var(--muted); }
+    .legend span { display:inline-flex; align-items:center; gap:8px; }
+    .sw { width:18px; height:12px; border-radius:3px; border:2px solid; }
+    .sw.a { border-color:var(--a); background:var(--aSoft); } .sw.b { border-color:var(--b); background:var(--bSoft); }
+    .sw.risk { border-color:var(--risk); background:var(--riskSoft); }
+    .risk-strip { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; padding:14px 20px; border-top:1px solid var(--risk); background:var(--riskSoft); font-size:13px; }
+    .risk-strip strong { color:var(--risk); }
+    .risk-strip .arrow { color:var(--risk); }
+    .sw.mon { border-color:var(--mon); background:var(--monSoft); }
+    .mon-strip { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; padding:14px 20px; border-top:1px solid var(--mon); background:var(--monSoft); font-size:13px; }
+    .mon-strip strong { color:var(--mon); }
+    .mon-strip .arrow { color:var(--mon); }
+    .more { margin-top:28px; border-top:1px solid var(--nodeStroke); }
+    .more > summary { cursor:pointer; list-style:none; padding:14px 0; font-size:14px; color:var(--muted); }
+    .more > summary::-webkit-details-marker { display:none; }
+    .more > summary::before { content:"+ "; color:var(--a); font-family:ui-monospace,monospace; }
+    .more[open] > summary::before { content:"− "; }
+    .more > summary:hover { color:var(--ink); }
+    .sec { font-size:17px; margin:24px 0 12px; }
+    .fails { width:100%; border-collapse:collapse; margin-bottom:40px; font-size:14px; }
+    .fails th, .fails td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--nodeStroke); vertical-align:top; }
+    .fails th { font-size:12px; letter-spacing:.08em; color:var(--muted); font-weight:600; border-bottom-color:var(--line); }
+    .fails td:first-child { color:var(--ink); width:30%; font-weight:500; }
+    .fails td:last-child { color:var(--muted); }
+    .fails tr:last-child td { border-bottom:none; }
+    @media (max-width: 860px) { .fails, .fails thead, .fails tbody, .fails tr, .fails th, .fails td { display:block; width:auto; }
+      .fails thead { display:none; }
+      .fails tr { padding:12px 0; border-bottom:1px solid var(--nodeStroke); }
+      .fails td { border:none; padding:2px 0; }
+      .fails td:first-child { width:auto; } }
+    .pillars { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+    .pillar { border-top:3px solid; padding-top:12px; }
+    .pillar.a { border-color:var(--a); } .pillar.b { border-color:var(--b); } .pillar.mon { border-color:var(--mon); }
+    .pillar h2 { margin:0 0 6px; font-size:17px; }
+    .pillar.a h2 { color:var(--a); } .pillar.b h2 { color:var(--b); } .pillar.mon h2 { color:var(--mon); }
+    .pillar p { margin:0 0 4px; color:var(--muted); }
+    .pillar b { color:var(--ink); font-weight:600; }
+    /* svg */
+    .laneA{fill:var(--lane)} .laneB{fill:var(--lane2)}
+    .laneLabel{fill:var(--ink);font-size:14px;font-weight:700}
+    .phase{fill:var(--muted);font-size:12px;letter-spacing:.08em}
+    .phaseLine{stroke:var(--nodeStroke);stroke-width:1}
+    .node{fill:var(--node);stroke:var(--nodeStroke);stroke-width:1.2}
+    .node.a{fill:var(--aSoft);stroke:var(--a);stroke-width:2}
+    .node.b{fill:var(--bSoft);stroke:var(--b);stroke-width:2}
+    .node.fallback{fill:none;stroke-dasharray:5 4}
+    .node.fallback2{fill:none;stroke:var(--nodeStroke);stroke-dasharray:5 4}
+    .t{fill:var(--ink);font-size:13.5px;font-weight:500;text-anchor:middle}
+    .s{fill:var(--muted);font-size:10.5px;text-anchor:middle}
+    .k{fill:var(--tech);font-family:ui-monospace,"JetBrains Mono",monospace;font-size:9.5px;text-anchor:middle}
+    .mono{font-family:ui-monospace,"JetBrains Mono",monospace;font-size:10px}
+    .edge{fill:none;stroke:var(--line);stroke-width:1.5}
+    .edge.dash{stroke-dasharray:5 4}
+    .elabel{fill:var(--muted);font-size:11px}
+    .arrowHead{fill:var(--line)}
+    .sep{stroke:var(--line);stroke-width:1;stroke-dasharray:2 4}
+    @media (max-width: 860px) { .hint { display:block; } }
   </style>
-</head>
 <body>
   <main>
     <a href="/#work">← 返回</a>
-    <h1>自持钱包</h1>
-    <p class="lead">一个非托管的多链钱包。私钥和资产都在用户自己手机上，后端只负责组交易、广播和同步链上状态，永远碰不到私钥。</p>
-    <p class="meta">角色：Java 后端，负责转账链路</p>
-    <div class="tags"><span>Java</span><span>Spring</span><span>MySQL</span><span>多链节点</span></div>
-
-    <h2>产品有哪几块</h2>
-    <ul>
-      <li><b>资产展示：</b>多条链上的余额和交易记录。</li>
-      <li><b>转账收款：</b>发起转账、生成收款地址。</li>
-      <li><b>兑换：</b>链上币种之间互换。</li>
-      <li><b>法币坡道：</b>法币和数字资产之间的出入金。</li>
-    </ul>
-
-    <h2>转账链路：组 → 记 → 发 → 盯</h2>
-    <div class="flow"><span>组交易</span><span>落单据</span><span>签名广播</span><span>盯确认</span></div>
-    <ol>
-      <li><b>组交易：</b>后端帮 App 查好 nonce，按链上行情估出慢、中、快三档手续费。防止连发两笔撞号，也防止手续费太低一直卡着不上链。</li>
-      <li><b>落单据：</b>发出前先在本地记一张单，请求号建唯一索引。用户连点两次，也只会有一笔。</li>
-      <li><b>签名广播：</b>交易在手机本地签名，后端只拿签好的交易去广播。广播失败就原样重发同一笔，不会多扣钱。</li>
-      <li><b>盯确认：</b>轮询到确认数达标为止，状态一律以链上为准回写本地。长时间不上链，就提示用户加速。</li>
-    </ol>
-
-    <h2>难点</h2>
-    <h3>私钥不出手机</h3>
-    <p>后端的所有接口都只接收已签名的交易，从设计上保证服务器被攻破也拿不到用户的钱。</p>
-    <h3>状态和链上一致</h3>
-    <p>链上交易可能被替换、可能长时间卡在内存池、也可能因为分叉回滚。本地状态只是参考，最终一律以链上确认结果为准。</p>
-
-    <h2>其他做过的</h2>
-    <p>盲盒抢购的高并发处理，以及 NFT 图片裁剪服务的 JVM 调优。</p>
+    <h1>自持钱包 · 转账到账</h1>
+    <p class="thesis"><span class="s1">Keys never leave the phone.</span><span class="sep">/</span><span class="s2">Never miss a block.</span><span class="sep">/</span><span class="s3">Chain is the truth.</span></p>
+    <div class="diagram">
+      <svg viewBox="0 0 1660 820" role="img" aria-label="转账到账泳道图"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowHead"/></marker></defs><rect x="0" y="40" width="1660" height="130" class="laneA"/><text x="47" y="110" class="laneLabel" text-anchor="middle">用户</text><rect x="0" y="170" width="1660" height="130" class="laneB"/><text x="47" y="232" class="laneLabel" text-anchor="middle">手机 App</text><text x="47" y="250" class="k" text-anchor="middle">本地</text><rect x="0" y="300" width="1660" height="130" class="laneA"/><text x="47" y="362" class="laneLabel" text-anchor="middle">后端接口</text><text x="47" y="380" class="k" text-anchor="middle">wallet-api</text><rect x="0" y="430" width="1660" height="130" class="laneB"/><text x="47" y="492" class="laneLabel" text-anchor="middle">区块链</text><text x="47" y="510" class="k" text-anchor="middle">节点池</text><rect x="0" y="560" width="1660" height="130" class="laneA"/><text x="47" y="622" class="laneLabel" text-anchor="middle">扫块服务</text><text x="47" y="640" class="k" text-anchor="middle">chain-indexer</text><rect x="0" y="690" width="1660" height="130" class="laneB"/><text x="47" y="752" class="laneLabel" text-anchor="middle">推送服务</text><text x="47" y="770" class="k" text-anchor="middle">push-service</text><text x="230" y="26" class="phase" text-anchor="middle">下单</text><text x="440" y="26" class="phase" text-anchor="middle">签名</text><text x="720" y="26" class="phase" text-anchor="middle">广播上链</text><text x="1140" y="26" class="phase" text-anchor="middle">扫块入库</text><text x="1420" y="26" class="phase" text-anchor="middle">通知</text><text x="1575" y="26" class="phase" text-anchor="middle">抽样对账</text><line x1="370" y1="10" x2="370" y2="40" class="phaseLine"/><line x1="510" y1="10" x2="510" y2="40" class="phaseLine"/><line x1="930" y1="10" x2="930" y2="40" class="phaseLine"/><line x1="1350" y1="10" x2="1350" y2="40" class="phaseLine"/><line x1="1490" y1="10" x2="1490" y2="40" class="phaseLine"/><line x1="1490" y1="40" x2="1490" y2="820" class="sep"/><path d="M222,105 H230 V365 H238" class="edge" marker-end="url(#ah)"/><path d="M300,400 V460" class="edge dash" marker-start="url(#ah)" marker-end="url(#ah)"/><text x="308" y="435" class="elabel" text-anchor="start">代查</text><path d="M440,140 V200" class="edge" marker-end="url(#ah)"/><path d="M362,365 H370 V235 H378" class="edge" marker-end="url(#ah)"/><path d="M502,235 H510 V365 H518" class="edge" marker-end="url(#ah)"/><text x="516" y="300" class="elabel" text-anchor="start">已签名交易</text><path d="M580,400 V460" class="edge" marker-end="url(#ah)"/><path d="M642,478 H650 V365 H658" class="edge" marker-end="url(#ah)"/><text x="654" y="422" class="elabel" text-anchor="start">txHash</text><path d="M720,330 V140" class="edge" marker-end="url(#ah)"/><path d="M642,505 H798" class="edge" marker-end="url(#ah)"/><path d="M860,530 V625 H938" class="edge" marker-end="url(#ah)"/><text x="868" y="580" class="elabel" text-anchor="start">新块 + 回执</text><path d="M1062,625 H1078" class="edge" marker-end="url(#ah)"/><path d="M1202,625 H1218" class="edge" marker-end="url(#ah)"/><path d="M782,365 H1218" class="edge dash" marker-end="url(#ah)"/><text x="1000" y="355" class="elabel" text-anchor="middle">确认中 · 等扫块合并</text><path d="M1280,590 V400" class="edge" marker-end="url(#ah)"/><text x="1288" y="500" class="elabel" text-anchor="start">回写状态</text><path d="M1342,640 H1350 V755 H1358" class="edge" marker-end="url(#ah)"/><text x="1342" y="712" class="elabel" text-anchor="end">消息队列</text><path d="M1420,720 V140" class="edge" marker-end="url(#ah)"/><text x="1428" y="300" class="elabel" text-anchor="start">APNs / FCM</text><path d="M1575,530 V590" class="edge" marker-end="url(#ah)"/><path d="M1575,660 V678 H1000 V660" class="edge dash" marker-end="url(#ah)"/><text x="1290" y="674" class="elabel" text-anchor="middle">漏了就删段重扫</text><rect x="98" y="70" width="124" height="70" rx="8" class="node "/><text x="160" y="93" class="t">填地址和金额</text><text x="160" y="110" class="s">确认页再核一遍地址</text><text x="160" y="127" class="k">地址簿 · 首转提醒</text><rect x="238" y="330" width="124" height="70" rx="8" class="node "/><text x="300" y="353" class="t">代查 nonce / gas</text><text x="300" y="370" class="s">链上实时状态</text><text x="300" y="387" class="k">estimateGas 估上限</text><rect x="238" y="460" width="124" height="70" rx="8" class="node "/><text x="300" y="483" class="t">节点池</text><text x="300" y="500" class="s">自建 + 第三方 RPC</text><text x="300" y="517" class="k">健康检查 · 熔断切换</text><rect x="378" y="70" width="124" height="70" rx="8" class="node "/><text x="440" y="100" class="t">输支付密码</text><text x="440" y="118" class="s">解锁本地私钥</text><rect x="378" y="200" width="124" height="70" rx="8" class="node a"/><text x="440" y="218" class="t">本地签名</text><text x="440" y="234" class="s">私钥只进内存，用完清零</text><text x="440" y="250" class="k">签名覆盖地址 金额 nonce</text><text x="440" y="264" class="k">私钥绝不出设备</text><rect x="518" y="330" width="124" height="70" rx="8" class="node a"/><text x="580" y="353" class="t">转发广播</text><text x="580" y="370" class="s">只收已签名字节</text><text x="580" y="387" class="k">改一字节验签即失败</text><rect x="518" y="460" width="124" height="70" rx="8" class="node "/><text x="580" y="490" class="t">内存池</text><text x="580" y="508" class="s">返回 txHash</text><rect x="658" y="330" width="124" height="70" rx="8" class="node b"/><text x="720" y="353" class="t">落待确认记录</text><text x="720" y="370" class="s">列表先显示 pending</text><text x="720" y="387" class="k">txHash 唯一索引</text><rect x="658" y="70" width="124" height="70" rx="8" class="node "/><text x="720" y="100" class="t">已广播，等确认</text><text x="720" y="118" class="s">卡住可加速或取消</text><rect x="798" y="460" width="124" height="70" rx="8" class="node "/><text x="860" y="483" class="t">打包上链</text><text x="860" y="500" class="s">按出价高低打包</text><text x="860" y="517" class="k">卡住：同 nonce 加价重发</text><rect x="938" y="590" width="124" height="70" rx="8" class="node b"/><text x="1000" y="613" class="t">读游标拉块</text><text x="1000" y="630" class="s">已处理到第几块</text><text x="1000" y="647" class="k">并发拉块 · 串行写库</text><rect x="1078" y="590" width="124" height="70" rx="8" class="node b"/><text x="1140" y="613" class="t">比对 parentHash</text><text x="1140" y="630" class="s">对不上就是链分叉</text><text x="1140" y="647" class="k">回滚到分叉点重扫</text><rect x="1218" y="590" width="124" height="70" rx="8" class="node b"/><text x="1280" y="608" class="t">解析入库</text><text x="1280" y="624" class="s">代币转账看事件日志</text><text x="1280" y="640" class="k">交易表 + 地址表 + 游标</text><text x="1280" y="654" class="k">同一事务提交</text><rect x="1218" y="330" width="124" height="70" rx="8" class="node b"/><text x="1280" y="353" class="t">合并 pending</text><text x="1280" y="370" class="s">按 txHash 升级状态</text><text x="1280" y="387" class="k">确认数达标才算最终</text><rect x="1358" y="720" width="124" height="70" rx="8" class="node b"/><text x="1420" y="738" class="t">推送服务</text><text x="1420" y="754" class="s">事务提交后才发消息</text><text x="1420" y="770" class="k">设备+txHash 唯一索引</text><text x="1420" y="784" class="k">失败退避重试 · 死信</text><rect x="1358" y="70" width="124" height="70" rx="8" class="node "/><text x="1420" y="93" class="t">收到通知</text><text x="1420" y="110" class="s">发款方：转账成功</text><text x="1420" y="127" class="s">收款方：到账，零操作</text><rect x="1500" y="460" width="150" height="70" rx="8" class="node fallback2"/><text x="1575" y="490" class="t">区块浏览器</text><text x="1575" y="508" class="s">链上是唯一真相</text><rect x="1500" y="590" width="150" height="70" rx="8" class="node b"/><text x="1575" y="613" class="t">抽样对账</text><text x="1575" y="630" class="s">活跃地址比对浏览器</text><text x="1575" y="647" class="k">笔数对不上 → 重扫</text></svg>
+    </div>
+    <p class="hint">手机上可以左右滑动看全图。</p>
+    <div class="legend">
+      <span><i class="sw a"></i>私钥不出设备</span>
+      <span><i class="sw b"></i>不漏不重</span>
+    </div>
+    <details class="more">
+      <summary>异常处理</summary>
+    <h2 class="sec">异常处理</h2>
+    <table class="fails">
+      <thead><tr><th>问题</th><th>方案</th></tr></thead>
+      <tbody>
+        <tr><td>服务器被攻破了，攻击者能不能改收款地址把钱转走</td><td>改不了。交易在用户手机上签名，签名覆盖了收款地址、金额和 nonce，改一个字节链上验签就失败。服务端从头到尾只见过签好的字节，没见过私钥和助记词</td></tr>
+        <tr><td>广播请求超时或报错，不知道交易发没发出去</td><td>原样重发同一笔已签名交易。同一个 nonce 在链上最多成交一次，所以重发不会多扣钱；同一串字节算出同一个 txHash，待确认记录靠 txHash 唯一索引也不会多一条。这和支付系统「超时只查不重发」正好相反</td></tr>
+        <tr><td>手续费出低了，交易一直卡在内存池不上链</td><td>待确认记录超时后标成「可加速 / 可取消」。加速是用同一个 nonce、提高手续费重新签名再发，矿工优先打包出价高的那笔；取消是用同一个 nonce 给自己转 0</td></tr>
+        <tr><td>链分叉了，已经入库的块被链上作废</td><td>每拉一个新块，比对它的 parentHash 和库里上一块的 hash。对不上就回滚到分叉点重扫。确认数达标之前状态只算「确认中」，不给用户推「成功」</td></tr>
+        <tr><td>扫块服务宕机或重启</td><td>游标和交易数据在同一个事务里提交，重启后从游标继续扫，不会漏块。重启前后重复处理的块，靠 txHash 唯一索引去重，不会重复入库</td></tr>
+        <tr><td>推送发失败，或者同一笔推了两次</td><td>扫块服务在事务提交后才往消息队列发消息，推送服务单独消费，失败按退避重试，多次失败进死信。重扫碰到同一笔交易时，（设备，txHash）唯一索引挡住第二次推送</td></tr>
+        <tr><td>用户的账单和链上对不上，漏了一笔</td><td>定时抽样活跃地址，拿外部节点或区块浏览器的交易笔数和我们的记录比。不一致就删掉那段块高重扫。我们不存用户余额，链上是唯一真相，不用人工核销</td></tr>
+      </tbody>
+    </table>
+    </details>
   </main>
 </body>
 </html>
