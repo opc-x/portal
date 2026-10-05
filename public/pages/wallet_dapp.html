@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>自持钱包 · DApp 入口</title>
+  <style>
+    :root {
+      --ground:#09090b; --surface:#111113; --lane:#18181b; --lane2:#111113;
+      --ink:#e4e4e7; --muted:#a1a1aa; --line:#71717a; --node:#1c1c20; --nodeStroke:#3f3f46;
+      --tech:#7f9c95; --a:#4FC0AF; --aSoft:#12302b; --b:#E0A64A; --bSoft:#33281A;
+      --risk:#F87171; --riskSoft:#351D22; --mon:#60A5FA; --monSoft:#172336;
+    }
+    body { margin:0; background:var(--ground); color:var(--ink); font:16px/1.7 -apple-system,"PingFang SC","Noto Sans SC",sans-serif; }
+    main { max-width:1560px; margin:0 auto; padding:40px 20px 72px; }
+    a { color:var(--muted); } a:hover { color:#fafafa; }
+    h1 { font-size:28px; margin:20px 0 6px; }
+    .thesis { margin:0 0 28px; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px;
+      font-family:ui-monospace,"JetBrains Mono",monospace; font-size:19px; font-weight:500; letter-spacing:-.01em; }
+    .thesis .s1 { color:var(--a); }
+    .thesis .s2 { color:var(--b); }
+    .thesis .s3 { color:var(--mon); }
+    .thesis .sep { color:#3f3f46; }
+    @media (max-width: 640px) { .thesis { font-size:15px; } }
+    .diagram { background:var(--surface); border:1px solid var(--nodeStroke); border-radius:12px; overflow-x:auto; }
+    .diagram svg { display:block; min-width:1420px; width:100%; height:auto; }
+    .hint { display:none; font-size:13px; color:#71717a; margin:8px 2px 0; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 20px; margin:14px 2px 32px; font-size:14px; color:var(--muted); }
+    .legend span { display:inline-flex; align-items:center; gap:8px; }
+    .sw { width:18px; height:12px; border-radius:3px; border:2px solid; }
+    .sw.a { border-color:var(--a); background:var(--aSoft); } .sw.b { border-color:var(--b); background:var(--bSoft); }
+    .sw.risk { border-color:var(--risk); background:var(--riskSoft); }
+    .risk-strip { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; padding:14px 20px; border-top:1px solid var(--risk); background:var(--riskSoft); font-size:13px; }
+    .risk-strip strong { color:var(--risk); }
+    .risk-strip .arrow { color:var(--risk); }
+    .sw.mon { border-color:var(--mon); background:var(--monSoft); }
+    .mon-strip { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; padding:14px 20px; border-top:1px solid var(--mon); background:var(--monSoft); font-size:13px; }
+    .mon-strip strong { color:var(--mon); }
+    .mon-strip .arrow { color:var(--mon); }
+    .more { margin-top:28px; border-top:1px solid var(--nodeStroke); }
+    .more > summary { cursor:pointer; list-style:none; padding:14px 0; font-size:14px; color:var(--muted); }
+    .more > summary::-webkit-details-marker { display:none; }
+    .more > summary::before { content:"+ "; color:var(--a); font-family:ui-monospace,monospace; }
+    .more[open] > summary::before { content:"− "; }
+    .more > summary:hover { color:var(--ink); }
+    .sec { font-size:17px; margin:24px 0 12px; }
+    .fails { width:100%; border-collapse:collapse; margin-bottom:40px; font-size:14px; }
+    .fails th, .fails td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--nodeStroke); vertical-align:top; }
+    .fails th { font-size:12px; letter-spacing:.08em; color:var(--muted); font-weight:600; border-bottom-color:var(--line); }
+    .fails td:first-child { color:var(--ink); width:30%; font-weight:500; }
+    .fails td:last-child { color:var(--muted); }
+    .fails tr:last-child td { border-bottom:none; }
+    @media (max-width: 860px) { .fails, .fails thead, .fails tbody, .fails tr, .fails th, .fails td { display:block; width:auto; }
+      .fails thead { display:none; }
+      .fails tr { padding:12px 0; border-bottom:1px solid var(--nodeStroke); }
+      .fails td { border:none; padding:2px 0; }
+      .fails td:first-child { width:auto; } }
+    .pillars { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+    .pillar { border-top:3px solid; padding-top:12px; }
+    .pillar.a { border-color:var(--a); } .pillar.b { border-color:var(--b); } .pillar.mon { border-color:var(--mon); }
+    .pillar h2 { margin:0 0 6px; font-size:17px; }
+    .pillar.a h2 { color:var(--a); } .pillar.b h2 { color:var(--b); } .pillar.mon h2 { color:var(--mon); }
+    .pillar p { margin:0 0 4px; color:var(--muted); }
+    .pillar b { color:var(--ink); font-weight:600; }
+    /* svg */
+    .laneA{fill:var(--lane)} .laneB{fill:var(--lane2)}
+    .laneLabel{fill:var(--ink);font-size:14px;font-weight:700}
+    .phase{fill:var(--muted);font-size:12px;letter-spacing:.08em}
+    .phaseLine{stroke:var(--nodeStroke);stroke-width:1}
+    .node{fill:var(--node);stroke:var(--nodeStroke);stroke-width:1.2}
+    .node.a{fill:var(--aSoft);stroke:var(--a);stroke-width:2}
+    .node.b{fill:var(--bSoft);stroke:var(--b);stroke-width:2}
+    .node.fallback{fill:none;stroke-dasharray:5 4}
+    .node.fallback2{fill:none;stroke:var(--nodeStroke);stroke-dasharray:5 4}
+    .t{fill:var(--ink);font-size:13.5px;font-weight:500;text-anchor:middle}
+    .s{fill:var(--muted);font-size:10.5px;text-anchor:middle}
+    .k{fill:var(--tech);font-family:ui-monospace,"JetBrains Mono",monospace;font-size:9.5px;text-anchor:middle}
+    .mono{font-family:ui-monospace,"JetBrains Mono",monospace;font-size:10px}
+    .edge{fill:none;stroke:var(--line);stroke-width:1.5}
+    .edge.dash{stroke-dasharray:5 4}
+    .elabel{fill:var(--muted);font-size:11px}
+    .arrowHead{fill:var(--line)}
+    .sep{stroke:var(--line);stroke-width:1;stroke-dasharray:2 4}
+    @media (max-width: 860px) { .hint { display:block; } }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="/#work">← 返回</a>
+    <h1>自持钱包 · DApp 入口</h1>
+    <p class="thesis"><span class="s1">Decode before you sign.</span><span class="sep">/</span><span class="s2">No blind approvals.</span><span class="sep">/</span><span class="s3">Server never sees the request.</span></p>
+    <div class="diagram">
+      <svg viewBox="0 0 1660 690" role="img" aria-label="DApp 签名泳道图"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrowHead"/></marker></defs><rect x="0" y="40" width="1660" height="130" class="laneA"/><text x="47" y="110" class="laneLabel" text-anchor="middle">用户</text><rect x="0" y="170" width="1660" height="130" class="laneB"/><text x="47" y="240" class="laneLabel" text-anchor="middle">DApp 网页</text><rect x="0" y="300" width="1660" height="130" class="laneA"/><text x="47" y="362" class="laneLabel" text-anchor="middle">手机 App</text><text x="47" y="380" class="k" text-anchor="middle">本地</text><rect x="0" y="430" width="1660" height="130" class="laneB"/><text x="47" y="492" class="laneLabel" text-anchor="middle">后端接口</text><text x="47" y="510" class="k" text-anchor="middle">wallet-api</text><rect x="0" y="560" width="1660" height="130" class="laneA"/><text x="47" y="630" class="laneLabel" text-anchor="middle">区块链</text><text x="300" y="26" class="phase" text-anchor="middle">连接</text><text x="790" y="26" class="phase" text-anchor="middle">看清再签</text><text x="1210" y="26" class="phase" text-anchor="middle">签名上链</text><text x="1420" y="26" class="phase" text-anchor="middle">授权管理</text><text x="1575" y="26" class="phase" text-anchor="middle">被骗止损</text><line x1="510" y1="10" x2="510" y2="40" class="phaseLine"/><line x1="1070" y1="10" x2="1070" y2="40" class="phaseLine"/><line x1="1350" y1="10" x2="1350" y2="40" class="phaseLine"/><line x1="1490" y1="10" x2="1490" y2="40" class="phaseLine"/><line x1="1490" y1="40" x2="1490" y2="690" class="sep"/><path d="M222,105 H230 V235 H238" class="edge" marker-end="url(#ah)"/><path d="M300,270 V365 H378" class="edge" marker-end="url(#ah)"/><text x="308" y="300" class="elabel" text-anchor="start">连接请求</text><path d="M362,495 H440 V400" class="edge" marker-end="url(#ah)"/><text x="448" y="450" class="elabel" text-anchor="start">黑名单</text><path d="M502,365 H510 V235 H518" class="edge" marker-end="url(#ah)"/><text x="514" y="300" class="elabel" text-anchor="start">放行</text><path d="M642,235 H650 V365 H658" class="edge" marker-end="url(#ah)"/><text x="654" y="300" class="elabel" text-anchor="start">签名请求</text><path d="M782,365 H790 V105 H798" class="edge" marker-end="url(#ah)"/><text x="794" y="180" class="elabel" text-anchor="start">翻成人话</text><path d="M922,105 H930 V365 H938" class="edge" marker-end="url(#ah)"/><text x="934" y="180" class="elabel" text-anchor="start">确认</text><path d="M1062,365 H1078" class="edge" marker-end="url(#ah)"/><path d="M1202,365 H1210 V625 H1218" class="edge" marker-end="url(#ah)"/><text x="1214" y="560" class="elabel" text-anchor="start">上链</text><path d="M1280,590 V495 H1358" class="edge" marker-end="url(#ah)"/><text x="1288" y="450" class="elabel" text-anchor="start">Approval 事件</text><path d="M1420,460 V400" class="edge" marker-end="url(#ah)"/><path d="M1342,625 H1500" class="edge dash" marker-end="url(#ah)"/><text x="1421" y="615" class="elabel" text-anchor="middle">签给了钓鱼合约</text><path d="M1575,590 V140" class="edge dash" marker-end="url(#ah)"/><text x="1583" y="300" class="elabel" text-anchor="start">资产被转走</text><path d="M1500,120 H1430 V330" class="edge dash" marker-end="url(#ah)"/><text x="1440" y="160" class="elabel" text-anchor="start">去取消授权</text><rect x="98" y="70" width="124" height="70" rx="8" class="node "/><text x="160" y="93" class="t">打开 DApp</text><text x="160" y="110" class="s">内置浏览器或扫码</text><text x="160" y="127" class="k">电脑网页用扫码</text><rect x="238" y="200" width="124" height="70" rx="8" class="node "/><text x="300" y="218" class="t">建立连接</text><text x="300" y="234" class="s">内置浏览器注入接口</text><text x="300" y="250" class="k">EIP-1193</text><text x="300" y="264" class="k">WalletConnect 加密</text><rect x="238" y="460" width="124" height="70" rx="8" class="node "/><text x="300" y="483" class="t">下发名单</text><text x="300" y="500" class="s">DApp 收录 + 钓鱼黑名单</text><text x="300" y="517" class="k">App 本地缓存</text><rect x="378" y="330" width="124" height="70" rx="8" class="node b"/><text x="440" y="353" class="t">域名过黑名单</text><text x="440" y="370" class="s">命中直接拦</text><text x="440" y="387" class="k">未收录站点标风险</text><rect x="518" y="200" width="124" height="70" rx="8" class="node "/><text x="580" y="230" class="t">发签名请求</text><text x="580" y="248" class="s">转账 / 授权 / 消息签名</text><rect x="658" y="330" width="124" height="70" rx="8" class="node a"/><text x="720" y="348" class="t">解码请求</text><text x="720" y="364" class="s">认出授权对象和额度</text><text x="720" y="380" class="k">approve 选择器</text><text x="720" y="394" class="k">0x095ea7b3</text><rect x="798" y="70" width="124" height="70" rx="8" class="node "/><text x="860" y="93" class="t">看人话确认页</text><text x="860" y="110" class="s">授权给谁、多少、哪个币</text><text x="860" y="127" class="s">无限额标红</text><rect x="938" y="330" width="124" height="70" rx="8" class="node a"/><text x="1000" y="353" class="t">按需额度</text><text x="1000" y="370" class="s">默认改成本次需要的数</text><text x="1000" y="387" class="k">用户可以自己再改</text><rect x="1078" y="330" width="124" height="70" rx="8" class="node "/><text x="1140" y="353" class="t">本地签名</text><text x="1140" y="370" class="s">私钥不出手机</text><text x="1140" y="387" class="k">签名结果回传 DApp</text><rect x="1218" y="590" width="124" height="70" rx="8" class="node "/><text x="1280" y="613" class="t">授权上链生效</text><text x="1280" y="630" class="s">对方合约拿到额度</text><text x="1280" y="647" class="k">之后随时能划走</text><rect x="1358" y="460" width="124" height="70" rx="8" class="node b"/><text x="1420" y="483" class="t">查授权列表</text><text x="1420" y="500" class="s">扫 Approval 事件</text><text x="1420" y="517" class="k">按地址汇总</text><rect x="1358" y="330" width="124" height="70" rx="8" class="node b"/><text x="1420" y="353" class="t">授权管理页</text><text x="1420" y="370" class="s">列出所有授权过的合约</text><text x="1420" y="387" class="k">一键把额度改成 0</text><rect x="1500" y="590" width="150" height="70" rx="8" class="node fallback2"/><text x="1575" y="613" class="t">钓鱼合约划走代币</text><text x="1575" y="630" class="s">签的是授权，不是转账</text><text x="1575" y="647" class="s">当时余额看不出异常</text><rect x="1500" y="70" width="150" height="70" rx="8" class="node "/><text x="1575" y="93" class="t">发现被盗</text><text x="1575" y="110" class="s">先取消剩下的授权</text><text x="1575" y="127" class="s">剩余资产转到新地址</text></svg>
+    </div>
+    <p class="hint">手机上可以左右滑动看全图。</p>
+    <div class="legend">
+      <span><i class="sw a"></i>看清再签</span>
+      <span><i class="sw b"></i>拦截和撤销</span>
+    </div>
+    <details class="more">
+      <summary>异常处理</summary>
+    <h2 class="sec">异常处理</h2>
+    <table class="fails">
+      <thead><tr><th>问题</th><th>方案</th></tr></thead>
+      <tbody>
+        <tr><td>用户打开的是钓鱼网站</td><td>域名先过钓鱼黑名单，命中直接拦。黑名单挡不住刚冒出来的新域名，所以真正兜底的是第二道：把签名请求翻成人话，让用户自己看清在授权什么</td></tr>
+        <tr><td>签名请求是一笔无限额授权</td><td>解码出被授权的合约地址和额度，额度等于 uint256 最大值就是无限额，确认页标红。默认改成本次需要的额度，用户可以自己再改</td></tr>
+        <tr><td>签的看着只是一段「登录消息」，其实是授权</td><td>Permit 类签名（EIP-2612、Permit2）不用上链，对方拿着这段签名就能划走代币。所以结构化消息（EIP-712）也要解析，认出 Permit 一样翻成人话、标红</td></tr>
+        <tr><td>已经给钓鱼合约签了无限额授权</td><td>签出去的授权没法撤回，只能覆盖：在授权管理页把额度改成 0。这是一笔要付手续费的链上交易，越早发越好</td></tr>
+        <tr><td>资产已经被转走了</td><td>链上转账追不回来。立刻取消剩下的授权，把剩余资产转到新地址。服务端没有私钥，也冻结不了别人的地址</td></tr>
+        <tr><td>WalletConnect 会话被别人拿到</td><td>会话是端到端加密的，而且每一笔签名请求都要用户在手机上点确认，对方拿到会话也替不了用户签名</td></tr>
+        <tr><td>服务端被攻破，下发了假名单</td><td>最坏结果是某个钓鱼域名没被拦住，第二道「翻成人话」照样生效。签名请求本身不经过服务端，服务端改不了用户签的内容</td></tr>
+      </tbody>
+    </table>
+    </details>
+  </main>
+</body>
+</html>
