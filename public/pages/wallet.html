@@ -49,7 +49,7 @@
     .fails th, .fails td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--nodeStroke); vertical-align:top; }
     .fails th { font-size:12px; letter-spacing:.08em; color:var(--muted); font-weight:600; border-bottom-color:var(--line); }
     .fails td:first-child { color:var(--ink); width:30%; font-weight:500; }
-    .fails td:last-child { color:var(--muted); }
+    .fails td + td { color:var(--muted); }
     .fails tr:last-child td { border-bottom:none; }
     @media (max-width: 860px) { .fails, .fails thead, .fails tbody, .fails tr, .fails th, .fails td { display:block; width:auto; }
       .fails thead { display:none; }
@@ -103,6 +103,18 @@
       <span><i class="sw b"></i>不漏不重</span>
     </div>
     <details class="more">
+      <summary>踩过的坑</summary>
+    <h2 class="sec">踩过的坑</h2>
+    <table class="fails">
+      <thead><tr><th>出了什么事</th><th>为什么</th><th>怎么改</th></tr></thead>
+      <tbody>
+        <tr><td>用户投诉链上到账了，钱包里看不到记录</td><td>节点池里一家第三方节点同步落后，返回的区块数据不全，扫块程序以为这个块没有交易，直接跳了过去</td><td>加定时抽样对账：抽活跃地址，拿另一个独立节点（自建，或换一家 RPC 服务商）上的交易笔数和我们的记录比，对不上就删掉那段块高重扫。不拿区块浏览器当比对源，因为它也是别人做的索引，会延迟，接口还限流。我们不存用户余额，链上是唯一真相，不用人工核销</td></tr>
+        <tr><td>用户收到转账成功的推送，过一会儿记录没了</td><td>一开始交易进了块就推成功。碰到链分叉，那个块被链上作废，交易其实没成</td><td>每拉一个新块，比对它的 parentHash 和库里上一块的 hash，对不上就回滚到分叉点重扫。确认数达标之前状态只算「确认中」，不给用户推「成功」</td></tr>
+        <tr><td>同一笔到账，用户收到两条推送</td><td>扫块服务重启后从游标往回重扫一段块，同一笔交易又发了一次消息</td><td>扫块服务在事务提交后才往消息队列发消息，推送服务单独消费，用（设备，txHash）唯一索引挡住第二次推送。发送失败按退避重试，多次失败进死信</td></tr>
+      </tbody>
+    </table>
+    </details>
+    <details class="more">
       <summary>异常处理</summary>
     <h2 class="sec">异常处理</h2>
     <table class="fails">
@@ -110,11 +122,8 @@
       <tbody>
         <tr><td>服务器被攻破了，攻击者能不能改收款地址把钱转走</td><td>改不了。交易在用户手机上签名，签名覆盖了收款地址、金额和 nonce，改一个字节链上验签就失败。服务端从头到尾只见过签好的字节，没见过私钥和助记词</td></tr>
         <tr><td>广播请求超时或报错，不知道交易发没发出去</td><td>原样重发同一笔已签名交易。同一个 nonce 在链上最多成交一次，所以重发不会多扣钱；同一串字节算出同一个 txHash，待确认记录靠 txHash 唯一索引也不会多一条。这和支付系统「超时只查不重发」正好相反</td></tr>
-        <tr><td>手续费出低了，交易一直卡在内存池不上链</td><td>待确认记录超时后标成「可加速 / 可取消」。加速是用同一个 nonce、提高手续费重新签名再发，矿工优先打包出价高的那笔；取消是用同一个 nonce 给自己转 0</td></tr>
-        <tr><td>链分叉了，已经入库的块被链上作废</td><td>每拉一个新块，比对它的 parentHash 和库里上一块的 hash。对不上就回滚到分叉点重扫。确认数达标之前状态只算「确认中」，不给用户推「成功」</td></tr>
+        <tr><td>手续费出低了，交易一直卡在内存池不上链</td><td>待确认记录超时后标成「可加速 / 可取消」。加速是用同一个 nonce、提高手续费重新签名再发，验证者优先打包出价高的那笔；取消是用同一个 nonce 给自己转 0</td></tr>
         <tr><td>扫块服务宕机或重启</td><td>游标和交易数据在同一个事务里提交，重启后从游标继续扫，不会漏块。重启前后重复处理的块，靠 txHash 唯一索引去重，不会重复入库</td></tr>
-        <tr><td>推送发失败，或者同一笔推了两次</td><td>扫块服务在事务提交后才往消息队列发消息，推送服务单独消费，失败按退避重试，多次失败进死信。重扫碰到同一笔交易时，（设备，txHash）唯一索引挡住第二次推送</td></tr>
-        <tr><td>用户的账单和链上对不上，漏了一笔</td><td>定时抽样活跃地址，拿另一个独立节点（自建，或换一家 RPC 服务商）上的交易和我们的记录比。不拿区块浏览器当比对源，因为它也是别人做的索引，会延迟，接口还限流。不一致就删掉那段块高重扫。我们不存用户余额，链上是唯一真相，不用人工核销</td></tr>
       </tbody>
     </table>
     </details>
