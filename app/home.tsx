@@ -149,6 +149,7 @@ export default function Home({ lang }: { lang: Lang }) {
 
   return (
     <div lang={lang === "zh" ? "zh-CN" : "en"} className="backdrop min-h-screen lg:flex">
+      <div className="dots" aria-hidden />
       <a href="#about" className="sr-only focus:not-sr-only focus:fixed focus:z-[60] focus:left-4 focus:top-4 focus:px-3 focus:py-2 focus:rounded-md focus:bg-zinc-900 focus:text-zinc-50">Skip to content</a>
 
       {/* 语言切换：大屏固定右上角 */}
@@ -158,7 +159,7 @@ export default function Home({ lang }: { lang: Lang }) {
       </Link>
 
       {/* 左侧栏：大屏 */}
-      <aside className="hidden lg:flex sticky top-0 h-screen w-[21rem] shrink-0 flex-col px-8 py-16">
+      <aside className="hidden lg:flex sticky top-0 h-screen w-[22rem] shrink-0 flex-col px-8 py-16">
         <a href="#about" className="flex flex-col gap-6">
           <Avatar size="lg" />
           <span className="font-display">
@@ -228,8 +229,10 @@ export default function Home({ lang }: { lang: Lang }) {
             <div className="mt-6 border-t border-zinc-800/60">
               {PRODUCTS.map((p) => {
                 const name = typeof p.name === "string" ? p.name : p.name[lang];
+                const Icon = p.icon;
                 return (
                   <a key={name} href={p.url} target="_blank" rel="noopener noreferrer" className={row}>
+                    <Icon size={18} aria-hidden className="shrink-0 self-start mt-0.5 text-zinc-500 group-hover:text-emerald-400 transition-colors" />
                     <span className="flex-1 min-w-0 flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-6">
                       <span className="sm:w-36 shrink-0 font-display text-base text-zinc-100 group-hover:text-emerald-400 transition-colors">{name}</span>
                       <span className="text-sm leading-relaxed text-zinc-400">{p.desc}</span>
@@ -245,11 +248,13 @@ export default function Home({ lang }: { lang: Lang }) {
           {pages.length > 0 && (
             <section id="work" className="scroll-mt-24">
               <SectionTitle>{UI.work}</SectionTitle>
-              <div className="mt-6 border-t border-zinc-800/60">
+              <div className="mt-6 font-display text-sm text-zinc-500">$ ls -l ~/work</div>
+              <div className="mt-4 border-t border-zinc-800/60 font-display">
                 {pages.map((pg) => (
-                  <a key={pg.href} href={pg.href} className={row}>
-                    <span className="flex-1 min-w-0 truncate font-display text-base text-zinc-100 group-hover:text-emerald-400 transition-colors">{slug(pg.title)}/</span>
-                    {t.workNote && <span className="font-display text-xs text-zinc-600">{t.workNote}</span>}
+                  <a key={pg.href} href={pg.href} className={`${row} items-center`}>
+                    <span className="hidden sm:inline text-xs text-zinc-600">drwxr-xr-x</span>
+                    <span className="flex-1 min-w-0 truncate text-sm sm:text-base text-sky-300 group-hover:text-sky-200 transition-colors">{slug(pg.title)}/</span>
+                    {t.workNote && <span className="text-xs text-zinc-500">{t.workNote}</span>}
                     <ArrowUpRight size={16} className={arrow} />
                   </a>
                 ))}
@@ -260,13 +265,14 @@ export default function Home({ lang }: { lang: Lang }) {
           {/* 常用技术 */}
           <section id="tech" className="scroll-mt-24">
             <SectionTitle>{UI.tech}</SectionTitle>
-            <pre className="mt-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden font-display text-xs sm:text-sm leading-7 text-zinc-500">
+            <pre className="mt-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-zinc-800 bg-black/50 p-4 sm:p-5 font-display text-xs sm:text-sm leading-7 text-zinc-300">
               <code>
-                <span className="text-zinc-300">const</span> stack = {"{"}{"\n"}
+                <span className="text-zinc-600">{"// stack.ts"}</span>{"\n"}
+                <span className="text-fuchsia-400">export const</span> <span className="text-sky-300">stack</span> = {"{"}{"\n"}
                 {STACK.map(([k, v]) => (
                   <span key={k}>
-                    {"  "}{k}: [{v.map((x, i) => (
-                      <span key={x}><span className="text-zinc-200">&quot;{x}&quot;</span>{i < v.length - 1 ? ", " : ""}</span>
+                    {"  "}<span className="text-zinc-400">{k}</span>: [{v.map((x, i) => (
+                      <span key={x}><span className="text-emerald-300">&quot;{x}&quot;</span>{i < v.length - 1 ? ", " : ""}</span>
                     ))}],{"\n"}
                   </span>
                 ))}

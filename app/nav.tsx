@@ -96,12 +96,13 @@ export default function SideNav({ items }: { items: Item[] }) {
         return (
           <div key={n.id}>
             <a href={`#${n.id}`} aria-current={on ? "true" : undefined}
-              className={`flex items-center gap-4 py-2 transition-colors ${on ? "text-zinc-50" : "text-zinc-500 hover:text-zinc-200"}`}>
+              className={`group flex items-center gap-3 py-2 transition-colors ${on ? "text-zinc-50" : "text-zinc-500 hover:text-zinc-200"}`}>
               <span className={`text-xs tabular-nums transition-colors ${on ? "text-emerald-400" : "text-zinc-700"}`}>{String(idx + 1).padStart(2, "0")}</span>
+              <span aria-hidden className={`h-px transition-all duration-300 ${on ? "w-8 bg-emerald-400" : "w-4 bg-zinc-700 group-hover:w-6 group-hover:bg-zinc-400"}`} />
               {n.label}
             </a>
             {n.children && n.children.length > 0 && (
-              <div className="ml-[2.1rem] mb-1 flex flex-col text-sm">
+              <div className="ml-[4.1rem] mb-1 flex flex-col text-sm">
                 {n.children.map((c, k) => {
                   const last = k === n.children!.length - 1;
                   return c.children ? <Group key={c.href} entry={c} last={last} /> : (

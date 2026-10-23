@@ -31,6 +31,17 @@ html {
     radial-gradient(34rem 22rem at 18% 92%, rgba(52, 211, 153, 0.035), transparent 70%);
   animation: drift 40s ease-in-out infinite alternate;
 }
+/* 点阵：只在上半屏，往下渐隐 */
+.backdrop > .dots {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 90% 70% at 60% 10%, #000 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 60% 10%, #000 20%, transparent 80%);
+}
 .backdrop::after {
   content: "";
   position: fixed;
