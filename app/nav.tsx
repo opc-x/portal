@@ -6,22 +6,30 @@ import type { PageEntry } from "@/lib/pages";
 
 type Item = { id: string; label: string; children?: PageEntry[] };
 
+const Branch = ({ last }: { last: boolean }) => (
+  <span aria-hidden className="shrink-0 text-zinc-700">{last ? "└─" : "├─"}</span>
+);
+const subCls = "flex items-center gap-2 py-1.5 text-zinc-400 hover:text-zinc-100 transition-colors";
+
 // 二级分组：默认折叠，点组名直接进组里第一页，点箭头展开子页
-function Group({ entry }: { entry: PageEntry }) {
+function Group({ entry, last }: { entry: PageEntry; last: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <div>
       <div className="flex items-center justify-between gap-2">
-        <a href={entry.href} className="py-1 text-zinc-400 hover:text-zinc-100 transition-colors">{entry.title}</a>
+        <a href={entry.href} className={subCls}><Branch last={last && !open} />{entry.title}</a>
         <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={`Expand ${entry.title}`}
-          className="p-1.5 -m-0.5 text-zinc-500 hover:text-zinc-200 transition-colors">
+          className="p-1.5 text-zinc-500 hover:text-zinc-200 transition-colors">
           <ChevronRight size={14} className={`transition-transform ${open ? "rotate-90" : ""}`} />
         </button>
       </div>
       {open && (
-        <div className="ml-1 mb-1 flex flex-col gap-1 border-l border-zinc-800 pl-3">
-          {entry.children!.map((c) => (
-            <a key={c.href} href={c.href} className="py-1 text-zinc-400 hover:text-zinc-100 transition-colors">{c.title}</a>
+        <div className="flex flex-col">
+          {entry.children!.map((c, k) => (
+            <a key={c.href} href={c.href} className={subCls}>
+              <span aria-hidden className="shrink-0 text-zinc-700">{last ? "\u00a0\u00a0" : "│\u00a0"}</span>
+              <Branch last={k === entry.children!.length - 1} />{c.title}
+            </a>
           ))}
         </div>
       )}
@@ -82,24 +90,26 @@ export default function SideNav({ items }: { items: Item[] }) {
   const active = useActive(items.map((i) => i.id));
 
   return (
-    <nav aria-label="Sections" className="flex flex-col gap-1 font-display text-sm">
+    <nav aria-label="Sections" className="flex flex-col gap-0.5 font-display text-[15px]">
       {items.map((n, idx) => {
         const on = active === n.id;
         return (
           <div key={n.id}>
             <a href={`#${n.id}`} aria-current={on ? "true" : undefined}
-              className={`group flex items-center gap-3 py-2 transition-colors ${on ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>
-              <span className={`text-xs ${on ? "text-emerald-400" : "text-zinc-600"}`}>{String(idx + 1).padStart(2, "0")}</span>
-              <span className={`h-px transition-all duration-300 ${on ? "w-8 bg-emerald-400" : "w-4 bg-zinc-600 group-hover:w-6 group-hover:bg-zinc-400"}`} />
+              className={`relative flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${on ? "bg-emerald-400/10 text-zinc-50" : "text-zinc-400 hover:bg-zinc-900/70 hover:text-zinc-100"}`}>
+              <span aria-hidden className={`absolute left-0 top-2 bottom-2 w-0.5 rounded-full transition-colors ${on ? "bg-emerald-400" : "bg-transparent"}`} />
+              <span className={`text-xs tabular-nums ${on ? "text-emerald-400" : "text-zinc-600"}`}>{String(idx + 1).padStart(2, "0")}</span>
               {n.label}
+              {on && <span aria-hidden className="ml-auto text-emerald-400">←</span>}
             </a>
             {n.children && n.children.length > 0 && (
-              <div className="ml-7 mt-1 mb-2 flex flex-col gap-1 border-l border-zinc-800 pl-3">
-                {n.children.map((c) => c.children ? <Group key={c.href} entry={c} /> : (
-                  <a key={c.href} href={c.href} className="py-1 text-zinc-400 hover:text-zinc-100 transition-colors">
-                    {c.title}
-                  </a>
-                ))}
+              <div className="ml-[2.6rem] mt-0.5 mb-1.5 flex flex-col text-sm">
+                {n.children.map((c, k) => {
+                  const last = k === n.children!.length - 1;
+                  return c.children ? <Group key={c.href} entry={c} last={last} /> : (
+                    <a key={c.href} href={c.href} className={subCls}><Branch last={last} />{c.title}</a>
+                  );
+                })}
               </div>
             )}
           </div>

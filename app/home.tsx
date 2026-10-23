@@ -156,23 +156,35 @@ export default function Home({ lang }: { lang: Lang }) {
 
       {/* 左侧栏：大屏 */}
       <aside className="hidden lg:flex sticky top-0 h-screen w-80 shrink-0 flex-col px-10 py-16 border-r border-zinc-900/80">
-        <a href="#about" className="flex flex-col gap-5">
-          <Avatar size="lg" />
-          <span>
-            <span className="block font-display text-2xl font-bold tracking-tight text-zinc-50">Michael</span>
-            <span className="mt-1.5 block font-mono text-xs text-zinc-400">{UI.role}</span>
+        <a href="#about" className="flex flex-col gap-6">
+          <span className="relative w-fit">
+            <span className="absolute -inset-3 rounded-full bg-emerald-400/15 blur-xl" aria-hidden />
+            <span className="relative block"><Avatar size="lg" /></span>
+            <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 ring-4 ring-[#07080a]" aria-hidden />
+          </span>
+          <span className="font-display">
+            <span className="block text-[2rem] leading-none font-bold tracking-tight text-zinc-50">Michael</span>
+            <span className="mt-3 flex gap-2 text-sm leading-snug text-zinc-200">
+              <span className="text-emerald-400">&gt;</span>{UI.role}
+            </span>
+            <span className="mt-2 block text-xs text-zinc-500">payments · wallets · UTC+8</span>
           </span>
         </a>
-        <div className="mt-14">
+        <div className="mt-12 -mx-3">
           <SideNav items={nav} />
         </div>
-        <div className="mt-auto flex gap-2">
+        <div className="mt-auto space-y-4">
+          <div className="font-display text-xs text-zinc-600">
+            press <kbd className="px-1.5 py-0.5 rounded border border-zinc-800 text-zinc-400">1</kbd>–<kbd className="px-1.5 py-0.5 rounded border border-zinc-800 text-zinc-400">{nav.length}</kbd> to jump
+          </div>
+          <div className="flex gap-2">
           {external.map((e) => (
             <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer" aria-label={e.label} title={e.label}
               className="grid place-items-center w-9 h-9 rounded-lg border border-zinc-800 text-zinc-400 hover:text-emerald-300 hover:border-emerald-400/40 transition-colors">
               {e.icon}
             </a>
           ))}
+          </div>
         </div>
       </aside>
 
@@ -314,7 +326,6 @@ export default function Home({ lang }: { lang: Lang }) {
 
           <footer className="pt-8 border-t border-zinc-800/80 flex flex-wrap items-center justify-between gap-2 font-display text-xs text-zinc-500">
             <span>© 2026 Michael <span className="text-zinc-700">·</span> build <span className="text-zinc-400">{SHA}</span></span>
-            <span className="hidden lg:inline">press <kbd className="px-1.5 py-0.5 rounded border border-zinc-700 text-zinc-300">1</kbd>–<kbd className="px-1.5 py-0.5 rounded border border-zinc-700 text-zinc-300">{nav.length}</kbd> to jump</span>
           </footer>
           <KeyNav ids={nav.map((n) => n.id)} />
         </div>
