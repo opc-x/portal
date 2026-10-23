@@ -61,7 +61,7 @@ const JOBS: Job[] = [
     title: "Senior Java Backend Engineer",
     period: "Oct 2018 – May 2022",
     place: "Hangzhou, China",
-    intro: "Tech lead of the company-wide search service.",
+    intro: "Ride-hailing platform. Tech lead of the company-wide search service.",
     points: [
       "Built the search service from 0 to 1 on Elasticsearch; weekly traffic grew from 60K to 100K.",
       "Built SQL lineage parsing that automatically extracts upstream/downstream table dependencies, exposed as a query service.",
@@ -73,7 +73,7 @@ const JOBS: Job[] = [
     title: "Java Backend Engineer — Distributed Job Scheduling",
     period: "Oct 2016 – Oct 2018",
     place: "Hangzhou, China",
-    intro: "Core developer of the distributed job scheduling system.",
+    intro: "Alibaba Group. Core developer of the group's internal distributed job scheduling system: job assignment, execution and timed triggers.",
     points: [
       "Master HA: nodes compete for a database row lock (SELECT … FOR UPDATE); when the master dies the lock is released and another node takes over automatically.",
       "Job sharding: machines map to a fixed set of logical nodes, so scaling in/out only changes the mapping (similar to consistent hashing).",
@@ -86,6 +86,7 @@ const JOBS: Job[] = [
     title: "Java Backend Engineer",
     period: "Mar 2013 – Oct 2016",
     place: "Beijing, China",
+    intro: "Mobile game company listed on the Shenzhen ChiNext board. Built the shared server side used by multiple games: log collection SDK and operations admin.",
     points: [
       "Designed and built a server-side game log collection SDK adopted by multiple mobile games.",
       "Developed and maintained the Java operations admin system and its scheduled jobs.",
@@ -125,7 +126,7 @@ export default function Resume() {
           </h1>
           <p className="mt-3 text-lg text-zinc-300 print:text-zinc-800">Senior Java Backend Engineer · Payments &amp; Wallets · Distributed Systems</p>
           <p className="mt-2 font-display text-xs sm:text-sm text-zinc-500 print:text-zinc-700">
-            Open to remote roles · <a href="https://michael.opc-x.org/en" className="hover:text-emerald-400">michael.opc-x.org</a>
+            Open to remote roles · <a href="https://michael.opc-x.org/en" className="text-emerald-400 underline decoration-emerald-400/40 underline-offset-4 hover:decoration-emerald-400 print:text-[#1d4f80]">michael.opc-x.org ↗</a>
           </p>
         </header>
 
