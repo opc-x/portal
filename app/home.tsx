@@ -134,7 +134,7 @@ export default function Home({ lang }: { lang: Lang }) {
         <a href="#about" className="flex flex-col gap-5">
           <Avatar size="lg" />
           <span>
-            <span className="block text-2xl font-semibold tracking-tight text-zinc-50">Michael</span>
+            <span className="block font-display text-2xl font-bold tracking-tight text-zinc-50">Michael</span>
             <span className="mt-1.5 block font-mono text-xs text-zinc-400">{UI.role}</span>
           </span>
         </a>
