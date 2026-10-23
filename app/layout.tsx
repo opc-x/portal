@@ -8,7 +8,7 @@ const display = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "600", "700
 
 export const metadata: Metadata = {
   icons: { icon: "/avatar.png", apple: "/avatar.png" },
-  title: "Michael — Senior Java backend engineer",
+  title: "Michael C. — Senior Java backend engineer",
   description: "Senior Java backend engineer (payments, wallets) and indie maker. Building small, useful things.",
 };
 
