@@ -17,13 +17,13 @@ const AVATAR = ["avatar.jpg", "avatar.png", "avatar.webp"].find((f) =>
 // 中文只留最小剂量：只有中文版简介一句是中文，其余两版共用英文
 const T = {
   zh: {
-    intro: "Java 后端，做过支付和钱包。也自己做产品，从想法到上线一个人完成。",
+    intro: "资深 Java 后端，深耕支付与钱包。也独立做产品，从想法到上线一个人完成。",
     workNote: "",
     switchLabel: "EN",
     switchHref: "/en",
   },
   en: {
-    intro: "Java backend engineer with a background in payments and wallets. I also build and ship my own products, end to end.",
+    intro: "Senior Java backend engineer, specialized in payments and wallets. I also build and ship my own products, end to end.",
     workNote: "in Chinese",
     switchLabel: "中文",
     switchHref: "/",
@@ -31,11 +31,11 @@ const T = {
 };
 const UI = {
   badge: "Open to freelance work",
-  role: "Java backend engineer",
-  about: "About",
-  built: "Projects",
-  work: "Work",
-  tech: "Stack",
+  role: "Senior Java backend engineer",
+  about: "about",
+  built: "projects",
+  work: "work",
+  tech: "stack",
   live: "Live",
 };
 
@@ -94,7 +94,7 @@ function Avatar({ size }: { size: "sm" | "lg" }) {
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-4">
-      <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400">{children}</h2>
+      <h2 className="font-display text-sm text-zinc-300"><span className="text-emerald-400">{"// "}</span>{children}</h2>
       <div className="flex-1 h-px bg-gradient-to-r from-zinc-700 to-transparent" />
     </div>
   );
@@ -173,7 +173,10 @@ export default function Home({ lang }: { lang: Lang }) {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               {UI.badge}
             </div>
-            <h1 className="text-[2.75rem] min-[400px]:text-5xl sm:text-7xl font-semibold tracking-tighter leading-[1.04] text-balance">
+            <div className="font-display text-sm text-zinc-500">
+              <span className="text-emerald-400">michael@opc-x</span>:<span className="text-sky-400">~</span>$ whoami
+            </div>
+            <h1 className="font-display text-[2rem] min-[400px]:text-[2.25rem] sm:text-6xl lg:text-[4.25rem] font-bold tracking-[-0.04em] leading-[1.08]">
               <span className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
                 Building small,
               </span>
@@ -181,6 +184,7 @@ export default function Home({ lang }: { lang: Lang }) {
               <span className="bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent">
                 useful things.
               </span>
+              <span aria-hidden className="cursor ml-1 inline-block w-[0.5em] h-[0.85em] -mb-[0.05em] bg-emerald-400" />
             </h1>
             <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-xl">{t.intro}</p>
             <div className="flex flex-wrap gap-2 text-sm lg:hidden">
@@ -222,7 +226,7 @@ export default function Home({ lang }: { lang: Lang }) {
                     </div>
                     <div className="space-y-1.5">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className={`text-lg font-semibold tracking-tight ${isWip ? "text-zinc-600" : "text-zinc-100"}`}>{name}</span>
+                        <span className={`font-display text-lg font-semibold tracking-tight ${isWip ? "text-zinc-600" : "text-zinc-100"}`}>{name}</span>
                         {!isWip && (
                           <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-400/10 font-mono text-xs text-emerald-300 whitespace-nowrap">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />{UI.live}

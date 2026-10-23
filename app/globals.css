@@ -21,6 +21,12 @@ html {
     radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 22px 22px;
 }
 
+/* 终端光标 */
+.cursor { animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+::selection { background: rgb(52 211 153 / 0.3); color: #fff; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }

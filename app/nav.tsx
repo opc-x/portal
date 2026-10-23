@@ -63,7 +63,7 @@ export function MobileNav({ items }: { items: Item[] }) {
   }, [active]);
   return (
     <nav aria-label="Sections"
-      className="flex-1 min-w-0 flex items-center gap-1 overflow-x-auto whitespace-nowrap text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,#000_85%,transparent)]">
+      className="flex-1 min-w-0 flex items-center gap-1 overflow-x-auto whitespace-nowrap font-display text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,#000_85%,transparent)]">
       {items.map((n) => {
         const on = active === n.id;
         return (
@@ -82,7 +82,7 @@ export default function SideNav({ items }: { items: Item[] }) {
   const active = useActive(items.map((i) => i.id));
 
   return (
-    <nav aria-label="Sections" className="flex flex-col gap-1 text-sm">
+    <nav aria-label="Sections" className="flex flex-col gap-1 font-display text-sm">
       {items.map((n) => {
         const on = active === n.id;
         return (
