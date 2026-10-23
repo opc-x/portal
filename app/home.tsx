@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight, Target, MessageSquare, BookOpen, Mail, Github } from "lucide-react";
 import { listPages, type PageEntry } from "@/lib/pages";
 import SideNav, { MobileNav, KeyNav } from "./nav";
+import ProjectsList from "./projects-list";
 
 export type Lang = "zh" | "en";
 
@@ -231,22 +232,7 @@ export default function Home({ lang }: { lang: Lang }) {
           {/* 个人作品 */}
           <section id="built" className="scroll-mt-24">
             <SectionTitle>{UI.built}</SectionTitle>
-            <div className="mt-6 border-t border-zinc-800/60">
-              {PRODUCTS.map((p) => {
-                const name = typeof p.name === "string" ? p.name : p.name[lang];
-                const Icon = p.icon;
-                return (
-                  <a key={name} href={p.url} target="_blank" rel="noopener noreferrer" className={row}>
-                    <Icon size={18} aria-hidden className="shrink-0 self-start mt-0.5 text-zinc-500 group-hover:text-emerald-400 transition-colors" />
-                    <span className="flex-1 min-w-0 flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-6">
-                      <span className="sm:w-36 shrink-0 font-display text-base text-zinc-100 group-hover:text-emerald-400 transition-colors">{name}</span>
-                      <span className="text-sm leading-relaxed text-zinc-400">{p.desc}</span>
-                    </span>
-                    <ArrowUpRight size={16} className={arrow} />
-                  </a>
-                );
-              })}
-            </div>
+            <ProjectsList />
           </section>
 
           {/* 项目经历：public/pages/*.html，放进去就自动出现 */}
