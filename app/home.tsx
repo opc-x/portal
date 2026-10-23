@@ -164,7 +164,7 @@ export default function Home({ lang }: { lang: Lang }) {
         <a href="#about" className="flex flex-col gap-6">
           <Avatar size="lg" />
           <span className="font-display">
-            <span className="block text-[1.75rem] leading-none font-bold tracking-tight text-zinc-50">Michael</span>
+            <span className="block text-[1.75rem] leading-none font-bold tracking-tight text-zinc-50">Michael C.</span>
             <span className="mt-3 block text-sm text-zinc-400">{UI.role}</span>
           </span>
         </a>
@@ -199,7 +199,7 @@ export default function Home({ lang }: { lang: Lang }) {
             <div className="flex items-center gap-4 mb-8 lg:hidden">
               <Avatar size="sm" />
               <div className="font-display">
-                <div className="text-lg font-bold leading-tight text-zinc-50">Michael</div>
+                <div className="text-lg font-bold leading-tight text-zinc-50">Michael C.</div>
                 <div className="text-xs text-zinc-400">{UI.role}</div>
               </div>
             </div>
@@ -280,7 +280,7 @@ export default function Home({ lang }: { lang: Lang }) {
           </section>
 
           <footer className="pt-10 font-display text-xs text-zinc-600">
-            © 2026 Michael · {SHA}
+            © 2026 Michael C. · {SHA}
           </footer>
           <KeyNav ids={nav.map((n) => n.id)} />
         </div>
