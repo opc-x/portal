@@ -6,7 +6,7 @@
 <style>
   @page {
     size: A4;
-    margin: 12mm 15mm;
+    margin: 11mm 14mm;
   }
   * {
     box-sizing: border-box;
@@ -15,95 +15,244 @@
   }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    color: #111827;
+    color: #1e293b;
     background: #ffffff;
-    line-height: 1.52;
-    font-size: 9.6pt;
+    line-height: 1.56;
+    font-size: 9.4pt;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+  /* Header */
   header {
-    border-bottom: 1.5px solid #111827;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     padding-bottom: 10px;
     margin-bottom: 12px;
+    border-bottom: 2px solid #0f172a;
   }
-  h1 {
-    font-size: 18pt;
+  .header-left h1 {
+    font-size: 21pt;
     font-weight: 700;
-    color: #111827;
-    letter-spacing: -0.01em;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
-  .meta {
-    margin-top: 5px;
-    font-size: 9.2pt;
-    color: #374151;
+  .meta-row {
+    margin-top: 7px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 8.8pt;
+    color: #475569;
   }
-  .meta a {
-    color: #111827;
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+  }
+  .meta-label {
+    color: #64748b;
+  }
+  .meta-val {
+    color: #0f172a;
+    font-weight: 500;
+  }
+  .meta-val a {
+    color: #0f766e;
     text-decoration: none;
+    font-weight: 500;
   }
+  .meta-sep {
+    color: #cbd5e1;
+    margin: 0 2px;
+  }
+
+  /* Section */
   section {
     margin-bottom: 11px;
   }
-  h2 {
-    font-size: 11pt;
-    font-weight: 700;
-    color: #111827;
-    border-bottom: 1px solid #e5e7eb;
+  .sec-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
     padding-bottom: 3px;
-    margin-bottom: 6px;
+    border-bottom: 1px solid #e2e8f0;
   }
-  ul {
+  .sec-bar {
+    width: 3.5px;
+    height: 13px;
+    background: #0f766e;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .sec-head h2 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: 0.02em;
+  }
+
+  /* Profile Bullets */
+  .bullet-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 2.5px;
+    gap: 3px;
   }
-  ul li {
+  .bullet-list li {
     position: relative;
-    padding-left: 11px;
-    color: #1f2937;
+    padding-left: 12px;
+    color: #334155;
   }
-  ul li::before {
-    content: "•";
+  .bullet-list li::before {
+    content: "";
     position: absolute;
-    left: 0;
-    color: #6b7280;
+    left: 2px;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #0f766e;
   }
-  strong {
-    color: #111827;
-    font-weight: 600;
+
+  /* Skills 2-col Grid */
+  .skills-table {
+    display: grid;
+    grid-template-columns: 122px 1fr;
+    row-gap: 4px;
+    column-gap: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 7px 11px;
   }
+  .skill-name {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 9.2pt;
+  }
+  .skill-desc {
+    color: #334155;
+    font-size: 9.2pt;
+  }
+
+  /* Jobs */
   .job {
-    margin-bottom: 9px;
+    margin-bottom: 10px;
     page-break-inside: avoid;
   }
   .job:last-child {
     margin-bottom: 0;
   }
-  h3 {
-    font-size: 10pt;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 3px;
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
   }
-  .job-intro {
-    color: #374151;
-    margin-bottom: 3px;
+  .job-title-group {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .job-company {
+    font-size: 10.2pt;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .job-pipe {
+    color: #cbd5e1;
+    font-size: 9pt;
+  }
+  .job-role {
+    font-size: 9.4pt;
+    font-weight: 600;
+    color: #0f766e;
+  }
+  .job-date {
+    font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 8.6pt;
+    color: #64748b;
+    font-variant-numeric: tabular-nums;
+  }
+  .job-summary {
+    background: #f8fafc;
+    border-left: 2.5px solid #94a3b8;
+    padding: 4px 9px;
+    margin-bottom: 5px;
+    color: #334155;
+    font-size: 9.1pt;
+    border-radius: 0 4px 4px 0;
+  }
+  .job-summary strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+  .bullet-list strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+  .hook {
+    color: #0f766e;
+    font-weight: 500;
+  }
+
+  /* Education */
+  .edu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-left: 12px;
+    position: relative;
+  }
+  .edu-item::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #0f766e;
+  }
+  .edu-school {
+    font-weight: 600;
+    color: #0f172a;
+  }
+  .edu-major {
+    color: #334155;
+    margin-left: 10px;
   }
 </style>
 </head>
 <body>
   <header>
-    <h1>Michael C.</h1>
-    <div class="meta">
-      邮箱：<a href="mailto:jcui1@my.hpu.edu">jcui1@my.hpu.edu</a>　·　主页：<a href="https://michael.opc-x.org">michael.opc-x.org</a>　·　意向：资深 Java 后端　·　工作方式：远程　·　语言：中文、英文
+    <div class="header-left">
+      <h1>Michael</h1>
+      <div class="meta-row">
+        <span class="meta-item"><span class="meta-label">邮箱：</span><span class="meta-val"><a href="mailto:jcui1@my.hpu.edu">jcui1@my.hpu.edu</a></span></span>
+        <span class="meta-sep">·</span>
+        <span class="meta-item"><span class="meta-label">主页：</span><span class="meta-val"><a href="https://michael.opc-x.org">michael.opc-x.org</a></span></span>
+        <span class="meta-sep">·</span>
+        <span class="meta-item"><span class="meta-label">意向：</span><span class="meta-val">资深 Java 后端</span></span>
+        <span class="meta-sep">·</span>
+        <span class="meta-item"><span class="meta-label">工作方式：</span><span class="meta-val">远程</span></span>
+        <span class="meta-sep">·</span>
+        <span class="meta-item"><span class="meta-label">语言：</span><span class="meta-val">中文、英文</span></span>
+      </div>
     </div>
   </header>
 
   <section>
-    <h2>个人简介</h2>
-    <ul>
+    <div class="sec-head"><span class="sec-bar"></span><h2>个人简介</h2></div>
+    <ul class="bullet-list">
       <li>Java 后端 13 年，阿里、滴滴出身；近几年在火币、dtcpay 做钱包。</li>
       <li>熟悉 Java / Spring、MySQL、Redis、Kafka 的日常开发与问题排查。</li>
       <li>能独立负责一个模块从方案、开发到上线，上手快，配合远程协作。</li>
@@ -111,49 +260,76 @@
   </section>
 
   <section>
-    <h2>专业技能</h2>
-    <ul>
-      <li><strong>Java / Spring Boot</strong>：线程池与 JVM OOM 排查（有界队列）、Spring 事务失效场景</li>
-      <li><strong>MySQL</strong>：深分页优化（联合索引 + 游标分页）、防超扣（条件更新 + 行锁）</li>
-      <li><strong>Redis</strong>：缓存、分布式锁、布隆过滤器</li>
-      <li><strong>Kafka</strong>：消息可靠投递与幂等消费</li>
-      <li><strong>区块链</strong>：钱包创建与交易上链、扫块与到账、链分叉处理</li>
-      <li><strong>支付</strong>：幂等、状态机、渠道对接与对账</li>
-    </ul>
+    <div class="sec-head"><span class="sec-bar"></span><h2>专业技能</h2></div>
+    <div class="skills-table">
+      <div class="skill-name">Java / Spring Boot</div>
+      <div class="skill-desc">线程池与 JVM OOM 排查<span class="hook">（有界队列）</span>、Spring 事务失效场景</div>
+      <div class="skill-name">MySQL</div>
+      <div class="skill-desc">深分页优化<span class="hook">（联合索引 + 游标分页）</span>、防超扣<span class="hook">（条件更新 + 行锁）</span></div>
+      <div class="skill-name">Redis</div>
+      <div class="skill-desc">缓存、分布式锁、布隆过滤器</div>
+      <div class="skill-name">Kafka</div>
+      <div class="skill-desc">消息可靠投递与幂等消费</div>
+      <div class="skill-name">区块链</div>
+      <div class="skill-desc">钱包创建与交易上链、扫块与到账、链分叉处理</div>
+      <div class="skill-name">支付</div>
+      <div class="skill-desc">幂等、状态机、渠道对接与对账</div>
+    </div>
   </section>
 
   <section>
-    <h2>工作经历</h2>
+    <div class="sec-head"><span class="sec-bar"></span><h2>工作经历</h2></div>
 
     <div class="job">
-      <h3>dtcpay　2024.04 – 至今　｜　Java 后端 Owner（电子钱包）</h3>
-      <div class="job-intro">新加坡 MAS 持牌支付机构（法币 + 稳定币）。C 端 App 电子钱包。负责钱包核心链路：<strong>充值到账 → 提现出款 → 每日对账</strong>；用户余额的每一笔变动都由钱包服务统一记账。</div>
-      <ul>
-        <li><strong>并发安全（防超扣）</strong>：多笔扣款同时到，行锁让它们排队；每笔用一条更新语句同时判断余额并扣减，余额不够就扣不动，不会扣成负数（条件更新 + 行锁）。</li>
-        <li><strong>接口幂等（Redis 令牌）</strong>：进支付页先发一次性令牌，提交时 Redis 删掉令牌才处理，连点、重复提交直接挡掉；漏网的靠业务单号兜底，只记一次（唯一索引）。</li>
+      <div class="job-header">
+        <div class="job-title-group">
+          <span class="job-company">dtcpay</span>
+          <span class="job-pipe">｜</span>
+          <span class="job-role">Java 后端 Owner（电子钱包）</span>
+        </div>
+        <span class="job-date">2024.04 – 至今</span>
+      </div>
+      <div class="job-summary">新加坡 MAS 持牌支付机构（法币 + 稳定币）。C 端 App 电子钱包。负责钱包核心链路：<strong>充值到账 → 提现出款 → 每日对账</strong>；用户余额的每一笔变动都由钱包服务统一记账。</div>
+      <ul class="bullet-list">
+        <li><strong>并发安全（防超扣）</strong>：多笔扣款同时到，行锁让它们排队；每笔用一条更新语句同时判断余额并扣减，余额不够就扣不动，不会扣成负数<span class="hook">（条件更新 + 行锁）</span>。</li>
+        <li><strong>接口幂等（Redis 令牌）</strong>：进支付页先发一次性令牌，提交时 Redis 删掉令牌才处理，连点、重复提交直接挡掉；漏网的靠业务单号兜底，只记一次<span class="hook">（唯一索引）</span>。</li>
         <li><strong>掉单补偿</strong>：渠道通知支付结果时，先验签名、对金额再记账；通知丢了，定时去渠道查单补上。</li>
         <li><strong>出款幂等</strong>：先冻结余额再让渠道打款；渠道超时不知道打没打，只去查结果、绝不再发一次，防止给用户打两次钱；查到成功才真扣，查到失败才解冻退回。</li>
-        <li><strong>最终一致性</strong>：扣款和“待发通知”写在同一个数据库事务里，要么都成、要么都不成；后台再把通知发出去（App 推送、站内信等），失败就重发。不会出现钱扣了、用户却收不到通知（本地消息表 + Kafka）。</li>
+        <li><strong>最终一致性</strong>：扣款和“待发通知”写在同一个数据库事务里，要么都成、要么都不成；后台再把通知发出去（App 推送、站内信等），失败就重发。不会出现钱扣了、用户却收不到通知<span class="hook">（本地消息表 + Kafka）</span>。</li>
       </ul>
     </div>
 
     <div class="job">
-      <h3>火币科技　2022.05 – 2024.04　｜　Java 后端 Owner（区块链钱包）</h3>
-      <div class="job-intro">火币钱包：去中心化多链钱包，用户约 1200 万，私钥只在用户手机里。负责钱包核心链路：<strong>创建钱包 → 转账上链 → 收款到账 → 到账推送</strong>。</div>
-      <ul>
+      <div class="job-header">
+        <div class="job-title-group">
+          <span class="job-company">火币科技</span>
+          <span class="job-pipe">｜</span>
+          <span class="job-role">Java 后端 Owner（区块链钱包）</span>
+        </div>
+        <span class="job-date">2022.05 – 2024.04</span>
+      </div>
+      <div class="job-summary">火币钱包：去中心化多链钱包，用户约 1200 万，私钥只在用户手机里。负责钱包核心链路：<strong>创建钱包 → 转账上链 → 收款到账 → 到账推送</strong>。</div>
+      <ul class="bullet-list">
         <li><strong>创建钱包</strong>：私钥在手机生成，地址登记到服务端，开始监听这个地址的到账。</li>
-        <li><strong>转账上链</strong>：手机用私钥签好交易，发到链上，一直跟踪到交易被确认（广播、pending）。</li>
-        <li><strong>链分叉</strong>：新块和上一块接不上，就退回去重新读；这笔交易后面又出了几个块才算到账（parentHash、确认数）。</li>
+        <li><strong>转账上链</strong>：手机用私钥签好交易，发到链上，一直跟踪到交易被确认<span class="hook">（广播、pending）</span>。</li>
+        <li><strong>链分叉</strong>：新块和上一块接不上，就退回去重新读；这笔交易后面又出了几个块才算到账<span class="hook">（parentHash、确认数）</span>。</li>
         <li><strong>OOM 排查</strong>：扫块落后、加速追赶时进程反复内存溢出，查出是队列没上限把块全堆在内存；改成有上限的队列，满了就等。</li>
-        <li><strong>可靠投递 + 幂等消费</strong>：先把要推的通知存进数据库再发，服务挂了也能补发；同一笔到账只推一次，用户不会收到两条（Kafka）。</li>
-        <li><strong>钱包地址过滤</strong>：一个块里几千个地址，先筛掉肯定不是我们用户的，剩下的再查库（布隆过滤器）。</li>
-        <li><strong>扫块高可用</strong>：同一时间只让一台扫；它挂了别的接上，从记录的位置继续（Redis 分布式锁）。</li>
+        <li><strong>可靠投递 + 幂等消费</strong>：先把要推的通知存进数据库再发，服务挂了也能补发；同一笔到账只推一次，用户不会收到两条<span class="hook">（Kafka）</span>。</li>
+        <li><strong>钱包地址过滤</strong>：一个块里几千个地址，先筛掉肯定不是我们用户的，剩下的再查库<span class="hook">（布隆过滤器）</span>。</li>
+        <li><strong>扫块高可用</strong>：同一时间只让一台扫；它挂了别的接上，从记录的位置继续<span class="hook">（Redis 分布式锁）</span>。</li>
       </ul>
     </div>
 
     <div class="job">
-      <h3>滴滴出行　2018.10 – 2022.05　｜　资深 Java 后端（搜索引擎）</h3>
-      <ul>
+      <div class="job-header">
+        <div class="job-title-group">
+          <span class="job-company">滴滴出行</span>
+          <span class="job-pipe">｜</span>
+          <span class="job-role">资深 Java 后端（搜索引擎）</span>
+        </div>
+        <span class="job-date">2018.10 – 2022.05</span>
+      </div>
+      <ul class="bullet-list">
         <li><strong>搜索服务</strong>：技术负责人，基于 Elasticsearch 从 0 到 1 搭建搜索服务，周访问量 6 万 → 10 万。</li>
         <li><strong>依赖解析</strong>：解析 SQL 语句，自动找出表之间的上下游依赖，做成查询服务。</li>
         <li><strong>对外接口</strong>：为全公司各系统提供统一查询接口。</li>
@@ -161,18 +337,32 @@
     </div>
 
     <div class="job">
-      <h3>阿里巴巴　2016.10 – 2018.10　｜　Java 后端研发（分布式任务调度系统）</h3>
-      <ul>
+      <div class="job-header">
+        <div class="job-title-group">
+          <span class="job-company">阿里巴巴</span>
+          <span class="job-pipe">｜</span>
+          <span class="job-role">Java 后端研发（分布式任务调度系统）</span>
+        </div>
+        <span class="job-date">2016.10 – 2018.10</span>
+      </div>
+      <ul class="bullet-list">
         <li><strong>分布式调度</strong>：一期 Master / Slave 架构，Master 分配任务、Slave 执行。</li>
-        <li><strong>Master 高可用</strong>：多台机器启动时用数据库抢锁，抢到的当 Master 负责任务规划；Master 挂了锁释放，其余机器重新抢，自动接管（SELECT … FOR UPDATE）。</li>
-        <li><strong>任务分片</strong>：机器映射到固定数量的逻辑节点，任务只分给逻辑节点；加减机器只改映射，任务不用重分（类似一致性 hash）。</li>
+        <li><strong>Master 高可用</strong>：多台机器启动时用数据库抢锁，抢到的当 Master 负责任务规划；Master 挂了锁释放，其余机器重新抢，自动接管<span class="hook">（SELECT … FOR UPDATE）</span>。</li>
+        <li><strong>任务分片</strong>：机器映射到固定数量的逻辑节点，任务只分给逻辑节点；加减机器只改映射，任务不用重分<span class="hook">（类似一致性 hash）</span>。</li>
         <li><strong>定时任务</strong>：基于 Quartz，100 万+ 任务按小时 / 天 / 周 / 月自动执行；平台上线后任务平均开发时长 36 小时 → 17.45 小时。</li>
       </ul>
     </div>
 
     <div class="job">
-      <h3>掌趣科技　2013.03 – 2016.10　｜　Java 后端研发(游戏运营后台)</h3>
-      <ul>
+      <div class="job-header">
+        <div class="job-title-group">
+          <span class="job-company">掌趣科技</span>
+          <span class="job-pipe">｜</span>
+          <span class="job-role">Java 后端研发(游戏运营后台)</span>
+        </div>
+        <span class="job-date">2013.03 – 2016.10</span>
+      </div>
+      <ul class="bullet-list">
         <li><strong>服务端 SDK</strong>：游戏日志采集 SDK 架构设计与开发，供公司多款手游接入。</li>
         <li><strong>运营后台</strong>：Java 运营后台与各类定时任务开发维护。</li>
       </ul>
@@ -180,11 +370,17 @@
   </section>
 
   <section style="margin-bottom:0;">
-    <h2>教育经历</h2>
-    <ul>
-      <li>Hawaii Pacific University（美国）　人工智能　硕士　2025.01 – 2026.07</li>
-      <li>电子科技大学　计算机科学与技术　本科　2008.09 – 2012.07</li>
-    </ul>
+    <div class="sec-head"><span class="sec-bar"></span><h2>教育经历</h2></div>
+    <div class="edu-list">
+      <div class="edu-item">
+        <div><span class="edu-school">Hawaii Pacific University（美国）</span><span class="edu-major">人工智能　硕士</span></div>
+        <span class="job-date">2025.01 – 2026.07</span>
+      </div>
+      <div class="edu-item">
+        <div><span class="edu-school">电子科技大学</span><span class="edu-major">计算机科学与技术　本科</span></div>
+        <span class="job-date">2008.09 – 2012.07</span>
+      </div>
+    </div>
   </section>
 </body>
 </html>
