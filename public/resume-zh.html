@@ -105,7 +105,7 @@ li+li{margin-top:3px}
   <p class="summary">国内网约车平台（中国版 Uber）。负责公司内部统一搜索服务，从搭建到对外提供查询接口。</p><ul><li><b>搜索服务</b>：技术负责人，基于 Elasticsearch 从 0 到 1 搭建搜索服务，周访问量 6 万 → 10 万。</li><li><b>依赖解析</b>：解析 SQL 语句，自动找出表之间的上下游依赖，做成查询服务。</li><li><b>对外接口</b>：为全公司各系统提供统一查询接口。</li></ul>
 </article><article class="job">
   <div class="line"><h3>阿里巴巴<span class="role">Java 后端研发（分布式任务调度系统）</span></h3><span class="date">2016.10 – 2018.10</span></div>
-  <p class="summary">阿里巴巴集团。参与集团内部分布式任务调度系统的核心开发：任务分配、执行与定时触发。</p><ul><li><b>分布式调度</b>：一期 Master / Slave 架构，Master 分配任务、Slave 执行。</li><li><b>Master 高可用</b>：多台机器启动时用数据库抢锁，抢到的当 Master 负责任务规划；Master 挂了锁释放，其余机器重新抢，自动接管（SELECT … FOR UPDATE）。</li><li><b>任务分片</b>：机器映射到固定数量的逻辑节点，任务只分给逻辑节点；加减机器只改映射，任务不用重分（类似一致性 hash）。</li><li><b>定时任务</b>：基于 Quartz，100 万+ 任务按小时 / 天 / 周 / 月自动执行；平台上线后任务平均开发时长 36 小时 → 17.45 小时。</li></ul>
+  <p class="summary">阿里巴巴集团。参与阿里云 DataWorks 调度系统的核心开发：Master 选主、任务分片与定时触发。</p><ul><li><b>分布式调度</b>：一期 Master / Slave 架构，Master 分配任务、Slave 执行。</li><li><b>Master 高可用</b>：多台机器启动时用数据库抢锁，抢到的当 Master 负责任务规划；Master 挂了锁释放，其余机器重新抢，自动接管（SELECT … FOR UPDATE）。</li><li><b>任务分片</b>：机器映射到固定数量的逻辑节点，任务只分给逻辑节点；加减机器只改映射，任务不用重分（类似一致性 hash）。</li><li><b>定时任务</b>：基于 Quartz，100 万+ 任务按小时 / 天 / 周 / 月自动执行；平台上线后任务平均开发时长 36 小时 → 17.45 小时。</li></ul>
 </article><article class="job">
   <div class="line"><h3>掌趣科技<span class="role">Java 后端研发（游戏运营后台）</span></h3><span class="date">2013.03 – 2016.10</span></div>
   <p class="summary">A 股创业板上市的手游公司。负责公司多款手游共用的服务端：日志采集 SDK 与运营后台。</p><ul><li><b>服务端 SDK</b>：游戏日志采集 SDK 架构设计与开发，供公司多款手游接入。</li><li><b>运营后台</b>：Java 运营后台与各类定时任务开发维护。</li></ul>
