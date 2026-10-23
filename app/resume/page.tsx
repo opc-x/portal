@@ -73,7 +73,7 @@ const JOBS: Job[] = [
     title: "Java Backend Engineer — Distributed Job Scheduling",
     period: "Oct 2016 – Oct 2018",
     place: "Hangzhou, China",
-    intro: "Alibaba Group. Core developer of the group's internal distributed job scheduling system: job assignment, execution and timed triggers.",
+    intro: "Alibaba Group. Core developer of the scheduling system behind Alibaba Cloud DataWorks: master election, job sharding and timed triggers.",
     points: [
       "Master HA: nodes compete for a database row lock (SELECT … FOR UPDATE); when the master dies the lock is released and another node takes over automatically.",
       "Job sharding: machines map to a fixed set of logical nodes, so scaling in/out only changes the mapping (similar to consistent hashing).",
