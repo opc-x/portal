@@ -9,7 +9,7 @@ type Item = { id: string; label: string; children?: PageEntry[] };
 const Branch = ({ last }: { last: boolean }) => (
   <span aria-hidden className="shrink-0 text-zinc-800">{last ? "└─" : "├─"}</span>
 );
-const subCls = "flex items-center gap-2 py-1.5 text-zinc-400 hover:text-zinc-100 transition-colors";
+const subCls = "flex items-center gap-2 py-1.5 whitespace-nowrap text-zinc-500 hover:text-zinc-100 transition-colors";
 
 // 二级分组：默认折叠，点组名直接进组里第一页，点箭头展开子页
 function Group({ entry, last }: { entry: PageEntry; last: boolean }) {
