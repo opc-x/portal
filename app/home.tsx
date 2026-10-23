@@ -240,7 +240,7 @@ export default function Home({ lang }: { lang: Lang }) {
               <div className="divide-y divide-zinc-800/80 border-y border-zinc-800/80">
                 {pages.map((pg) => (
                   <a key={pg.href} href={pg.href}
-                    className="group flex items-center gap-4 py-4 px-2 -mx-2 rounded-lg hover:bg-zinc-900/50 active:bg-zinc-900 transition-colors">
+                    className="group flex items-center gap-4 py-4 transition-colors">
                     <FileText size={18} className="shrink-0 text-zinc-500 group-hover:text-emerald-300 transition-colors" />
                     <span className="flex-1 text-base sm:text-lg text-zinc-200 group-hover:text-white transition-colors">{pg.title}</span>
                     <ArrowUpRight size={18} className="text-zinc-500 transition-all group-hover:text-zinc-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

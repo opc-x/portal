@@ -43,7 +43,12 @@ function useActive(ids: string[]) {
       { rootMargin: "-20% 0px -60% 0px" },
     );
     els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    // 滚到底时最后一节可能够不到触发线，直接点亮最后一项
+    const onScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) setActive(ids[ids.length - 1]);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { io.disconnect(); window.removeEventListener("scroll", onScroll); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
   return active;
@@ -52,13 +57,17 @@ function useActive(ids: string[]) {
 // 手机顶栏：可横滑，当前节高亮，右侧渐隐提示还能滑
 export function MobileNav({ items }: { items: Item[] }) {
   const active = useActive(items.map((i) => i.id));
+  // 当前项被挤到屏外时，横向滚过去
+  useEffect(() => {
+    document.querySelector(`[data-mnav="${active}"]`)?.scrollIntoView({ inline: "nearest", block: "nearest" });
+  }, [active]);
   return (
     <nav aria-label="Sections"
       className="flex-1 min-w-0 flex items-center gap-1 overflow-x-auto whitespace-nowrap text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,#000_85%,transparent)]">
       {items.map((n) => {
         const on = active === n.id;
         return (
-          <a key={n.id} href={`#${n.id}`} aria-current={on ? "true" : undefined}
+          <a key={n.id} href={`#${n.id}`} data-mnav={n.id} aria-current={on ? "true" : undefined}
             className={`shrink-0 px-2.5 py-2.5 rounded-md transition-colors ${on ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>
             <span className={`pb-1 border-b ${on ? "border-emerald-400" : "border-transparent"}`}>{n.label}</span>
           </a>
