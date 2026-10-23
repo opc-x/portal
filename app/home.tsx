@@ -3,7 +3,7 @@ import path from "path";
 import Link from "next/link";
 import { ArrowUpRight, Target, MessageSquare, BookOpen, FileText } from "lucide-react";
 import { listPages, type PageEntry } from "@/lib/pages";
-import SideNav, { MobileNav } from "./nav";
+import SideNav, { MobileNav, KeyNav } from "./nav";
 
 export type Lang = "zh" | "en";
 
@@ -30,7 +30,7 @@ const T = {
   },
 };
 const UI = {
-  badge: "Open to freelance work",
+  badge: "open to freelance work",
   role: "Senior Java backend engineer",
   about: "about",
   built: "projects",
@@ -78,7 +78,14 @@ const PRODUCTS = [
   },
 ];
 
-const SKILLS = ["Java", "Spring Boot", "MySQL", "Redis", "Kafka", "PostgreSQL", "TypeScript", "Next.js / React", "Vercel", "LLM APIs"];
+const STACK: [string, string[]][] = [
+  ["api", ["Java", "Spring Boot", "Kafka"]],
+  ["db", ["MySQL", "PostgreSQL", "Redis"]],
+  ["web", ["TypeScript", "Next.js", "React"]],
+  ["ops", ["Vercel", "LLM APIs"]],
+];
+const SHA = (process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7);
+const slug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 function Avatar({ size }: { size: "sm" | "lg" }) {
   const cls = size === "lg" ? "w-20 h-20 text-2xl" : "w-9 h-9 text-sm";
@@ -105,7 +112,6 @@ export default function Home({ lang }: { lang: Lang }) {
   // 英文子页没写就用中文子页，标题翻成英文
   const enPages = listPages("en");
   const pages = toEn(enPages.length > 0 ? enPages : listPages("zh"));
-  const skills = SKILLS;
 
   const nav = [
     { id: "about", label: UI.about },
@@ -174,7 +180,7 @@ export default function Home({ lang }: { lang: Lang }) {
               {UI.badge}
             </div>
             <div className="font-display text-sm text-zinc-500">
-              <span className="text-emerald-400">michael@opc-x</span>:<span className="text-sky-400">~</span>$ whoami
+              <span className="text-emerald-400">michael@opc-x</span>:<span className="text-sky-400">~</span>$ <span className="type">whoami</span>
             </div>
             <h1 className="font-display text-[2rem] min-[400px]:text-[2.25rem] sm:text-6xl lg:text-[4.25rem] font-bold tracking-[-0.04em] leading-[1.08]">
               <span className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
@@ -246,13 +252,15 @@ export default function Home({ lang }: { lang: Lang }) {
           {pages.length > 0 && (
             <section id="work" className="scroll-mt-24 space-y-6">
               <SectionTitle>{UI.work}</SectionTitle>
-              <div className="divide-y divide-zinc-800/80 border-y border-zinc-800/80">
+              <div className="font-display text-sm text-zinc-500">$ ls -l ~/work</div>
+              <div className="divide-y divide-zinc-800/80 border-y border-zinc-800/80 font-display">
                 {pages.map((pg) => (
                   <a key={pg.href} href={pg.href}
                     className="group flex items-center gap-4 py-4 transition-colors">
-                    <FileText size={18} className="shrink-0 text-zinc-500 group-hover:text-emerald-300 transition-colors" />
-                    <span className="flex-1 text-base sm:text-lg text-zinc-200 group-hover:text-white transition-colors">{pg.title}</span>
-                    {t.workNote && <span className="font-mono text-xs text-zinc-500">{t.workNote}</span>}
+                    <span className="hidden sm:inline text-xs text-zinc-600">drwxr-xr-x</span>
+                    <FileText size={16} className="sm:hidden shrink-0 text-zinc-500 group-hover:text-emerald-300 transition-colors" />
+                    <span className="flex-1 min-w-0 text-base text-sky-300 group-hover:text-sky-200 transition-colors">{slug(pg.title)}/</span>
+                    {t.workNote && <span className="text-xs text-zinc-500">{t.workNote}</span>}
                     <ArrowUpRight size={18} className="text-zinc-500 transition-all group-hover:text-zinc-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </a>
                 ))}
@@ -263,18 +271,27 @@ export default function Home({ lang }: { lang: Lang }) {
           {/* 常用技术 */}
           <section id="tech" className="scroll-mt-24 space-y-6">
             <SectionTitle>{UI.tech}</SectionTitle>
-            <div className="flex flex-wrap gap-2">
-              {skills.map((s) => (
-                <span key={s} className="px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/40 font-mono text-xs text-zinc-300">
-                  {s}
-                </span>
-              ))}
-            </div>
+            <pre className="overflow-x-auto rounded-xl border border-zinc-800 bg-black/50 p-4 sm:p-5 font-display text-xs sm:text-sm leading-7 text-zinc-300">
+              <code>
+                <span className="text-zinc-600">{"// stack.ts"}</span>{"\n"}
+                <span className="text-fuchsia-400">export const</span> <span className="text-sky-300">stack</span> = {"{"}{"\n"}
+                {STACK.map(([k, v]) => (
+                  <span key={k}>
+                    {"  "}<span className="text-zinc-400">{k}</span>: [{v.map((x, i) => (
+                      <span key={x}><span className="text-emerald-300">&quot;{x}&quot;</span>{i < v.length - 1 ? ", " : ""}</span>
+                    ))}],{"\n"}
+                  </span>
+                ))}
+                {"};"}
+              </code>
+            </pre>
           </section>
 
-          <footer className="pt-8 border-t border-zinc-800/80 flex items-center font-mono text-xs text-zinc-500">
-            <span>© 2026 Michael</span>
+          <footer className="pt-8 border-t border-zinc-800/80 flex flex-wrap items-center justify-between gap-2 font-display text-xs text-zinc-500">
+            <span>© 2026 Michael <span className="text-zinc-700">·</span> build <span className="text-zinc-400">{SHA}</span></span>
+            <span className="hidden lg:inline">press <kbd className="px-1.5 py-0.5 rounded border border-zinc-700 text-zinc-300">1</kbd>–<kbd className="px-1.5 py-0.5 rounded border border-zinc-700 text-zinc-300">{nav.length}</kbd> to jump</span>
           </footer>
+          <KeyNav ids={nav.map((n) => n.id)} />
         </div>
       </main>
     </div>

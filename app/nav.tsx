@@ -83,12 +83,13 @@ export default function SideNav({ items }: { items: Item[] }) {
 
   return (
     <nav aria-label="Sections" className="flex flex-col gap-1 font-display text-sm">
-      {items.map((n) => {
+      {items.map((n, idx) => {
         const on = active === n.id;
         return (
           <div key={n.id}>
             <a href={`#${n.id}`} aria-current={on ? "true" : undefined}
               className={`group flex items-center gap-3 py-2 transition-colors ${on ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>
+              <span className={`text-xs ${on ? "text-emerald-400" : "text-zinc-600"}`}>{String(idx + 1).padStart(2, "0")}</span>
               <span className={`h-px transition-all duration-300 ${on ? "w-8 bg-emerald-400" : "w-4 bg-zinc-600 group-hover:w-6 group-hover:bg-zinc-400"}`} />
               {n.label}
             </a>
@@ -106,4 +107,22 @@ export default function SideNav({ items }: { items: Item[] }) {
       })}
     </nav>
   );
+}
+
+// 键盘：按 1–N 跳到对应小节
+export function KeyNav({ ids }: { ids: string[] }) {
+  const key = ids.join(",");
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      const n = Number(e.key);
+      if (n >= 1 && n <= ids.length) document.getElementById(ids[n - 1])?.scrollIntoView({ behavior: "smooth" });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  return null;
 }
