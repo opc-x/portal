@@ -12,16 +12,16 @@ function Group({ entry }: { entry: PageEntry }) {
   return (
     <div>
       <div className="flex items-center justify-between gap-2">
-        <a href={entry.href} className="py-1 text-zinc-500 hover:text-zinc-100 transition-colors">{entry.title}</a>
+        <a href={entry.href} className="py-1 text-zinc-400 hover:text-zinc-100 transition-colors">{entry.title}</a>
         <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={`展开${entry.title}`}
-          className="p-1 text-zinc-600 hover:text-zinc-200 transition-colors">
+          className="p-1.5 -m-0.5 text-zinc-500 hover:text-zinc-200 transition-colors">
           <ChevronRight size={14} className={`transition-transform ${open ? "rotate-90" : ""}`} />
         </button>
       </div>
       {open && (
         <div className="ml-1 mb-1 flex flex-col gap-1 border-l border-zinc-800 pl-3">
           {entry.children!.map((c) => (
-            <a key={c.href} href={c.href} className="py-1 text-zinc-500 hover:text-zinc-100 transition-colors">{c.title}</a>
+            <a key={c.href} href={c.href} className="py-1 text-zinc-400 hover:text-zinc-100 transition-colors">{c.title}</a>
           ))}
         </div>
       )}
@@ -29,12 +29,12 @@ function Group({ entry }: { entry: PageEntry }) {
   );
 }
 
-// 左侧导航：滚动到哪一节，哪一项就高亮
-export default function SideNav({ items }: { items: Item[] }) {
-  const [active, setActive] = useState(items[0]?.id);
-
+// 滚动到哪一节，哪一项就高亮（左栏和手机顶栏共用）
+function useActive(ids: string[]) {
+  const [active, setActive] = useState(ids[0]);
+  const key = ids.join(",");
   useEffect(() => {
-    const els = items.map((i) => document.getElementById(i.id)).filter(Boolean) as HTMLElement[];
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const io = new IntersectionObserver(
       (entries) => {
         const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
@@ -44,23 +44,49 @@ export default function SideNav({ items }: { items: Item[] }) {
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [items]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  return active;
+}
+
+// 手机顶栏：可横滑，当前节高亮，右侧渐隐提示还能滑
+export function MobileNav({ items }: { items: Item[] }) {
+  const active = useActive(items.map((i) => i.id));
+  return (
+    <nav aria-label="Sections"
+      className="flex-1 min-w-0 flex items-center gap-1 overflow-x-auto whitespace-nowrap text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,#000_85%,transparent)]">
+      {items.map((n) => {
+        const on = active === n.id;
+        return (
+          <a key={n.id} href={`#${n.id}`} aria-current={on ? "true" : undefined}
+            className={`shrink-0 px-2.5 py-2.5 rounded-md transition-colors ${on ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>
+            <span className={`pb-1 border-b ${on ? "border-emerald-400" : "border-transparent"}`}>{n.label}</span>
+          </a>
+        );
+      })}
+    </nav>
+  );
+}
+
+// 左侧导航
+export default function SideNav({ items }: { items: Item[] }) {
+  const active = useActive(items.map((i) => i.id));
 
   return (
-    <nav className="flex flex-col gap-1 text-sm">
+    <nav aria-label="Sections" className="flex flex-col gap-1 text-sm">
       {items.map((n) => {
         const on = active === n.id;
         return (
           <div key={n.id}>
-            <a href={`#${n.id}`}
-              className={`group flex items-center gap-3 py-1.5 transition-colors ${on ? "text-zinc-50" : "text-zinc-500 hover:text-zinc-200"}`}>
-              <span className={`h-px transition-all duration-300 ${on ? "w-8 bg-emerald-400" : "w-4 bg-zinc-700 group-hover:w-6 group-hover:bg-zinc-400"}`} />
+            <a href={`#${n.id}`} aria-current={on ? "true" : undefined}
+              className={`group flex items-center gap-3 py-2 transition-colors ${on ? "text-zinc-50" : "text-zinc-400 hover:text-zinc-100"}`}>
+              <span className={`h-px transition-all duration-300 ${on ? "w-8 bg-emerald-400" : "w-4 bg-zinc-600 group-hover:w-6 group-hover:bg-zinc-400"}`} />
               {n.label}
             </a>
             {n.children && n.children.length > 0 && (
               <div className="ml-7 mt-1 mb-2 flex flex-col gap-1 border-l border-zinc-800 pl-3">
                 {n.children.map((c) => c.children ? <Group key={c.href} entry={c} /> : (
-                  <a key={c.href} href={c.href} className="py-1 text-zinc-500 hover:text-zinc-100 transition-colors">
+                  <a key={c.href} href={c.href} className="py-1 text-zinc-400 hover:text-zinc-100 transition-colors">
                     {c.title}
                   </a>
                 ))}

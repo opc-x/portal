@@ -4,6 +4,14 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 键盘导航可见焦点 */
+:focus-visible {
+  outline: 2px solid rgb(52 211 153);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 /* 背景：顶部一层淡绿光 + 细点阵 */
