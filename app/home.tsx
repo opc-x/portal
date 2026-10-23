@@ -213,6 +213,11 @@ export default function Home({ lang }: { lang: Lang }) {
                 <p key={line}><Rich text={line} /></p>
               ))}
             </div>
+            <Link href="/resume"
+              className="group mt-8 inline-flex items-center gap-2 font-display text-sm text-zinc-500 hover:text-emerald-400 transition-colors">
+              <span className="text-zinc-600">$</span> cat resume.md
+              <ArrowUpRight size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
             <div className="mt-10 flex gap-2 -ml-3 lg:hidden">
               {external.map((e) => (
                 <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer" aria-label={e.label} title={e.label}

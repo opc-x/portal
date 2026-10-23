@@ -70,3 +70,9 @@ html {
   * { transition: none !important; animation: none !important; }
   .type { width: 6ch; }
 }
+
+/* 打印 / 存 PDF：白底、留页边距 */
+@media print {
+  @page { margin: 14mm 16mm; }
+  html, body { background: #fff !important; color: #000 !important; }
+}
