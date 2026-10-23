@@ -149,7 +149,7 @@ export default function Home({ lang }: { lang: Lang }) {
   const arrow = "shrink-0 self-center text-zinc-600 transition-all group-hover:text-emerald-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5";
 
   return (
-    <div lang={lang === "zh" ? "zh-CN" : "en"} className="backdrop min-h-screen lg:flex">
+    <div lang={lang === "zh" ? "zh-CN" : "en"} className="backdrop min-h-screen lg:flex lg:justify-center">
       <div className="dots" aria-hidden />
       <a href="#about" className="sr-only focus:not-sr-only focus:fixed focus:z-[60] focus:left-4 focus:top-4 focus:px-3 focus:py-2 focus:rounded-md focus:bg-zinc-900 focus:text-zinc-50">Skip to content</a>
 
@@ -191,11 +191,18 @@ export default function Home({ lang }: { lang: Lang }) {
         </div>
       </header>
 
-      <main className="flex-1 min-w-0">
+      <main className="flex-1 min-w-0 max-w-3xl">
         <div className="max-w-3xl mx-auto px-6 sm:px-12 pt-16 sm:pt-32 pb-16 space-y-24 sm:space-y-32">
 
           {/* 简介 */}
           <section id="about" className="scroll-mt-24">
+            <div className="flex items-center gap-4 mb-8 lg:hidden">
+              <Avatar size="sm" />
+              <div className="font-display">
+                <div className="text-lg font-bold leading-tight text-zinc-50">Michael</div>
+                <div className="text-xs text-zinc-400">{UI.role}</div>
+              </div>
+            </div>
             <div className="flex items-center gap-2 font-display text-xs text-zinc-500">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               {UI.badge}
