@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
-import { ArrowUpRight, Zap, Target, MessageSquare, BookOpen, FileText } from "lucide-react";
+import { ArrowUpRight, Target, MessageSquare, BookOpen, FileText } from "lucide-react";
 import { listPages } from "@/lib/pages";
 import SideNav from "./nav";
 
@@ -73,17 +73,9 @@ const PRODUCTS = [
     icon: BookOpen,
     status: "live",
   },
-  {
-    name: { zh: "下一个", en: "Next" },
-    tag: { zh: "在做", en: "WIP" },
-    desc: { zh: "还在做，做好了放上来", en: "In progress — it will show up here when it's ready" },
-    url: "#",
-    icon: Zap,
-    status: "wip",
-  },
 ];
 
-const SKILLS = ["Java", "Spring Boot", "MySQL", "Redis", "RocketMQ", "Next.js / React", "TypeScript", "PostgreSQL", "Vercel"];
+const SKILLS = ["Java", "Spring Boot", "MySQL", "Redis", "Kafka", "Next.js / React", "TypeScript", "PostgreSQL", "Vercel"];
 
 function Avatar({ size }: { size: "sm" | "lg" }) {
   const cls = size === "lg" ? "w-20 h-20 text-2xl" : "w-9 h-9 text-sm";
@@ -117,6 +109,7 @@ export default function Home({ lang }: { lang: Lang }) {
     { id: "tech", label: t.tech },
   ];
   const external = [
+    { label: "Email", href: "mailto:jcui1@my.hpu.edu" },
     { label: "GitHub", href: "https://github.com/opc-x" },
     ...(lang === "en" ? [{ label: "X", href: "https://x.com/Michaelcjfw" }] : []),
   ];
