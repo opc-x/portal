@@ -6,8 +6,8 @@ const sans = Geist({ subsets: ["latin"], variable: "--font-sans" });
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "Michael",
-  description: "Building small, useful things.",
+  title: "Michael — Java backend engineer",
+  description: "Java backend engineer (payments, wallets) and indie maker. Building small, useful things.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

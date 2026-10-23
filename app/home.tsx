@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import Link from "next/link";
 import { ArrowUpRight, Target, MessageSquare, BookOpen, FileText } from "lucide-react";
-import { listPages } from "@/lib/pages";
+import { listPages, type PageEntry } from "@/lib/pages";
 import SideNav, { MobileNav } from "./nav";
 
 export type Lang = "zh" | "en";
@@ -12,70 +12,73 @@ const AVATAR = ["avatar.jpg", "avatar.png", "avatar.webp"].find((f) =>
   fs.existsSync(path.join(process.cwd(), "public", f)),
 );
 
-const SLOGAN = "Building small, useful things.";
 
+
+// 中文只留最小剂量：只有中文版简介一句是中文，其余两版共用英文
 const T = {
   zh: {
-    badge: "Indie Hacker · 独立开发",
-    intro: "Java 工程师，业余做点小工具。从想法到上线，一个人做完。",
-    about: "简介",
-    built: "个人作品",
-    work: "项目经历",
-    tech: "常用技术",
-    live: "上线",
+    intro: "Java 后端，做过支付和钱包。也自己做产品，从想法到上线一个人完成。",
+    workNote: "",
     switchLabel: "EN",
     switchHref: "/en",
   },
   en: {
-    badge: "Indie Hacker",
-    intro: "Java engineer. I build small tools on the side, from idea to launch.",
-    about: "About",
-    built: "Side projects",
-    work: "Work",
-    tech: "Tech I use",
-    live: "Live",
+    intro: "Java backend engineer with a background in payments and wallets. I also build and ship my own products, end to end.",
+    workNote: "in Chinese",
     switchLabel: "中文",
     switchHref: "/",
   },
 };
+const UI = {
+  badge: "Open to freelance work",
+  role: "Java backend engineer",
+  about: "About",
+  built: "Projects",
+  work: "Work",
+  tech: "Stack",
+  live: "Live",
+};
+
+// 子页标题是中文，首页上统一显示英文
+const TITLE_EN: Record<string, string> = {
+  "支付系统": "Payout system",
+  "自持钱包": "Self-custody wallet",
+  "转账": "Transfers",
+  "兑换": "Swap",
+  "DApp 入口": "DApp access",
+};
+const enTitle = (t: string) => t.split(" · ").map((x) => TITLE_EN[x.trim()] ?? x).join(" · ");
+const toEn = (list: PageEntry[]): PageEntry[] =>
+  list.map((e) => ({ ...e, title: enTitle(e.title), children: e.children?.map((c) => ({ ...c, title: enTitle(c.title) })) }));
 
 const PRODUCTS = [
   {
     name: "JobSniper",
-    tag: { zh: "求职工具", en: "Job hunting" },
-    desc: {
-      zh: "精准狙击目标职位 — 渠道打通 · 职位画像 · 匹配评分",
-      en: "Find the right roles — multi-channel sourcing, job profiles, match scoring",
-    },
+    tag: "Job search",
+    desc: "Pulls roles from multiple job boards, profiles each one and scores how well you match.",
     url: "https://jobsniper.opc-x.org",
     icon: Target,
     status: "live",
   },
   {
     name: "TalkFlow",
-    tag: { zh: "AI 对话", en: "AI chat" },
-    desc: {
-      zh: "流式 AI 对话平台，场景化提示词 · 多模型切换 · 实时协作",
-      en: "Streaming AI chat with scenario prompts, model switching and real-time collaboration",
-    },
+    tag: "AI chat",
+    desc: "Streaming AI chat with ready-made scenario prompts, model switching and live collaboration.",
     url: "https://talkflow-peters-projects-48a2541f.vercel.app",
     icon: MessageSquare,
     status: "live",
   },
   {
     name: "Ogden 850",
-    tag: { zh: "英语学习", en: "English learning" },
-    desc: {
-      zh: "基于 Ogden 基础英语 850 词核心词汇的学习与练习工具",
-      en: "Learn and practice English with Ogden's 850-word Basic English vocabulary",
-    },
+    tag: "English learning",
+    desc: "Learn and practice the 850 core words of Ogden's Basic English.",
     url: "https://ogden850app.vercel.app",
     icon: BookOpen,
     status: "live",
   },
 ];
 
-const SKILLS = ["Java", "Spring Boot", "MySQL", "Redis", "Kafka", "Next.js / React", "TypeScript", "PostgreSQL", "Vercel"];
+const SKILLS = ["Java", "Spring Boot", "MySQL", "Redis", "Kafka", "PostgreSQL", "TypeScript", "Next.js / React", "Vercel", "LLM APIs"];
 
 function Avatar({ size }: { size: "sm" | "lg" }) {
   const cls = size === "lg" ? "w-20 h-20 text-2xl" : "w-9 h-9 text-sm";
@@ -88,10 +91,10 @@ function Avatar({ size }: { size: "sm" | "lg" }) {
   );
 }
 
-function SectionTitle({ children, lang }: { children: React.ReactNode; lang: Lang }) {
+function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-4">
-      <h2 className={`text-xs text-emerald-400 ${lang === "en" ? "font-mono uppercase tracking-[0.2em]" : "font-medium tracking-[0.08em]"}`}>{children}</h2>
+      <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400">{children}</h2>
       <div className="flex-1 h-px bg-gradient-to-r from-zinc-700 to-transparent" />
     </div>
   );
@@ -99,19 +102,21 @@ function SectionTitle({ children, lang }: { children: React.ReactNode; lang: Lan
 
 export default function Home({ lang }: { lang: Lang }) {
   const t = T[lang];
-  const pages = listPages(lang);
-  const skills = [...SKILLS, lang === "zh" ? "AI 集成" : "AI integration"];
+  // 英文子页没写就用中文子页，标题翻成英文
+  const enPages = listPages("en");
+  const pages = toEn(enPages.length > 0 ? enPages : listPages("zh"));
+  const skills = SKILLS;
 
   const nav = [
-    { id: "about", label: t.about },
-    { id: "built", label: t.built },
-    ...(pages.length > 0 ? [{ id: "work", label: t.work, children: pages }] : []),
-    { id: "tech", label: t.tech },
+    { id: "about", label: UI.about },
+    { id: "built", label: UI.built },
+    ...(pages.length > 0 ? [{ id: "work", label: UI.work, children: pages }] : []),
+    { id: "tech", label: UI.tech },
   ];
   const external = [
     { label: "Email", href: "mailto:jcui1@my.hpu.edu" },
     { label: "GitHub", href: "https://github.com/opc-x" },
-    ...(lang === "en" ? [{ label: "X", href: "https://x.com/Michaelcjfw" }] : []),
+    { label: "X", href: "https://x.com/Michaelcjfw" },
   ];
 
   return (
@@ -130,7 +135,7 @@ export default function Home({ lang }: { lang: Lang }) {
           <Avatar size="lg" />
           <span>
             <span className="block text-2xl font-semibold tracking-tight text-zinc-50">Michael</span>
-            <span className="mt-1.5 block font-mono text-xs text-zinc-400">{SLOGAN}</span>
+            <span className="mt-1.5 block font-mono text-xs text-zinc-400">{UI.role}</span>
           </span>
         </a>
         <div className="mt-14">
@@ -166,7 +171,7 @@ export default function Home({ lang }: { lang: Lang }) {
           <section id="about" className="scroll-mt-24 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-black/30 font-mono text-xs tracking-wide text-zinc-300">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {t.badge}
+              {UI.badge}
             </div>
             <h1 className="text-[2.75rem] min-[400px]:text-5xl sm:text-7xl font-semibold tracking-tighter leading-[1.04] text-balance">
               <span className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">
@@ -190,7 +195,7 @@ export default function Home({ lang }: { lang: Lang }) {
 
           {/* 个人作品 */}
           <section id="built" className="scroll-mt-24 space-y-6">
-            <SectionTitle lang={lang}>{t.built}</SectionTitle>
+            <SectionTitle>{UI.built}</SectionTitle>
             <div className="grid sm:grid-cols-2 gap-4">
               {PRODUCTS.map((p, i) => {
                 const Icon = p.icon;
@@ -210,7 +215,7 @@ export default function Home({ lang }: { lang: Lang }) {
                         <Icon size={18} />
                       </span>
                       {isWip ? (
-                        <span className="font-mono text-xs text-zinc-500">{p.tag[lang]}</span>
+                        <span className="font-mono text-xs text-zinc-500">{p.tag}</span>
                       ) : (
                         <ArrowUpRight size={18} className="text-zinc-500 transition-all group-hover:text-zinc-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                       )}
@@ -220,12 +225,12 @@ export default function Home({ lang }: { lang: Lang }) {
                         <span className={`text-lg font-semibold tracking-tight ${isWip ? "text-zinc-600" : "text-zinc-100"}`}>{name}</span>
                         {!isWip && (
                           <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-400/10 font-mono text-xs text-emerald-300 whitespace-nowrap">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />{t.live}
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />{UI.live}
                           </span>
                         )}
                       </div>
-                      {!isWip && <div className="text-xs text-zinc-400">{p.tag[lang]}</div>}
-                      <p className={`pt-1 text-sm leading-relaxed ${isWip ? "text-zinc-600" : "text-zinc-300"}`}>{p.desc[lang]}</p>
+                      {!isWip && <div className="font-mono text-xs text-zinc-400">{p.tag}</div>}
+                      <p className={`pt-1 text-sm leading-relaxed ${isWip ? "text-zinc-600" : "text-zinc-300"}`}>{p.desc}</p>
                     </div>
                   </a>
                 );
@@ -236,13 +241,14 @@ export default function Home({ lang }: { lang: Lang }) {
           {/* 项目经历：public/pages/*.html，放进去就自动出现 */}
           {pages.length > 0 && (
             <section id="work" className="scroll-mt-24 space-y-6">
-              <SectionTitle lang={lang}>{t.work}</SectionTitle>
+              <SectionTitle>{UI.work}</SectionTitle>
               <div className="divide-y divide-zinc-800/80 border-y border-zinc-800/80">
                 {pages.map((pg) => (
                   <a key={pg.href} href={pg.href}
                     className="group flex items-center gap-4 py-4 transition-colors">
                     <FileText size={18} className="shrink-0 text-zinc-500 group-hover:text-emerald-300 transition-colors" />
                     <span className="flex-1 text-base sm:text-lg text-zinc-200 group-hover:text-white transition-colors">{pg.title}</span>
+                    {t.workNote && <span className="font-mono text-xs text-zinc-500">{t.workNote}</span>}
                     <ArrowUpRight size={18} className="text-zinc-500 transition-all group-hover:text-zinc-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </a>
                 ))}
@@ -252,7 +258,7 @@ export default function Home({ lang }: { lang: Lang }) {
 
           {/* 常用技术 */}
           <section id="tech" className="scroll-mt-24 space-y-6">
-            <SectionTitle lang={lang}>{t.tech}</SectionTitle>
+            <SectionTitle>{UI.tech}</SectionTitle>
             <div className="flex flex-wrap gap-2">
               {skills.map((s) => (
                 <span key={s} className="px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/40 font-mono text-xs text-zinc-300">
@@ -262,9 +268,8 @@ export default function Home({ lang }: { lang: Lang }) {
             </div>
           </section>
 
-          <footer className="pt-8 border-t border-zinc-800/80 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between font-mono text-xs text-zinc-500">
+          <footer className="pt-8 border-t border-zinc-800/80 flex items-center font-mono text-xs text-zinc-500">
             <span>© 2026 Michael</span>
-            <span>{SLOGAN}</span>
           </footer>
         </div>
       </main>

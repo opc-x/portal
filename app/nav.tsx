@@ -13,7 +13,7 @@ function Group({ entry }: { entry: PageEntry }) {
     <div>
       <div className="flex items-center justify-between gap-2">
         <a href={entry.href} className="py-1 text-zinc-400 hover:text-zinc-100 transition-colors">{entry.title}</a>
-        <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={`展开${entry.title}`}
+        <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={`Expand ${entry.title}`}
           className="p-1.5 -m-0.5 text-zinc-500 hover:text-zinc-200 transition-colors">
           <ChevronRight size={14} className={`transition-transform ${open ? "rotate-90" : ""}`} />
         </button>
