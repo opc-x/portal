@@ -32,17 +32,17 @@ const PROJECTS = [
     icon: Headphones,
   },
   {
-    name: "Signore",
-    desc: "Zero-discrepancy wallet ledger & settlement sandbox — atomic row-lock SQL, Redis token idempotency, T+1 recon.",
-    url: "https://signore.opc-x.org",
-    icon: ShieldCheck,
-  },
-  // Page 2
-  {
     name: "JobSniper",
     desc: "Pulls roles from multiple job boards, profiles each one and scores how well you match.",
     url: "https://jobsniper.opc-x.org",
     icon: Target,
+  },
+  // Page 2
+  {
+    name: "Signore",
+    desc: "Zero-discrepancy wallet ledger & settlement sandbox — atomic row-lock SQL, Redis token idempotency, T+1 recon.",
+    url: "https://signore.opc-x.org",
+    icon: ShieldCheck,
   },
   {
     name: "PayAtlas",
