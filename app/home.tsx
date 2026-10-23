@@ -136,7 +136,7 @@ export default function Home({ lang }: { lang: Lang }) {
       </Link>
 
       {/* 左侧栏：大屏 */}
-      <aside className="hidden lg:flex sticky top-0 h-screen w-72 shrink-0 flex-col px-10 py-16 border-r border-zinc-900/80">
+      <aside className="hidden lg:flex sticky top-0 h-screen w-80 shrink-0 flex-col px-10 py-16 border-r border-zinc-900/80">
         <a href="#about" className="flex flex-col gap-5">
           <Avatar size="lg" />
           <span>
@@ -171,7 +171,7 @@ export default function Home({ lang }: { lang: Lang }) {
       </header>
 
       <main className="flex-1 min-w-0">
-        <div className="max-w-3xl mx-auto px-5 sm:px-10 pt-14 sm:pt-24 pb-16 space-y-16 sm:space-y-24">
+        <div className="max-w-3xl xl:max-w-4xl mx-auto px-5 sm:px-10 pt-14 sm:pt-24 pb-16 space-y-16 sm:space-y-24">
 
           {/* 简介 */}
           <section id="about" className="scroll-mt-24 space-y-6">
@@ -206,7 +206,7 @@ export default function Home({ lang }: { lang: Lang }) {
           {/* 个人作品 */}
           <section id="built" className="scroll-mt-24 space-y-6">
             <SectionTitle>{UI.built}</SectionTitle>
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {PRODUCTS.map((p, i) => {
                 const Icon = p.icon;
                 const isWip = p.status === "wip";
@@ -215,7 +215,7 @@ export default function Home({ lang }: { lang: Lang }) {
                 return (
                   <a key={name} href={p.url}
                     target={isWip ? undefined : "_blank"} rel="noopener noreferrer"
-                    className={`group relative flex flex-col gap-4 p-5 rounded-2xl border transition-all duration-300 active:scale-[0.99] ${lastOdd ? "sm:col-span-2" : ""} ${
+                    className={`group relative flex flex-col gap-4 p-5 rounded-2xl border transition-all duration-300 active:scale-[0.99] ${lastOdd ? "sm:col-span-2 xl:col-span-1" : ""} ${
                       isWip
                         ? "border-dashed border-zinc-800 cursor-default"
                         : "border-zinc-800/80 bg-zinc-900/40 hover:-translate-y-1 hover:border-zinc-600 hover:bg-zinc-900/80 hover:shadow-[0_20px_40px_-20px_rgba(52,211,153,0.25)]"
