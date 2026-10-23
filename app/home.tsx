@@ -24,7 +24,7 @@ const T = {
   },
   en: {
     intro: "Senior Java backend engineer, specialized in payments and wallets. I also build and ship my own products, end to end.",
-    workNote: "in Chinese",
+    workNote: "[zh]",
     switchLabel: "中文",
     switchHref: "/",
   },
@@ -259,7 +259,7 @@ export default function Home({ lang }: { lang: Lang }) {
                     className="group flex items-center gap-4 py-4 transition-colors">
                     <span className="hidden sm:inline text-xs text-zinc-600">drwxr-xr-x</span>
                     <FileText size={16} className="sm:hidden shrink-0 text-zinc-500 group-hover:text-emerald-300 transition-colors" />
-                    <span className="flex-1 min-w-0 text-base text-sky-300 group-hover:text-sky-200 transition-colors">{slug(pg.title)}/</span>
+                    <span className="flex-1 min-w-0 truncate text-sm sm:text-base text-sky-300 group-hover:text-sky-200 transition-colors">{slug(pg.title)}/</span>
                     {t.workNote && <span className="text-xs text-zinc-500">{t.workNote}</span>}
                     <ArrowUpRight size={18} className="text-zinc-500 transition-all group-hover:text-zinc-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </a>
@@ -271,7 +271,7 @@ export default function Home({ lang }: { lang: Lang }) {
           {/* 常用技术 */}
           <section id="tech" className="scroll-mt-24 space-y-6">
             <SectionTitle>{UI.tech}</SectionTitle>
-            <pre className="overflow-x-auto rounded-xl border border-zinc-800 bg-black/50 p-4 sm:p-5 font-display text-xs sm:text-sm leading-7 text-zinc-300">
+            <pre className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-xl border border-zinc-800 bg-black/50 p-4 sm:p-5 font-display text-xs sm:text-sm leading-7 text-zinc-300">
               <code>
                 <span className="text-zinc-600">{"// stack.ts"}</span>{"\n"}
                 <span className="text-fuchsia-400">export const</span> <span className="text-sky-300">stack</span> = {"{"}{"\n"}
