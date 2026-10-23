@@ -2,266 +2,74 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Michael — 资深 Java 后端</title>
 <style>
-  @page {
-    size: A4;
-    margin: 0;
-  }
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  html, body {
-    width: 210mm;
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    color: #2c3440;
-    background: #ffffff;
-    line-height: 1.42;
-    font-size: 8.2pt;
-    -webkit-font-smoothing: antialiased;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  body {
-    padding: 7.5mm 10.5mm;
-  }
+@page { size: A4; margin: 15mm 17mm 14mm; }
+:root{
+  --ink:#16202c; --text:#2f3742; --muted:#6a7380; --rule:#dde1e6; --accent:#1f4e79;
+  --fs-name:21pt; --fs-h2:10.5pt; --fs-h3:10pt; --fs-body:9.3pt; --fs-meta:8.8pt;
+  --s1:2px; --s2:4px; --s3:6px; --s4:8px; --s5:12px; --s6:16px; --s7:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+  font-size:var(--fs-body);line-height:1.62;color:var(--text);background:#fff;font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.page{max-width:176mm;margin:0 auto}
+@media screen{
+  body{background:#eef0f3;padding:var(--s7) 0}
+  .page{background:#fff;padding:15mm 17mm;box-shadow:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);max-width:210mm}
+}
+@media screen and (max-width:640px){ body{padding:0} .page{padding:var(--s6)} }
 
-  /* Header */
-  header {
-    padding-bottom: 6.5px;
-    margin-bottom: 7.5px;
-    border-bottom: 1.5px solid #2c3440;
-  }
-  header h1 {
-    font-size: 18pt;
-    font-weight: 700;
-    color: #18202c;
-    letter-spacing: -0.01em;
-    line-height: 1.15;
-  }
-  .meta-row {
-    margin-top: 4.5px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 4px;
-    font-size: 8.25pt;
-  }
-  .meta-item {
-    display: inline-flex;
-    align-items: center;
-  }
-  .meta-label {
-    color: #5a6577;
-  }
-  .meta-val {
-    color: #1e2631;
-    font-weight: 500;
-  }
-  .meta-val a {
-    color: #1e2631;
-    text-decoration: none;
-  }
-  .meta-sep {
-    color: #cbd5e1;
-    margin: 0 5px;
-  }
+header{padding-bottom:var(--s5);border-bottom:1.2px solid var(--ink)}
+h1{font-size:var(--fs-name);font-weight:700;color:var(--ink);letter-spacing:.01em;line-height:1.2}
+.meta{margin-top:var(--s3);font-size:var(--fs-meta);color:var(--muted);line-height:1.7}
+.meta b{font-weight:500;color:var(--ink)}
+.meta .dot{margin:0 var(--s3);color:#b9bfc7}
 
-  /* Section */
-  section {
-    margin-bottom: 7px;
-  }
-  .sec-head {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
-    padding-bottom: 2px;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  .sec-bar {
-    width: 3px;
-    height: 11px;
-    background: #2b547e;
-    border-radius: 1.5px;
-    flex-shrink: 0;
-  }
-  .sec-head h2 {
-    font-size: 9.3pt;
-    font-weight: 700;
-    color: #18202c;
-    letter-spacing: 0.02em;
-  }
+section{margin-top:var(--s6)}
+h2{font-size:var(--fs-h2);font-weight:700;color:var(--accent);letter-spacing:.08em;
+  padding-bottom:var(--s2);border-bottom:.8px solid var(--rule);margin-bottom:var(--s4)}
 
-  /* Profile Bullets */
-  .intro-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding-left: 2px;
-  }
-  .intro-list li {
-    position: relative;
-    padding-left: 10px;
-    color: #2c3440;
-  }
-  .intro-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 5.5px;
-    width: 3.5px;
-    height: 3.5px;
-    border-radius: 50%;
-    background: #64748b;
-  }
+ul{list-style:none}
+li{position:relative;padding-left:12px}
+li+li{margin-top:var(--s1)}
+li::before{content:"";position:absolute;left:1px;top:.72em;width:4px;height:4px;border-radius:50%;background:#9aa2ad}
 
-  /* Unified 2-Column Grid across Skills and Work */
-  .kv-grid {
-    display: grid;
-    grid-template-columns: 136px 1fr;
-    row-gap: 2px;
-    column-gap: 10px;
-    padding-left: 2px;
-  }
-  .kv-grid.skills-box {
-    background: #f6f8fa;
-    border: 1px solid #e5e9f0;
-    border-radius: 4px;
-    padding: 4.5px 9px;
-    grid-template-columns: 129px 1fr;
-    row-gap: 2px;
-  }
-  .kv-key {
-    font-weight: 600;
-    color: #18202c;
-    position: relative;
-    padding-left: 10px;
-    white-space: nowrap;
-  }
-  .kv-key::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 5.5px;
-    width: 3.5px;
-    height: 3.5px;
-    border-radius: 50%;
-    background: #64748b;
-  }
-  .skills-box .kv-key {
-    padding-left: 0;
-  }
-  .skills-box .kv-key::before {
-    display: none;
-  }
-  .kv-val {
-    color: #2c3440;
-    text-align: justify;
-  }
+.skills{display:grid;grid-template-columns:58px 1fr;row-gap:var(--s1);column-gap:var(--s5)}
+.skills dt{font-weight:600;color:var(--ink)}
 
-  /* Jobs */
-  .job {
-    margin-bottom: 6px;
-    page-break-inside: avoid;
-  }
-  .job:last-child {
-    margin-bottom: 0;
-  }
-  .job-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 2px;
-    background: #f6f8fa;
-    padding: 2px 8px;
-    border-radius: 3px;
-    border-left: 2.5px solid #2b547e;
-  }
-  .job-title-group {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-  }
-  .job-company {
-    font-size: 8.9pt;
-    font-weight: 700;
-    color: #18202c;
-  }
-  .job-pipe {
-    color: #cbd5e1;
-    font-size: 8pt;
-  }
-  .job-role {
-    font-size: 8.45pt;
-    font-weight: 600;
-    color: #2b547e;
-  }
-  .job-date {
-    font-size: 8.15pt;
-    color: #475569;
-    font-variant-numeric: tabular-nums;
-    font-weight: 500;
-  }
-  .job-summary {
-    color: #475569;
-    font-size: 8.2pt;
-    margin: 2px 0 2.5px 0;
-    padding-left: 12px;
-  }
+.job{break-inside:avoid;page-break-inside:avoid}
+.job+.job{margin-top:var(--s6)}
+.job-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s5)}
+.job-head h3{font-size:var(--fs-h3);font-weight:700;color:var(--ink)}
+.job-head .role{font-weight:500;color:var(--accent);margin-left:var(--s4)}
+.date{font-size:var(--fs-meta);color:var(--muted);white-space:nowrap}
+.summary{margin-top:var(--s2);color:var(--muted)}
+.job ul{margin-top:var(--s3)}
+.job li b{font-weight:600;color:var(--ink)}
 
-  /* Education */
-  .edu-grid {
-    display: grid;
-    grid-template-columns: 186px 1fr auto;
-    row-gap: 2px;
-    column-gap: 10px;
-    padding-left: 2px;
-    align-items: baseline;
-  }
-  .edu-school {
-    font-weight: 600;
-    color: #18202c;
-    position: relative;
-    padding-left: 10px;
-  }
-  .edu-school::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 5.5px;
-    width: 3.5px;
-    height: 3.5px;
-    border-radius: 50%;
-    background: #64748b;
-  }
-  .edu-major {
-    color: #2c3440;
-  }
+.edu{display:grid;grid-template-columns:1fr auto;row-gap:var(--s2);column-gap:var(--s5);align-items:baseline}
+.edu b{font-weight:600;color:var(--ink)}
+.edu .major{margin-left:var(--s4);color:var(--text)}
 </style>
 </head>
 <body>
+<div class="page">
   <header>
     <h1>Michael</h1>
-    <div class="meta-row">
-      <span class="meta-item"><span class="meta-label">邮箱：</span><span class="meta-val"><a href="mailto:jcui1@my.hpu.edu">jcui1@my.hpu.edu</a></span></span>
-      <span class="meta-sep">｜</span>
-      <span class="meta-item"><span class="meta-label">主页：</span><span class="meta-val"><a href="https://michael.opc-x.org">michael.opc-x.org</a></span></span>
-      <span class="meta-sep">｜</span>
-      <span class="meta-item"><span class="meta-label">意向：</span><span class="meta-val">资深 Java 后端</span></span>
-      <span class="meta-sep">｜</span>
-      <span class="meta-item"><span class="meta-label">工作方式：</span><span class="meta-val">远程</span></span>
-      <span class="meta-sep">｜</span>
-      <span class="meta-item"><span class="meta-label">语言：</span><span class="meta-val">中文、英文</span></span>
+    <div class="meta">
+      <b>资深 Java 后端</b><span class="dot">·</span>远程<span class="dot">·</span>中文、英文<br />
+      <a href="mailto:jcui1@my.hpu.edu">jcui1@my.hpu.edu</a><span class="dot">·</span><a href="https://michael.opc-x.org">michael.opc-x.org</a>
     </div>
   </header>
 
   <section>
-    <div class="sec-head"><span class="sec-bar"></span><h2>个人简介</h2></div>
-    <ul class="intro-list">
+    <h2>个人简介</h2>
+    <ul>
       <li>Java 后端 13 年，阿里、滴滴出身；近几年在火币、dtcpay 做钱包。</li>
       <li>熟悉 Java / Spring、MySQL、Redis、Kafka 的日常开发与问题排查。</li>
       <li>能独立负责一个模块从方案、开发到上线，上手快，配合远程协作。</li>
@@ -269,146 +77,42 @@
   </section>
 
   <section>
-    <div class="sec-head"><span class="sec-bar"></span><h2>专业技能</h2></div>
-    <div class="kv-grid skills-box">
-      <div class="kv-key">Java</div>
-      <div class="kv-val">线程池与 JVM OOM 排查（有界队列）、Spring 事务失效场景</div>
-      <div class="kv-key">MySQL</div>
-      <div class="kv-val">深分页优化（联合索引 + 游标分页）、防超扣（条件更新 + 行锁）</div>
-      <div class="kv-key">Redis</div>
-      <div class="kv-val">缓存、分布式锁、布隆过滤器</div>
-      <div class="kv-key">Kafka</div>
-      <div class="kv-val">消息可靠投递与幂等消费</div>
-      <div class="kv-key">区块链</div>
-      <div class="kv-val">钱包创建与交易上链、扫块与到账、链分叉处理</div>
-      <div class="kv-key">支付</div>
-      <div class="kv-val">幂等、状态机、渠道对接与对账</div>
-    </div>
+    <h2>专业技能</h2>
+    <dl class="skills"><dt>Java</dt><dd>线程池与 JVM OOM 排查（有界队列）、Spring 事务失效场景</dd><dt>MySQL</dt><dd>深分页优化（联合索引 + 游标分页）、防超扣（条件更新 + 行锁）</dd><dt>Redis</dt><dd>缓存、分布式锁、布隆过滤器</dd><dt>Kafka</dt><dd>消息可靠投递与幂等消费</dd><dt>区块链</dt><dd>钱包创建与交易上链、扫块与到账、链分叉处理</dd><dt>支付</dt><dd>幂等、状态机、渠道对接与对账</dd></dl>
   </section>
 
   <section>
-    <div class="sec-head"><span class="sec-bar"></span><h2>工作经历</h2></div>
-
-    <div class="job">
-      <div class="job-header">
-        <div class="job-title-group">
-          <span class="job-company">dtcpay</span>
-          <span class="job-pipe">｜</span>
-          <span class="job-role">Java 后端 Owner（电子钱包）</span>
-        </div>
-        <span class="job-date">2024.04 – 至今</span>
-      </div>
-      <div class="job-summary">新加坡 MAS 持牌支付机构（法币 + 稳定币）。C 端 App 电子钱包。负责钱包核心链路：充值到账 → 提现出款 → 每日对账；用户余额的每一笔变动都由钱包服务统一记账。</div>
-      <div class="kv-grid">
-        <div class="kv-key">并发安全（防超扣）</div>
-        <div class="kv-val">多笔扣款同时到，行锁让它们排队；每笔用一条更新语句同时判断余额并扣减，余额不够就扣不动，不会扣成负数（条件更新 + 行锁）。</div>
-        <div class="kv-key">接口幂等（Redis 令牌）</div>
-        <div class="kv-val">进支付页先发一次性令牌，提交时 Redis 删掉令牌才处理，连点、重复提交直接挡掉；漏网的靠业务单号兜底，只记一次（唯一索引）。</div>
-        <div class="kv-key">掉单补偿</div>
-        <div class="kv-val">渠道通知支付结果时，先验签名、对金额再记账；通知丢了，定时去渠道查单补上。</div>
-        <div class="kv-key">出款幂等</div>
-        <div class="kv-val">先冻结余额再让渠道打款；渠道超时不知道打没打，只去查结果、绝不再发一次，防止给用户打两次钱；查到成功才真扣，查到失败才解冻退回。</div>
-        <div class="kv-key">最终一致性</div>
-        <div class="kv-val">扣款和“待发通知”写在同一个数据库事务里，要么都成、要么都不成；后台再把通知发出去（App 推送、站内信等），失败就重发。不会出现钱扣了、用户却收不到通知（本地消息表 + Kafka）。</div>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="job-header">
-        <div class="job-title-group">
-          <span class="job-company">火币科技</span>
-          <span class="job-pipe">｜</span>
-          <span class="job-role">Java 后端 Owner（区块链钱包）</span>
-        </div>
-        <span class="job-date">2022.05 – 2024.04</span>
-      </div>
-      <div class="job-summary">火币钱包：去中心化多链钱包，用户约 1200 万，私钥只在用户手机里。负责钱包核心链路：创建钱包 → 转账上链 → 收款到账 → 到账推送。</div>
-      <div class="kv-grid">
-        <div class="kv-key">创建钱包</div>
-        <div class="kv-val">私钥在手机生成，地址登记到服务端，开始监听这个地址的到账。</div>
-        <div class="kv-key">转账上链</div>
-        <div class="kv-val">手机用私钥签好交易，发到链上，一直跟踪到交易被确认（广播、pending）。</div>
-        <div class="kv-key">链分叉</div>
-        <div class="kv-val">新块和上一块接不上，就退回去重新读；这笔交易后面又出了几个块才算到账（parentHash、确认数）。</div>
-        <div class="kv-key">OOM 排查</div>
-        <div class="kv-val">扫块落后、加速追赶时进程反复内存溢出，查出是队列没上限把块全堆在内存；改成有上限的队列，满了就等。</div>
-        <div class="kv-key">可靠投递 + 幂等消费</div>
-        <div class="kv-val">先把要推的通知存进数据库再发，服务挂了也能补发；同一笔到账只推一次，用户不会收到两条（Kafka）。</div>
-        <div class="kv-key">钱包地址过滤</div>
-        <div class="kv-val">一个块里几千个地址，先筛掉肯定不是我们用户的，剩下的再查库（布隆过滤器）。</div>
-        <div class="kv-key">扫块高可用</div>
-        <div class="kv-val">同一时间只让一台扫；它挂了别的接上，从记录的位置继续（Redis 分布式锁）。</div>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="job-header">
-        <div class="job-title-group">
-          <span class="job-company">滴滴出行</span>
-          <span class="job-pipe">｜</span>
-          <span class="job-role">资深 Java 后端（搜索引擎）</span>
-        </div>
-        <span class="job-date">2018.10 – 2022.05</span>
-      </div>
-      <div class="kv-grid">
-        <div class="kv-key">搜索服务</div>
-        <div class="kv-val">技术负责人，基于 Elasticsearch 从 0 到 1 搭建搜索服务，周访问量 6 万 → 10 万。</div>
-        <div class="kv-key">依赖解析</div>
-        <div class="kv-val">解析 SQL 语句，自动找出表之间的上下游依赖，做成查询服务。</div>
-        <div class="kv-key">对外接口</div>
-        <div class="kv-val">为全公司各系统提供统一查询接口。</div>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="job-header">
-        <div class="job-title-group">
-          <span class="job-company">阿里巴巴</span>
-          <span class="job-pipe">｜</span>
-          <span class="job-role">Java 后端研发（分布式任务调度系统）</span>
-        </div>
-        <span class="job-date">2016.10 – 2018.10</span>
-      </div>
-      <div class="kv-grid">
-        <div class="kv-key">分布式调度</div>
-        <div class="kv-val">一期 Master / Slave 架构，Master 分配任务、Slave 执行。</div>
-        <div class="kv-key">Master 高可用</div>
-        <div class="kv-val">多台机器启动时用数据库抢锁，抢到的当 Master 负责任务规划；Master 挂了锁释放，其余机器重新抢，自动接管（SELECT … FOR UPDATE）。</div>
-        <div class="kv-key">任务分片</div>
-        <div class="kv-val">机器映射到固定数量的逻辑节点，任务只分给逻辑节点；加减机器只改映射，任务不用重分（类似一致性 hash）。</div>
-        <div class="kv-key">定时任务</div>
-        <div class="kv-val">基于 Quartz，100 万+ 任务按小时 / 天 / 周 / 月自动执行；平台上线后任务平均开发时长 36 小时 → 17.45 小时。</div>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="job-header">
-        <div class="job-title-group">
-          <span class="job-company">掌趣科技</span>
-          <span class="job-pipe">｜</span>
-          <span class="job-role">Java 后端研发(游戏运营后台)</span>
-        </div>
-        <span class="job-date">2013.03 – 2016.10</span>
-      </div>
-      <div class="kv-grid">
-        <div class="kv-key">服务端 SDK</div>
-        <div class="kv-val">游戏日志采集 SDK 架构设计与开发，供公司多款手游接入。</div>
-        <div class="kv-key">运营后台</div>
-        <div class="kv-val">Java 运营后台与各类定时任务开发维护。</div>
-      </div>
-    </div>
+    <h2>工作经历</h2>
+    <article class="job">
+  <div class="job-head"><h3>dtcpay<span class="role">Java 后端 Owner（电子钱包）</span></h3><span class="date">2024.04 – 至今</span></div>
+  <p class="summary">新加坡 MAS 持牌支付机构（法币 + 稳定币）。C 端 App 电子钱包。负责钱包核心链路：充值到账 → 提现出款 → 每日对账；用户余额的每一笔变动都由钱包服务统一记账。</p>
+  <ul><li><b>并发安全（防超扣）</b>：多笔扣款同时到，行锁让它们排队；每笔用一条更新语句同时判断余额并扣减，余额不够就扣不动，不会扣成负数（条件更新 + 行锁）。</li><li><b>接口幂等（Redis 令牌）</b>：进支付页先发一次性令牌，提交时 Redis 删掉令牌才处理，连点、重复提交直接挡掉；漏网的靠业务单号兜底，只记一次（唯一索引）。</li><li><b>掉单补偿</b>：渠道通知支付结果时，先验签名、对金额再记账；通知丢了，定时去渠道查单补上。</li><li><b>出款幂等</b>：先冻结余额再让渠道打款；渠道超时不知道打没打，只去查结果、绝不再发一次，防止给用户打两次钱；查到成功才真扣，查到失败才解冻退回。</li><li><b>最终一致性</b>：扣款和“待发通知”写在同一个数据库事务里，要么都成、要么都不成；后台再把通知发出去（App 推送、站内信等），失败就重发。不会出现钱扣了、用户却收不到通知（本地消息表 + Kafka）。</li></ul>
+</article><article class="job">
+  <div class="job-head"><h3>火币科技<span class="role">Java 后端 Owner（区块链钱包）</span></h3><span class="date">2022.05 – 2024.04</span></div>
+  <p class="summary">火币钱包：去中心化多链钱包，用户约 1200 万，私钥只在用户手机里。负责钱包核心链路：创建钱包 → 转账上链 → 收款到账 → 到账推送。</p>
+  <ul><li><b>创建钱包</b>：私钥在手机生成，地址登记到服务端，开始监听这个地址的到账。</li><li><b>转账上链</b>：手机用私钥签好交易，发到链上，一直跟踪到交易被确认（广播、pending）。</li><li><b>链分叉</b>：新块和上一块接不上，就退回去重新读；这笔交易后面又出了几个块才算到账（parentHash、确认数）。</li><li><b>OOM 排查</b>：扫块落后、加速追赶时进程反复内存溢出，查出是队列没上限把块全堆在内存；改成有上限的队列，满了就等。</li><li><b>可靠投递 + 幂等消费</b>：先把要推的通知存进数据库再发，服务挂了也能补发；同一笔到账只推一次，用户不会收到两条（Kafka）。</li><li><b>钱包地址过滤</b>：一个块里几千个地址，先筛掉肯定不是我们用户的，剩下的再查库（布隆过滤器）。</li><li><b>扫块高可用</b>：同一时间只让一台扫；它挂了别的接上，从记录的位置继续（Redis 分布式锁）。</li></ul>
+</article><article class="job">
+  <div class="job-head"><h3>滴滴出行<span class="role">资深 Java 后端（搜索引擎）</span></h3><span class="date">2018.10 – 2022.05</span></div>
+  
+  <ul><li><b>搜索服务</b>：技术负责人，基于 Elasticsearch 从 0 到 1 搭建搜索服务，周访问量 6 万 → 10 万。</li><li><b>依赖解析</b>：解析 SQL 语句，自动找出表之间的上下游依赖，做成查询服务。</li><li><b>对外接口</b>：为全公司各系统提供统一查询接口。</li></ul>
+</article><article class="job">
+  <div class="job-head"><h3>阿里巴巴<span class="role">Java 后端研发（分布式任务调度系统）</span></h3><span class="date">2016.10 – 2018.10</span></div>
+  
+  <ul><li><b>分布式调度</b>：一期 Master / Slave 架构，Master 分配任务、Slave 执行。</li><li><b>Master 高可用</b>：多台机器启动时用数据库抢锁，抢到的当 Master 负责任务规划；Master 挂了锁释放，其余机器重新抢，自动接管（SELECT … FOR UPDATE）。</li><li><b>任务分片</b>：机器映射到固定数量的逻辑节点，任务只分给逻辑节点；加减机器只改映射，任务不用重分（类似一致性 hash）。</li><li><b>定时任务</b>：基于 Quartz，100 万+ 任务按小时 / 天 / 周 / 月自动执行；平台上线后任务平均开发时长 36 小时 → 17.45 小时。</li></ul>
+</article><article class="job">
+  <div class="job-head"><h3>掌趣科技<span class="role">Java 后端研发（游戏运营后台）</span></h3><span class="date">2013.03 – 2016.10</span></div>
+  
+  <ul><li><b>服务端 SDK</b>：游戏日志采集 SDK 架构设计与开发，供公司多款手游接入。</li><li><b>运营后台</b>：Java 运营后台与各类定时任务开发维护。</li></ul>
+</article>
   </section>
 
-  <section style="margin-bottom:0;">
-    <div class="sec-head"><span class="sec-bar"></span><h2>教育经历</h2></div>
-    <div class="edu-grid">
-      <div class="edu-school">Hawaii Pacific University（美国）</div>
-      <div class="edu-major">人工智能　硕士</div>
-      <div class="job-date">2025.01 – 2026.07</div>
-      <div class="edu-school">电子科技大学</div>
-      <div class="edu-major">计算机科学与技术　本科</div>
-      <div class="job-date">2008.09 – 2012.07</div>
+  <section class="job">
+    <h2>教育经历</h2>
+    <div class="edu">
+      <div><b>Hawaii Pacific University（美国）</b><span class="major">人工智能　硕士</span></div><span class="date">2025.01 – 2026.07</span>
+      <div><b>电子科技大学</b><span class="major">计算机科学与技术　本科</span></div><span class="date">2008.09 – 2012.07</span>
     </div>
   </section>
+</div>
 </body>
 </html>
