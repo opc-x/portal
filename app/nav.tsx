@@ -77,7 +77,7 @@ export function MobileNav({ items }: { items: Item[] }) {
         return (
           <a key={n.id} href={`#${n.id}`} data-mnav={n.id} aria-current={on ? "true" : undefined}
             className={`shrink-0 px-2.5 py-2.5 rounded-md transition-colors ${on ? "text-zinc-50" : "text-zinc-500 hover:text-zinc-100"}`}>
-            <span className={on ? "text-zinc-50" : ""}>{on && <span className="text-emerald-400">{"> "}</span>}{n.label}</span>
+            <span className={on ? "text-emerald-400" : ""}>{n.label}</span>
           </a>
         );
       })}

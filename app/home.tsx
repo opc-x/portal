@@ -158,7 +158,7 @@ export default function Home({ lang }: { lang: Lang }) {
       </Link>
 
       {/* 左侧栏：大屏 */}
-      <aside className="hidden lg:flex sticky top-0 h-screen w-[20rem] shrink-0 flex-col px-10 py-16">
+      <aside className="hidden lg:flex sticky top-0 h-screen w-[21rem] shrink-0 flex-col px-8 py-16">
         <a href="#about" className="flex flex-col gap-6">
           <Avatar size="lg" />
           <span className="font-display">
