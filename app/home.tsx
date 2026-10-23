@@ -230,8 +230,10 @@ export default function Home({ lang }: { lang: Lang }) {
                 const name = typeof p.name === "string" ? p.name : p.name[lang];
                 return (
                   <a key={name} href={p.url} target="_blank" rel="noopener noreferrer" className={row}>
-                    <span className="w-28 sm:w-36 shrink-0 font-display text-base text-zinc-100 group-hover:text-emerald-400 transition-colors">{name}</span>
-                    <span className="flex-1 min-w-0 text-sm leading-relaxed text-zinc-400">{p.desc}</span>
+                    <span className="flex-1 min-w-0 flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:gap-6">
+                      <span className="sm:w-36 shrink-0 font-display text-base text-zinc-100 group-hover:text-emerald-400 transition-colors">{name}</span>
+                      <span className="text-sm leading-relaxed text-zinc-400">{p.desc}</span>
+                    </span>
                     <ArrowUpRight size={16} className={arrow} />
                   </a>
                 );
