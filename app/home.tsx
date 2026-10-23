@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
-import { ArrowUpRight, Target, MessageSquare, BookOpen, FileText } from "lucide-react";
+import { ArrowUpRight, Target, MessageSquare, BookOpen, FileText, Mail, Github } from "lucide-react";
 import { listPages, type PageEntry } from "@/lib/pages";
 import SideNav, { MobileNav, KeyNav } from "./nav";
 
@@ -17,13 +17,13 @@ const AVATAR = ["avatar.jpg", "avatar.png", "avatar.webp"].find((f) =>
 // 中文只留最小剂量：只有中文版简介一句是中文，其余两版共用英文
 const T = {
   zh: {
-    intro: "资深 Java 后端，深耕支付与钱包。也独立做产品，从想法到上线一个人完成。",
+    intro: ["**资深 Java 后端** — 深耕**支付与钱包**", "独立做产品，从想法到上线一个人完成"],
     workNote: "",
     switchLabel: "EN",
     switchHref: "/en",
   },
   en: {
-    intro: "Senior Java backend engineer, specialized in payments and wallets. I also build and ship my own products, end to end.",
+    intro: ["**Senior Java backend engineer** — **payments & wallets**", "Also ships own products, idea → production, solo"],
     workNote: "[zh]",
     switchLabel: "中文",
     switchHref: "/",
@@ -98,6 +98,25 @@ function Avatar({ size }: { size: "sm" | "lg" }) {
   );
 }
 
+function XLogo() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+// **加粗** 的片段高亮
+function Rich({ text }: { text: string }) {
+  return (
+    <>
+      {text.split("**").map((part, i) =>
+        i % 2 ? <span key={i} className="text-zinc-50">{part}</span> : <span key={i}>{part}</span>,
+      )}
+    </>
+  );
+}
+
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-4">
@@ -120,9 +139,9 @@ export default function Home({ lang }: { lang: Lang }) {
     { id: "tech", label: UI.tech },
   ];
   const external = [
-    { label: "Email", href: "mailto:jcui1@my.hpu.edu" },
-    { label: "GitHub", href: "https://github.com/opc-x" },
-    { label: "X", href: "https://x.com/Michaelcjfw" },
+    { label: "Email", href: "mailto:jcui1@my.hpu.edu", icon: <Mail size={18} /> },
+    { label: "GitHub", href: "https://github.com/opc-x", icon: <Github size={18} /> },
+    { label: "X", href: "https://x.com/Michaelcjfw", icon: <XLogo /> },
   ];
 
   return (
@@ -147,12 +166,11 @@ export default function Home({ lang }: { lang: Lang }) {
         <div className="mt-14">
           <SideNav items={nav} />
         </div>
-        <div className="mt-auto flex gap-4 text-sm">
+        <div className="mt-auto flex gap-2">
           {external.map((e) => (
-            <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer"
-              className="group inline-flex items-center gap-1 py-1.5 text-zinc-400 hover:text-zinc-100 transition-colors">
-              {e.label}
-              <ArrowUpRight size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer" aria-label={e.label} title={e.label}
+              className="grid place-items-center w-9 h-9 rounded-lg border border-zinc-800 text-zinc-400 hover:text-emerald-300 hover:border-emerald-400/40 transition-colors">
+              {e.icon}
             </a>
           ))}
         </div>
@@ -190,14 +208,21 @@ export default function Home({ lang }: { lang: Lang }) {
               <span className="bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent">
                 useful things.
               </span>
-              <span aria-hidden className="cursor ml-1 inline-block w-[0.5em] h-[0.85em] -mb-[0.05em] bg-emerald-400" />
+              <span aria-hidden className="cursor ml-[0.12em] inline-block w-[0.28em] h-[0.68em] bg-emerald-400/90" />
             </h1>
-            <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-xl">{t.intro}</p>
-            <div className="flex flex-wrap gap-2 text-sm lg:hidden">
+            <div className="space-y-1.5 font-display text-[15px] sm:text-lg leading-relaxed text-zinc-400">
+              {t.intro.map((line) => (
+                <p key={line} className="flex gap-3">
+                  <span className="shrink-0 text-emerald-400">&gt;</span>
+                  <span><Rich text={line} /></span>
+                </p>
+              ))}
+            </div>
+            <div className="flex gap-2 pt-1 lg:hidden">
               {external.map((e) => (
-                <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 h-10 px-4 rounded-full border border-zinc-800 bg-zinc-900/40 text-zinc-200 active:bg-zinc-800 hover:border-zinc-600 transition-colors">
-                  {e.label} <ArrowUpRight size={14} />
+                <a key={e.href} href={e.href} target="_blank" rel="noopener noreferrer" aria-label={e.label} title={e.label}
+                  className="grid place-items-center w-11 h-11 rounded-xl border border-zinc-800 bg-zinc-900/40 text-zinc-300 active:bg-zinc-800 hover:text-emerald-300 hover:border-emerald-400/40 transition-colors">
+                  {e.icon}
                 </a>
               ))}
             </div>
