@@ -155,7 +155,7 @@ export default function Home({ lang }: { lang: Lang }) {
       </Link>
 
       {/* 左侧栏：大屏 */}
-      <aside className="hidden lg:flex sticky top-0 h-screen w-80 shrink-0 flex-col px-10 py-16 border-r border-zinc-900/80">
+      <aside className="hidden lg:flex sticky top-0 h-screen w-[22rem] shrink-0 flex-col px-9 py-14 border-r border-zinc-900/80">
         <a href="#about" className="flex flex-col gap-6">
           <span className="relative w-fit">
             <span className="absolute -inset-3 rounded-full bg-emerald-400/15 blur-xl" aria-hidden />
