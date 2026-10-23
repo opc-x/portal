@@ -41,11 +41,11 @@ const UI = {
 
 // 子页标题是中文，首页上统一显示英文
 const TITLE_EN: Record<string, string> = {
-  "支付系统": "Payout system",
-  "自持钱包": "Self-custody wallet",
-  "转账": "Transfers",
-  "兑换": "Swap",
-  "DApp 入口": "DApp access",
+  "支付系统": "payout",
+  "自持钱包": "wallet",
+  "转账": "transfer",
+  "兑换": "swap",
+  "DApp 入口": "dapp",
 };
 const enTitle = (t: string) => t.split(" · ").map((x) => TITLE_EN[x.trim()] ?? x).join(" · ");
 const toEn = (list: PageEntry[]): PageEntry[] =>

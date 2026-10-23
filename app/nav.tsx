@@ -17,7 +17,7 @@ function Group({ entry, last }: { entry: PageEntry; last: boolean }) {
   return (
     <div>
       <div className="flex items-center justify-between gap-2">
-        <a href={entry.href} className={subCls}><Branch last={last && !open} />{entry.title}</a>
+        <a href={entry.href} className={subCls}><Branch last={last && !open} />{entry.title}/</a>
         <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={`Expand ${entry.title}`}
           className="p-1.5 text-zinc-600 hover:text-zinc-200 transition-colors">
           <ChevronRight size={14} className={`transition-transform ${open ? "rotate-90" : ""}`} />
@@ -102,11 +102,11 @@ export default function SideNav({ items }: { items: Item[] }) {
               {n.label}
             </a>
             {n.children && n.children.length > 0 && (
-              <div className="ml-[4.1rem] mb-1 flex flex-col text-sm">
+              <div className="ml-[3.55rem] mb-1 flex flex-col text-sm">
                 {n.children.map((c, k) => {
                   const last = k === n.children!.length - 1;
                   return c.children ? <Group key={c.href} entry={c} last={last} /> : (
-                    <a key={c.href} href={c.href} className={subCls}><Branch last={last} />{c.title}</a>
+                    <a key={c.href} href={c.href} className={subCls}><Branch last={last} />{c.title}/</a>
                   );
                 })}
               </div>
