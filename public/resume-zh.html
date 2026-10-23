@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>Michael C. — Senior Java Backend Engineer</title>
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Inter", sans-serif;
+    color: #18181b;
+    background: #ffffff;
+    line-height: 1.58;
+    font-size: 10.2pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .mono {
+    font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  }
+  header {
+    border-bottom: 1px solid #e4e4e7;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .prompt {
+    font-size: 8.5pt;
+    color: #71717a;
+    margin-bottom: 6px;
+  }
+  .prompt span {
+    color: #059669;
+    font-weight: 600;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #09090b;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 8.5pt;
+    color: #059669;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+  }
+  .subtitle {
+    font-size: 11pt;
+    color: #3f3f46;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .meta-bar {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 8.8pt;
+    color: #52525b;
+  }
+  .meta-bar a {
+    color: #18181b;
+    text-decoration: none;
+    border-bottom: 1px solid #d4d4d8;
+  }
+  section {
+    margin-bottom: 15px;
+  }
+  .sec-title {
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #71717a;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-title .slash {
+    color: #059669;
+    font-weight: 700;
+  }
+  .sec-title .line {
+    flex: 1;
+    height: 1px;
+    background: #f4f4f5;
+  }
+  .intro-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: #27272a;
+  }
+  .intro-list li::before {
+    content: "— ";
+    color: #10b981;
+    font-family: monospace;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 125px 1fr;
+    row-gap: 4px;
+    column-gap: 12px;
+    font-size: 9.6pt;
+  }
+  .skill-k {
+    font-weight: 600;
+    color: #09090b;
+  }
+  .skill-v {
+    color: #3f3f46;
+  }
+  .job {
+    padding-top: 9px;
+    margin-top: 9px;
+    border-top: 1px solid #f4f4f5;
+    page-break-inside: avoid;
+  }
+  .job:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .job-co {
+    font-size: 10.8pt;
+    font-weight: 700;
+    color: #09090b;
+  }
+  .job-role {
+    color: #059669;
+    font-weight: 600;
+    font-size: 9.6pt;
+    margin-left: 8px;
+  }
+  .job-time {
+    font-size: 8.6pt;
+    color: #71717a;
+  }
+  .job-desc {
+    font-size: 9.5pt;
+    color: #52525b;
+    margin: 3px 0 5px 0;
+  }
+  .points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 9.6pt;
+    color: #27272a;
+  }
+  .points li {
+    display: flex;
+    gap: 7px;
+  }
+  .points li .dash {
+    color: #a1a1aa;
+    flex-shrink: 0;
+  }
+  .points strong {
+    color: #09090b;
+    font-weight: 600;
+  }
+  .tag-inline {
+    font-size: 8.2pt;
+    color: #047857;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 0 5px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+  .edu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 9.6pt;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="prompt mono"><span>~ $</span> cat michael_c_resume.md</div>
+    <div class="header-top">
+      <h1>Michael C.</h1>
+      <span class="badge mono"><span class="dot"></span>remote · async-first</span>
+    </div>
+    <div class="subtitle">资深 Java 后端工程师　·　支付清结算 / 电子钱包 / 分布式系统</div>
+    <div class="meta-bar mono">
+      <span>📫 <a href="mailto:jcui1@my.hpu.edu">jcui1@my.hpu.edu</a></span>
+      <span>🌐 <a href="https://michael.opc-x.org">michael.opc-x.org</a></span>
+      <span>💻 <a href="https://github.com/opc-x">github.com/opc-x</a></span>
+      <span>🗣️ 中文 / English</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-title mono"><span class="slash">// 01</span><span>profile</span><span class="line"></span></div>
+    <ul class="intro-list">
+      <li>Java 后端 13 年，阿里、滴滴出身；近 4 年在火币、dtcpay 深耕数字钱包与持牌支付记账核心链路。</li>
+      <li>熟悉 Java / Spring Boot、MySQL、Redis、Kafka 的高可靠资金账本设计与线上疑难排查。</li>
+      <li>边界清晰，能独立闭环模块从方案设计、开发到上线，习惯跨时区远程异步协作。</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-title mono"><span class="slash">// 02</span><span>stack</span><span class="line"></span></div>
+    <div class="skills-grid">
+      <div class="skill-k mono">Java / Spring</div>
+      <div class="skill-v">线程池与 JVM OOM 排查（有界队列防撑爆）、Spring 事务失效边界治理</div>
+      <div class="skill-k mono">MySQL</div>
+      <div class="skill-v">深分页优化（联合索引 + 游标分页）、高并发防超扣（条件更新 + 行锁）</div>
+      <div class="skill-k mono">Redis</div>
+      <div class="skill-v">一次性幂等令牌、Lua 分布式锁、海量地址布隆过滤器</div>
+      <div class="skill-k mono">Kafka</div>
+      <div class="skill-v">本地消息表事务投递、acks=all 可靠传输与下游唯一键幂等消费</div>
+      <div class="skill-k mono">Payments &amp; Chain</div>
+      <div class="skill-v">支付状态机、出款防重、T+1 渠道对账、多链扫块到账与链分叉回滚</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-title mono"><span class="slash">// 03</span><span>experience</span><span class="line"></span></div>
+
+    <div class="job">
+      <div class="job-head">
+        <div><span class="job-co">dtcpay</span><span class="job-role">资深 Java 后端（电子钱包）</span></div>
+        <span class="job-time mono">2024.04 – 至今 · 新加坡（远程）</span>
+      </div>
+      <div class="job-desc">新加坡 MAS 持牌支付机构（法币 + 稳定币）。负责 C 端电子钱包核心链路：<strong>充值到账 → 提现出款 → 每日对账</strong>，所有余额变动统一收口记账。</div>
+      <ul class="points">
+        <li><span class="dash">–</span><span><strong>并发安全（防超扣）</strong>：多笔扣款并发到达时，用单条条件更新语句同时判断余额并扣减，行锁仅在语句内持有，余额不足直接返回 0 行，杜绝扣成负数。<span class="tag-inline mono">条件更新 + 行锁</span></span></li>
+        <li><span class="dash">–</span><span><strong>接口幂等</strong>：进支付页签发一次性 Redis 令牌，提交时原子删令牌拦截连点；底层靠业务单号唯一索引兜底，确保同一笔请求只记一次账。<span class="tag-inline mono">Redis 令牌 + 唯一索引</span></span></li>
+        <li><span class="dash">–</span><span><strong>掉单补偿与出款幂等</strong>：渠道回调先验签核金额再推进状态机；提现先冻结余额，渠道超时只轮询查单、绝不盲目重发，查明成功才实扣、失败才解冻，彻底防止重复打款。</span></li>
+        <li><span class="dash">–</span><span><strong>最终一致性</strong>：扣款与“待发通知”写入同一数据库事务，后台异步投递 Kafka 并失败重发，保证账动必有通知。<span class="tag-inline mono">本地消息表 + Kafka</span></span></li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div><span class="job-co">火币科技 (HTX)</span><span class="job-role">资深 Java 后端（区块链钱包）</span></div>
+        <span class="job-time mono">2022.05 – 2024.04</span>
+      </div>
+      <div class="job-desc">去中心化多链钱包（用户约 1200 万，私钥存用户端）。负责核心链路：<strong>创建钱包 → 转账上链 → 扫块到账 → 到账推送</strong>。</div>
+      <ul class="points">
+        <li><span class="dash">–</span><span><strong>扫块到账与链分叉</strong>：追踪广播交易至确认数达标；检测到新块 <code class="mono">parentHash</code> 断链时自动回滚至分叉点重扫，凭 <code class="mono">txHash</code> 唯一索引防重复入账。</span></li>
+        <li><span class="dash">–</span><span><strong>OOM 内存溢出根治</strong>：定位扫块追赶期因无界队列堆积区块导致进程反复 OOM，重构为有界阻塞队列施加背压，彻底消除崩溃。</span></li>
+        <li><span class="dash">–</span><span><strong>高并发过滤与高可用</strong>：用布隆过滤器在内存筛除单块内数千个非本库地址；用 Redis 分布式锁保证单实例扫块，故障自动按游标接管。</span></li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div><span class="job-co">滴滴出行</span><span class="job-role">资深 Java 后端（搜索引擎）</span></div>
+        <span class="job-time mono">2018.10 – 2022.05</span>
+      </div>
+      <ul class="points">
+        <li><span class="dash">–</span><span><strong>搜索服务与 SQL 血缘解析</strong>：基于 Elasticsearch 从 0 到 1 搭建全司统一搜索查询服务（周调用 6 万 → 10 万）；研发 SQL 语法树解析器自动提取表级上下游依赖关系。</span></li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div><span class="job-co">阿里巴巴</span><span class="job-role">Java 后端研发（分布式任务调度系统）</span></div>
+        <span class="job-time mono">2016.10 – 2018.10</span>
+      </div>
+      <ul class="points">
+        <li><span class="dash">–</span><span><strong>Master 高可用与一致性分片</strong>：基于数据库行锁（<code class="mono">SELECT … FOR UPDATE</code>）实现无外部依赖的 Master 自动选主与故障接管；设计固定逻辑槽位映射机器，扩缩容无需重分任务；支撑 100 万+ 定时任务，平均开发交付周期从 36 小时降至 17.45 小时。</span></li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div><span class="job-co">掌趣科技</span><span class="job-role">Java 后端研发（游戏运营后台）</span></div>
+        <span class="job-time mono">2013.03 – 2016.10</span>
+      </div>
+      <ul class="points">
+        <li><span class="dash">–</span><span>设计异步批量上报的游戏日志采集服务端 SDK 及运营后台定时任务体系，供多款手游接入。</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section style="margin-bottom:0;">
+    <div class="sec-title mono"><span class="slash">// 04</span><span>education</span><span class="line"></span></div>
+    <div class="edu-row">
+      <div><strong>Hawaii Pacific University（美国）</strong> · 人工智能 硕士</div>
+      <span class="job-time mono">2025.01 – 2026.07</span>
+    </div>
+    <div class="edu-row" style="margin-bottom:0;">
+      <div><strong>电子科技大学 (985)</strong> · 计算机科学与技术 本科</div>
+      <span class="job-time mono">2008.09 – 2012.07</span>
+    </div>
+  </section>
+</body>
+</html>
