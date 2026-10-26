@@ -40,9 +40,9 @@ const PROJECTS = [
   },
   // Page 2
   {
-    name: "CallanApp",
+    name: "Echo",
     desc: "Interactive Callan Method spoken English trainer (Stages 1–12) with Edge TTS British voice & drills.",
-    url: "https://callan.opc-x.org",
+    url: "https://echo.opc-x.org",
     icon: Headphones,
   },
   {
