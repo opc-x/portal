@@ -10,8 +10,12 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/:file(resume-zh|resume-zh-onsite).pdf",
-        headers: [{ key: "Content-Disposition", value: 'inline; filename=":file.pdf"' }],
+        source: "/:file(resume-zh|resume-zh-onsite|resume-en).pdf",
+        headers: [
+          { key: "Content-Disposition", value: 'inline; filename=":file.pdf"' },
+          // 允许跨站读取，便于在招聘站表单里直接附上简历
+          { key: "Access-Control-Allow-Origin", value: "*" },
+        ],
       },
     ];
   },
