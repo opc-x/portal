@@ -78,7 +78,7 @@ const PRODUCTS = [
     status: "live",
   },
   {
-    name: "Ogden 850",
+    name: "Plain",
     tag: "English learning",
     desc: "Learn and practice the 850 core words of Ogden's Basic English.",
     url: "https://ogden850.opc-x.org",

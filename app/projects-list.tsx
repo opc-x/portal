@@ -21,7 +21,7 @@ import {
 const PROJECTS = [
   // Page 1: Top 3 Flagship Apps (*.opc-x.org)
   {
-    name: "Ogden 850",
+    name: "Plain",
     desc: "Express anything in plain English with Ogden's 850 core words — 5,400+ real dialogues & AI coach.",
     url: "https://ogden850.opc-x.org",
     icon: BookOpen,
