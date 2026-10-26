@@ -23,7 +23,7 @@ const PROJECTS = [
   {
     name: "Plain",
     desc: "Express anything in plain English with Ogden's 850 core words — 5,400+ real dialogues & AI coach.",
-    url: "https://ogden850.opc-x.org",
+    url: "https://plain.opc-x.org",
     icon: BookOpen,
   },
   {
