@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
-import { ArrowUpRight, Target, Pickaxe, MessageSquare, BookOpen, Mail, Github } from "lucide-react";
+import { ArrowUpRight, Target, Pickaxe, MessageSquare, BookOpen, Mail, Github, Linkedin } from "lucide-react";
 import { listPages, type PageEntry } from "@/lib/pages";
 import SideNav, { MobileNav, KeyNav } from "./nav";
 import ProjectsList from "./projects-list";
@@ -149,6 +149,7 @@ export default function Home({ lang }: { lang: Lang }) {
   const external = [
     { label: "Email", href: "mailto:jcui1@my.hpu.edu", icon: <Mail size={18} /> },
     { label: "GitHub", href: "https://github.com/opc-x", icon: <Github size={18} /> },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/michael-java-backend/", icon: <Linkedin size={18} /> },
     { label: "X", href: "https://x.com/Michaelcjfw", icon: <XLogo /> },
   ];
 
