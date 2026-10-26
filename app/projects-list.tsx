@@ -7,6 +7,7 @@ import {
   Headphones,
   ShieldCheck,
   Target,
+  Pickaxe,
   Globe,
   MessageSquare,
   Library,
@@ -26,18 +27,24 @@ const PROJECTS = [
     icon: BookOpen,
   },
   {
+    name: "Quarry",
+    desc: "Multi-channel data mining — pulls roles from BOSS, RemoteOK, V2EX, Telegram, X and more into one feed, tagged and scored.",
+    url: "https://quarry.opc-x.org",
+    icon: Pickaxe,
+  },
+  {
+    name: "Chisel",
+    desc: "Job search tracker — profiles each target role, scores your fit and tracks every application.",
+    url: "https://chisel.opc-x.org",
+    icon: Target,
+  },
+  // Page 2
+  {
     name: "CallanApp",
     desc: "Interactive Callan Method spoken English trainer (Stages 1–12) with Edge TTS British voice & drills.",
     url: "https://callan.opc-x.org",
     icon: Headphones,
   },
-  {
-    name: "JobSniper",
-    desc: "Pulls roles from multiple job boards, profiles each one and scores how well you match.",
-    url: "https://jobsniper.opc-x.org",
-    icon: Target,
-  },
-  // Page 2
   {
     name: "Signore",
     desc: "Zero-discrepancy wallet ledger & settlement sandbox — atomic row-lock SQL, Redis token idempotency, T+1 recon.",

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
-import { ArrowUpRight, Target, MessageSquare, BookOpen, Mail, Github } from "lucide-react";
+import { ArrowUpRight, Target, Pickaxe, MessageSquare, BookOpen, Mail, Github } from "lucide-react";
 import { listPages, type PageEntry } from "@/lib/pages";
 import SideNav, { MobileNav, KeyNav } from "./nav";
 import ProjectsList from "./projects-list";
@@ -54,10 +54,18 @@ const toEn = (list: PageEntry[]): PageEntry[] =>
 
 const PRODUCTS = [
   {
-    name: "JobSniper",
+    name: "Quarry",
+    tag: "Data mining",
+    desc: "Pulls roles from many job boards and communities into one feed, tagged and scored.",
+    url: "https://quarry.opc-x.org",
+    icon: Pickaxe,
+    status: "live",
+  },
+  {
+    name: "Chisel",
     tag: "Job search",
-    desc: "Pulls roles from multiple job boards, profiles each one and scores how well you match.",
-    url: "https://jobsniper.opc-x.org",
+    desc: "Profiles each target role, scores your fit and tracks every application.",
+    url: "https://chisel.opc-x.org",
     icon: Target,
     status: "live",
   },
