@@ -14,6 +14,14 @@ const SUMMARY = [
   "I take a module from design to production on my own and work well in async, remote teams across time zones.",
 ];
 
+const HOW_I_WORK = [
+  "Written-first: requirements and decisions live in docs; async by default, meetings short and purposeful.",
+  "Pragmatic: judged by working results and data; focused on solving problems.",
+  "Professional process: code review, clear standards, clear ownership.",
+  "Fact-based: technical disagreements are settled with data, not opinions.",
+  "Transparent collaboration: open information, issues raised directly, no back-channels.",
+];
+
 const SKILLS: [string, string][] = [
   ["Java / Spring Boot", "thread pools, JVM OOM troubleshooting, transaction pitfalls"],
   ["MySQL", "index design, cursor pagination, conditional updates + row locks"],
@@ -135,6 +143,18 @@ export default function Resume() {
           <div className="mt-4 space-y-2 text-zinc-400 leading-relaxed print:text-zinc-900">
             {SUMMARY.map((s) => <p key={s}>{s}</p>)}
           </div>
+        </section>
+
+        <section className="mt-14 print:mt-6 print:break-inside-avoid">
+          <H>how i work</H>
+          <ul className="mt-4 space-y-1.5 text-sm leading-relaxed text-zinc-400 print:text-zinc-900">
+            {HOW_I_WORK.map((p) => (
+              <li key={p} className="flex gap-3">
+                <span className="text-zinc-600 print:text-zinc-500" aria-hidden>–</span>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className="mt-14 print:mt-6 print:break-inside-avoid">
