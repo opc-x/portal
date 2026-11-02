@@ -71,8 +71,15 @@ html {
   .type { width: 6ch; }
 }
 
-/* 打印 / 存 PDF：白底、留页边距 */
+/* 打印 / 存 PDF：白底、留页边距，去掉首页那层光晕和点阵 */
 @media print {
-  @page { margin: 14mm 16mm; }
-  html, body { background: #fff !important; color: #000 !important; }
+  @page { margin: 12mm 14mm; }
+  html, body { background: #fff !important; color: #141c27 !important; }
+  .backdrop::before,
+  .backdrop::after,
+  .dots { display: none !important; }
+}
+
+.resume-root {
+  font-family: "Noto Sans SC", var(--font-sans), "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", "Droid Sans Fallback", sans-serif;
 }

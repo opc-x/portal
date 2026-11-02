@@ -44,7 +44,11 @@ type Item = { href: string; label: string; note?: string };
 export default function RList() {
   const files = walk(PUB).sort();
   const resume: Item[] = [
-    { href: "/resume", label: "/resume", note: "英文简历网页（可打印）" },
+    { href: "/resume", label: "/resume", note: "英文简历网页" },
+    { href: "/resume/zh", label: "/resume/zh", note: "中文简历网页 · 远程" },
+    { href: "/resume/onsite", label: "/resume/onsite", note: "中文简历网页 · 现场" },
+    { href: "/resume-zh.html", label: "/resume-zh.html", note: "转到 /resume/zh" },
+    { href: "/resume-zh-onsite.html", label: "/resume-zh-onsite.html", note: "转到 /resume/onsite" },
     ...files.filter((f) => f.startsWith("resume")).map((f) => ({ href: `/${f}`, label: `/${f}`, note: NOTE[f] })),
   ];
   const pages: Item[] = files
