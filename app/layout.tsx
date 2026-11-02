@@ -8,8 +8,8 @@ const display = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "600", "700
 
 export const metadata: Metadata = {
   icons: { icon: "/avatar.png", apple: "/avatar.png" },
-  title: "Michael C. — Java backend engineer",
-  description: "Java backend engineer (payments, wallets) and indie maker. Building small, useful things.",
+  title: "Michael C. — Java · Full-stack engineer",
+  description: "Java · Full-stack engineer and indie maker. Building small, useful things.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

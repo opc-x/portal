@@ -18,13 +18,13 @@ const AVATAR = ["avatar.jpg", "avatar.png", "avatar.webp"].find((f) =>
 // 中文只留最小剂量：只有中文版简介一句是中文，其余两版共用英文
 const T = {
   zh: {
-    intro: ["**Java 后端**，深耕支付与钱包。", "也独立做产品，从想法到上线一个人完成。"],
+    intro: ["**主力 Java**，全栈都能打。", "也独立做产品，从想法到上线一个人完成。"],
     workNote: "",
     switchLabel: "EN",
     switchHref: "/en",
   },
   en: {
-    intro: ["**Java backend engineer**, deep in payments & wallets.", "I also build my own products — idea to production, solo."],
+    intro: ["**Java-first full-stack engineer** — ships across the whole stack.", "I also build my own products — idea to production, solo."],
     workNote: "[zh]",
     switchLabel: "中文",
     switchHref: "/",
@@ -32,7 +32,7 @@ const T = {
 };
 const UI = {
   badge: "open to work",
-  role: "Java backend engineer",
+  role: "Java · Full-stack engineer",
   about: "about",
   built: "projects",
   work: "work",
