@@ -5,11 +5,11 @@ import PrintButton from "./print";
 
 export const metadata: Metadata = {
   title: "Resume — Michael C.",
-  description: "Senior Java backend engineer. 13 years, from Alibaba and DiDi to wallets and payments. Open to remote roles.",
+  description: "Java backend engineer. 13 years, from Alibaba and DiDi to wallets and payments. Open to remote roles.",
 };
 
 const SUMMARY = [
-  "Senior Java backend engineer with 13 years of experience, from Alibaba and DiDi (China's Uber) to crypto and licensed payments.",
+  "Java backend engineer with 13 years of experience, from Alibaba and DiDi (China's Uber) to crypto and licensed payments.",
   "For the past 4 years I've owned wallet systems where every bug costs real money: a non-custodial multi-chain wallet at HTX/Huobi (~12M users) and a MAS-licensed e-wallet at dtcpay in Singapore.",
   "I take a module from design to production on my own and work well in async, remote teams across time zones.",
 ];
@@ -36,7 +36,7 @@ type Job = { company: string; note?: string; title: string; period: string; plac
 const JOBS: Job[] = [
   {
     company: "dtcpay",
-    title: "Senior Java Backend Engineer — E-Wallet Owner",
+    title: "Java Backend Engineer — E-Wallet Owner",
     period: "Apr 2024 – Present",
     place: "Singapore",
     intro: "MAS-licensed payment institution (fiat + stablecoin). Owned the core flow of the consumer e-wallet app: top-up → withdrawal → daily reconciliation; every balance change is booked by the wallet service.",
@@ -51,7 +51,7 @@ const JOBS: Job[] = [
   {
     company: "HTX",
     note: "formerly Huobi — crypto exchange",
-    title: "Senior Java Backend Engineer — Blockchain Wallet Owner",
+    title: "Java Backend Engineer — Blockchain Wallet Owner",
     period: "May 2022 – Apr 2024",
     place: "",
     intro: "Huobi Wallet: a non-custodial multi-chain wallet with ~12M users (private keys stay on the user's phone). Owned the core flow: wallet creation → on-chain transfer → deposit detection → deposit notification.",
@@ -66,7 +66,7 @@ const JOBS: Job[] = [
   {
     company: "DiDi",
     note: "China's Uber",
-    title: "Senior Java Backend Engineer",
+    title: "Java Backend Engineer",
     period: "Oct 2018 – May 2022",
     place: "Hangzhou, China",
     intro: "Ride-hailing platform. Tech lead of the company-wide search service.",
@@ -132,7 +132,7 @@ export default function Resume() {
           <h1 className="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-[-0.04em] text-zinc-50 print:text-black print:text-3xl">
             Michael C.
           </h1>
-          <p className="mt-3 text-lg text-zinc-300 print:text-zinc-800">Senior Java Backend Engineer · Payments &amp; Wallets · Distributed Systems</p>
+          <p className="mt-3 text-lg text-zinc-300 print:text-zinc-800">Java Backend Engineer · Payments &amp; Wallets · Distributed Systems</p>
           <p className="mt-2 font-display text-xs sm:text-sm text-zinc-500 print:text-zinc-700">
             Open to remote roles · <a href="https://michael.opc-x.org/en" className="text-emerald-400 underline decoration-emerald-400/40 underline-offset-4 hover:decoration-emerald-400 print:text-[#1d4f80]">michael.opc-x.org ↗</a>
           </p>
