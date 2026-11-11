@@ -15,12 +15,9 @@ const SITE = "https://michael.opc-x.org";
 const PUB = path.join(process.cwd(), "public");
 
 // 文件名 → 中文说明；没写的直接显示文件名
+const PDF = "Michael-Resume-EN-dtcpay-tech-remote.pdf";
 const NOTE: Record<string, string> = {
-  "resume-en.pdf": "英文简历 PDF（投海外岗）",
-  "resume-zh.pdf": "中文简历 PDF · 远程版",
-  "resume-zh-onsite.pdf": "中文简历 PDF · 坐班版",
-  "resume-zh.html": "中文简历网页 · 远程版",
-  "resume-zh-onsite.html": "中文简历网页 · 坐班版",
+  [PDF]: "英文简历 PDF（投海外岗）",
   "avatar.png": "头像",
 };
 
@@ -45,17 +42,15 @@ export default function RList() {
   const files = walk(PUB).sort();
   const resume: Item[] = [
     { href: "/resume", label: "/resume", note: "英文简历网页" },
-    { href: "/resume/zh", label: "/resume/zh", note: "中文简历网页 · 远程" },
-    { href: "/resume/onsite", label: "/resume/onsite", note: "中文简历网页 · 现场" },
-    { href: "/resume-zh.html", label: "/resume-zh.html", note: "转到 /resume/zh" },
-    { href: "/resume-zh-onsite.html", label: "/resume-zh-onsite.html", note: "转到 /resume/onsite" },
-    ...files.filter((f) => f.startsWith("resume")).map((f) => ({ href: `/${f}`, label: `/${f}`, note: NOTE[f] })),
+    ...files
+      .filter((f) => f === PDF || f.startsWith("resume"))
+      .map((f) => ({ href: `/${f}`, label: `/${f}`, note: NOTE[f] })),
   ];
   const pages: Item[] = files
     .filter((f) => f.startsWith("pages/"))
     .map((f) => ({ href: `/${f}`, label: `/${f}`, note: titleOf(f) ?? undefined }));
   const other: Item[] = files
-    .filter((f) => !f.startsWith("resume") && !f.startsWith("pages/"))
+    .filter((f) => f !== PDF && !f.startsWith("resume") && !f.startsWith("pages/"))
     .map((f) => ({ href: `/${f}`, label: `/${f}`, note: NOTE[f] }));
   const site: Item[] = [
     { href: "/", label: "/", note: "主页 · 中文" },
@@ -91,7 +86,7 @@ export default function RList() {
                 const full = it.href.startsWith("http") ? it.href : SITE + it.href;
                 return (
                   <li key={it.href} className="py-2.5">
-                    <a href={it.href} target="_blank" rel="noreferrer" className="block hover:text-emerald-300">
+                    <a href={it.href} target="_blank" rel="noreferrer" download={it.href === `/${PDF}` ? PDF : undefined} className="block hover:text-emerald-300">
                       <span className="font-mono text-sm break-all">{it.label}</span>
                       {it.note && <span className="ml-2 text-sm text-zinc-500">{it.note}</span>}
                     </a>
