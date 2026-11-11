@@ -1,10 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "/resume": ["./app/resume/document.html"],
+  },
   async redirects() {
     return [
-      { source: "/resume-zh.html", destination: "/resume/zh", permanent: false },
-      { source: "/resume-zh-onsite.html", destination: "/resume/onsite", permanent: false },
+      { source: "/resume/zh", destination: "/resume", permanent: true },
+      { source: "/resume/onsite", destination: "/resume", permanent: true },
+      { source: "/resume-zh.html", destination: "/resume", permanent: true },
+      { source: "/resume-zh-onsite.html", destination: "/resume", permanent: true },
+      { source: "/resume/pdf/zh", destination: "/resume", permanent: true },
+      { source: "/resume/pdf/onsite", destination: "/resume", permanent: true },
+      { source: "/resume/pdf/en", destination: "/resume-en.pdf", permanent: true },
     ];
   },
   // 带版本号的简历地址：/v/<版本>/resume-zh.pdf → /resume-zh.pdf

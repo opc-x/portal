@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Michael C. — Java Backend Engineer</title>
+<meta name="description" content="Java backend engineer with 13 years of experience, from Alibaba and DiDi to crypto wallets and licensed payments. Open to remote backend roles.">
+<meta property="og:title" content="Michael C. — Java Backend Engineer">
+<meta property="og:description" content="13 years of Java backend: Alibaba, DiDi, Huobi Global, dtcpay. Open to remote.">
+<meta name="theme-color" content="#09090b">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://michael.opc-x.org/resume">
+<meta property="og:image" content="https://michael.opc-x.org/michael-512.jpg">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/jpeg" href="michael-256.jpg">
+<link rel="apple-touch-icon" href="michael-256.jpg">
+<link rel="preload" as="image" href="michael-512.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08080a; --panel:rgba(255,255,255,.025); --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --fg:#fafafa; --muted:#a1a1aa; --dim:#71717a; --accent:#34d399; --accent2:#818cf8;
+  --display:Geist,Inter,ui-sans-serif,system-ui,sans-serif;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"Geist Mono","JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01","ss03";overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.bgfx{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   radial-gradient(900px 520px at 12% -8%,rgba(129,140,248,.16),transparent 60%),
+   radial-gradient(700px 480px at 92% 4%,rgba(52,211,153,.11),transparent 60%);}
+.grid{position:absolute;inset:0;height:760px;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;opacity:.35;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 30%,transparent 75%);
+          mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 30%,transparent 75%);}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 28px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);
+  background:rgba(8,8,10,.6);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.mark{width:30px;height:30px;border-radius:50%;padding:1.5px;background:linear-gradient(135deg,#818cf8,#34d399)}
+.mark img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:1.5px solid var(--bg)}
+.links{display:flex;align-items:center;gap:26px;font-size:14px;color:var(--muted)}
+.links a:hover{color:var(--fg)}
+.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:10px;font-size:14px;font-weight:500;
+  transition:all .15s ease;white-space:nowrap}
+.btn svg{width:16px;height:16px}
+.btn-primary{background:var(--fg);color:#09090b}
+.btn-primary:hover{background:#e4e4e7;transform:translateY(-1px)}
+.btn-ghost{border:1px solid var(--line2);color:var(--fg);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.06)}
+.btn-sm{height:34px;padding:0 13px;font-size:13px;border-radius:8px}
+
+/* hero */
+.hero{padding:96px 0 72px}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.avatar{position:relative;width:248px;height:248px;flex:none}
+.avatar::before{content:"";position:absolute;inset:-3px;border-radius:50%;
+  background:conic-gradient(from 210deg,#818cf8,#34d399,#a5b4fc,#818cf8);}
+.avatar::after{content:"";position:absolute;inset:-40px;border-radius:50%;z-index:-1;
+  background:radial-gradient(closest-side,rgba(129,140,248,.30),rgba(52,211,153,.12) 60%,transparent);filter:blur(10px)}
+.avatar img{position:relative;display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;
+  border:4px solid var(--bg);background:#111}
+.avatar .st{position:absolute;right:14px;bottom:18px;width:22px;height:22px;border-radius:50%;background:var(--accent);
+  border:4px solid var(--bg);box-shadow:0 0 0 4px rgba(52,211,153,.18)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 10px;border-radius:999px;border:1px solid var(--line2);
+  background:rgba(255,255,255,.03);font-size:13px;color:var(--muted)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(52,211,153,.18)}
+h1,h2,h3,.stat b,.brand,.headline{font-family:var(--display)}
+h1{margin-top:22px;font-size:clamp(48px,7.6vw,92px);line-height:.98;font-weight:700;letter-spacing:-.055em;
+  background:linear-gradient(180deg,#fff 30%,#a1a1aa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.headline{margin-top:20px;font-size:clamp(18px,2.3vw,23px);line-height:1.4;color:#d4d4d8;letter-spacing:-.015em;font-weight:500;max-width:900px}
+.nw{white-space:nowrap}
+.headline .sep{color:#52525b;white-space:pre-wrap}
+.grad{background:linear-gradient(90deg,#a5b4fc,#6ee7b7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin-top:22px;max-width:680px;color:var(--muted);font-size:17px;line-height:1.7}
+.lede strong{color:#e4e4e7;font-weight:500}
+.meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--dim)}
+.meta span{display:inline-flex;align-items:center;gap:7px}
+.meta svg{width:15px;height:15px}
+.cta{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px}
+
+.stats{margin-top:64px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:16px;
+  background:var(--panel);overflow:hidden}
+.stat{padding:22px 24px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0}
+.stat b{display:block;font-size:32px;font-weight:600;letter-spacing:-.04em;line-height:1.1;font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg,#fff,#a1a1aa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat{transition:background .2s ease}.stat:hover{background:rgba(255,255,255,.03)}
+.stat small{display:block;margin-top:6px;color:var(--dim);font-size:13px;line-height:1.4}
+
+/* sections */
+section{padding:72px 0;position:relative}
+section+section::before,#experience::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line2) 20%,var(--line2) 80%,transparent)}
+#contact::before{display:none}
+#contact{padding-top:16px}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--accent)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h2{margin-top:12px;font-size:36px;letter-spacing:-.04em;font-weight:600;line-height:1.15}
+.sub{margin-top:8px;color:var(--muted);font-size:16px}
+
+/* timeline */
+.tl{margin-top:40px;position:relative}
+.job{display:grid;grid-template-columns:190px 1fr;gap:36px;padding:0 0 44px;position:relative}
+.job:last-child{padding-bottom:0}
+.when{padding-top:4px;text-align:right}
+.when .p{font-family:var(--mono);font-size:13px;color:#d4d4d8;white-space:nowrap;font-variant-numeric:tabular-nums}
+.when .d:empty,.when .l:empty{display:none}
+.when .d{font-size:13px;color:var(--dim);margin-top:2px}
+.when .l{font-size:13px;color:var(--dim)}
+.card{position:relative;border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:24px 26px;
+  transition:border-color .2s ease,background .2s ease}
+.card:hover{border-color:rgba(165,180,252,.28);background:rgba(255,255,255,.035);transform:translateY(-2px);
+  box-shadow:0 10px 40px -12px rgba(129,140,248,.25)}
+.card{transition:border-color .2s ease,background .2s ease,transform .2s ease,box-shadow .2s ease}
+.card::before{content:"";position:absolute;left:-19px;top:30px;width:9px;height:9px;border-radius:50%;
+  background:var(--bg);border:2px solid #52525b}
+.job.now .card::before{border-color:var(--accent);box-shadow:0 0 0 4px rgba(52,211,153,.15)}
+.tl::before{content:"";position:absolute;left:213px;top:10px;bottom:10px;width:1px;
+  background:linear-gradient(180deg,var(--accent),rgba(129,140,248,.6) 30%,var(--line) 70%)}
+.co{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px}
+.co h3{font-size:21px;font-weight:600;letter-spacing:-.03em}
+.co .ft{font-size:12px;color:var(--dim);font-family:var(--mono)}
+.badge{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);
+  border:1px solid rgba(52,211,153,.3);background:rgba(52,211,153,.08);padding:2px 8px;border-radius:999px}
+.role{margin-top:4px;font-size:15px;font-weight:500;color:#c7d2fe}
+.intro{margin-top:12px;color:var(--muted);font-size:15px}
+ul.pts{margin-top:14px;list-style:none;display:grid;gap:9px}
+ul.pts li{position:relative;padding-left:20px;font-size:15px;color:#d4d4d8;line-height:1.55}
+ul.pts li::before{content:"";position:absolute;left:2px;top:.68em;width:8px;height:1.5px;background:#52525b}
+ul.pts li b{color:var(--fg);font-weight:600}
+.tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{transition:border-color .15s,color .15s}.tag:hover{border-color:rgba(52,211,153,.4);color:#fff}
+.tag{font-family:var(--mono);font-size:12px;color:#d4d4d8;padding:3px 9px;border-radius:6px;border:1px solid var(--line);
+  background:rgba(255,255,255,.03)}
+
+/* skills */
+.sk{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.skc{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:22px 22px 24px}
+.skc h4{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.01em;display:flex;align-items:center;gap:8px}
+.skc h4 i{width:6px;height:6px;border-radius:2px;background:var(--accent2)}
+.skc:nth-child(2) h4 i{background:var(--accent)}
+.skc:nth-child(3) h4 i{background:#f0abfc}
+.skc .tags{margin-top:14px;gap:8px}
+.skc .tag{font-size:13px;padding:5px 11px}
+
+/* contact */
+.contact{margin:24px 0 0;border:1px solid var(--line2);border-radius:22px;padding:52px 48px;position:relative;overflow:hidden;
+  background:radial-gradient(600px 260px at 0% 0%,rgba(129,140,248,.18),transparent 70%),
+             radial-gradient(500px 260px at 100% 100%,rgba(52,211,153,.14),transparent 70%),rgba(255,255,255,.02)}
+.contact h2{font-size:clamp(28px,4vw,40px);max-width:640px}
+.contact p{margin-top:12px;color:var(--muted);max-width:560px}
+footer{padding:40px 0 56px;color:var(--dim);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* responsive */
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:0}
+  .avatar{order:-1;width:112px;height:112px;margin-bottom:28px}
+  .avatar .st{right:4px;bottom:6px;width:18px;height:18px;border-width:3px}
+  .avatar::after{inset:-24px}
+  .links .hide-sm{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(3){border-left:0}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .sk{grid-template-columns:1fr}
+  .tl::before{left:6px}
+  .job{grid-template-columns:1fr;gap:12px;padding-left:30px}
+  .when{text-align:left;position:relative}
+  .when .p{display:block;margin-bottom:2px}
+  .when .d,.when .l{display:inline;font-size:13px}
+  .when .l::before{content:" · ";color:#52525b}
+  .when::before{content:"";position:absolute;left:-30px;top:8px;width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid #52525b}
+  .job.now .when::before{border-color:var(--accent);box-shadow:0 0 0 4px rgba(52,211,153,.15)}
+  .card::before{display:none}
+}
+@media (max-width:560px){
+  .wrap{padding:0 20px}
+  .hero{padding:64px 0 48px}
+  .links{gap:14px}
+  .stats{margin-top:44px}
+  .stat{padding:18px}
+  .stat b{font-size:24px}
+  .card{padding:20px 18px}
+  .contact{padding:36px 24px}
+  section{padding:44px 0}
+  h2{font-size:29px}
+  .cta .btn{flex:1;justify-content:center}
+  .headline{font-size:18px}
+  h1{font-size:52px}
+}
+
+/* print */
+@media print{
+  @page{size:A4;margin:14mm 14mm}
+  :root{--fg:#111;--muted:#333;--dim:#555;--line:#ddd;--line2:#ccc}
+  body{background:#fff;color:#111;font-size:11pt}
+  .bgfx,.grid,nav,.cta,.tl::before,.card::before,.when::before{display:none!important}
+  .contact .cta{display:none!important}
+  h1{background:none;color:#111;-webkit-text-fill-color:#111;font-size:30pt;margin-top:0}
+  .grad{background:none;color:#111;-webkit-text-fill-color:#111}
+  .headline,.role,ul.pts li,ul.pts li b,.when .p,.tag,.lede strong{color:#111}
+  .hero{padding:0 0 10pt}.pill{display:none}
+  .hero-grid{grid-template-columns:1fr auto!important;gap:16pt}.avatar{order:0!important;width:84pt;height:84pt;margin:0}
+  .avatar::before,.avatar::after,.avatar .st,section::before{display:none!important}.avatar img{border:0}
+  .stat b{background:none;color:#111;-webkit-text-fill-color:#111}
+  .stats{margin-top:14pt;background:none}
+  .stat b{font-size:16pt}
+  section{padding:12pt 0}
+  .wrap{max-width:none;padding:0}
+  .stats{grid-template-columns:repeat(4,1fr)!important}
+  .stat{border-top:0!important;border-left:1px solid #ddd!important;padding:10pt}.stat:first-child{border-left:0!important}
+  .job{grid-template-columns:1fr!important;gap:2pt;padding:0 0 12pt!important}
+  .when{text-align:left}.when .p{display:inline;margin-right:8pt}.when .d,.when .l{display:inline}
+  .co,.role,.intro{break-after:avoid}
+  ul.pts li{break-inside:avoid}
+  h2,.contact h2{font-size:17pt;margin-top:2pt}.sub{display:none}.tl{margin-top:10pt}.sk{margin-top:10pt}
+  ul.pts{gap:3pt;margin-top:6pt}.tags{margin-top:6pt}.intro{margin-top:4pt}
+  footer{display:none}
+  .sk{grid-template-columns:repeat(3,1fr)!important;gap:8pt}
+  .card{background:none;border:0;padding:0}
+  .tag{background:none}
+  .skc{background:none;break-inside:avoid}
+  .contact{background:none;border:1px solid #ccc;padding:14pt;break-inside:avoid}
+  .contact a.li::after{content:" — linkedin.com/in/michael-java-backend";}
+  footer{padding:8pt 0}
+}
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+<div class="grid"></div>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="brand"><span class="mark"><img src="michael-256.webp" alt="" width="30" height="30"></span>Michael C.</a>
+    <div class="links">
+      <a href="#experience" class="hide-sm">Experience</a>
+      <a href="#skills" class="hide-sm">Skills</a>
+      <a href="#contact" class="hide-sm">Contact</a>
+      <a class="btn btn-ghost btn-sm" href="/resume-en.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>PDF</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <header class="hero">
+   <div class="hero-grid"><div class="hero-text">
+    <span class="pill"><span class="dot"></span>Open to remote backend roles</span>
+    <h1>Michael C.</h1>
+    <p class="headline"><span class="nw grad">Java Backend Engineer</span><span class="sep"> · </span><span class="nw">Tech Lead</span><span class="sep"> · </span><span class="nw">Payments &amp; Wallets</span><span class="sep"> · </span><span class="nw">Distributed Systems</span></p>
+    <p class="lede">13 years of Java backend, from <strong>Alibaba</strong> and <strong>DiDi</strong> to crypto and licensed payments. For the past 4 years I've built wallet systems where every bug costs real money: deposits, payouts, reconciliation, idempotency and consistency are my daily work.</p>
+    <div class="meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Singapore</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Async, remote, across time zones</span>
+    </div>
+    <div class="cta">
+      <a class="btn btn-primary" href="/resume-en.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>Download PDF</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/michael-java-backend/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+    </div>
+   </div>
+   <div class="avatar"><picture><source srcset="michael-512.webp" type="image/webp"><img src="michael-512.jpg" alt="Michael C." width="248" height="248"></picture><span class="st" title="Open to remote"></span></div>
+   </div>
+
+    <div class="stats">
+      <div class="stat"><b>13 yrs</b><small>Java backend in production</small></div>
+      <div class="stat"><b>~12M</b><small>users on the Huobi multi-chain wallet</small></div>
+      <div class="stat"><b>1M+</b><small>jobs scheduled at Alibaba</small></div>
+      <div class="stat"><b>0 → 1</b><small>company-wide search at DiDi</small></div>
+    </div>
+  </header>
+
+  <section id="experience">
+    <div class="eyebrow">Experience</div>
+    <h2>Systems that move money and data</h2>
+    <p class="sub">Design to production, and still writing production code every day.</p>
+
+    <div class="tl">
+      <article class="job now">
+        <div class="when"><div class="p">Apr 2024 – Present</div><div class="d">2 yrs 8 mos</div><div class="l">Singapore</div></div>
+        <div class="card">
+          <div class="co"><h3>dtcpay</h3><span class="badge">Current</span></div>
+          <div class="role">Java Backend Developer</div>
+          <p class="intro">MAS-licensed payment institution in Singapore (fiat + stablecoin). Developed the consumer e-wallet core flow: top-up → withdrawal → daily reconciliation.</p>
+          <ul class="pts">
+            <li><b>No overdraft</b> — balance checked and deducted in one conditional UPDATE under a row lock</li>
+            <li><b>Idempotent APIs</b> — one-time Redis tokens + unique index on business order ID</li>
+            <li><b>Safe payouts</b> — freeze funds first; on channel timeout query, never resend</li>
+            <li><b>Eventual consistency</b> — local message table + Kafka retries, no lost notifications</li>
+          </ul>
+          <div class="tags"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">MySQL</span><span class="tag">Redis</span><span class="tag">Kafka</span></div>
+        </div>
+      </article>
+
+      <article class="job">
+        <div class="when"><div class="p">May 2022 – Apr 2024</div><div class="d">2 yrs</div></div>
+        <div class="card">
+          <div class="co"><h3>Huobi Global</h3></div>
+          <div class="role">Wallet Team Lead – Java Backend Engineer</div>
+          <p class="intro">Led a 3-person wallet backend team. Non-custodial multi-chain wallet, ~12M users. Owned wallet creation → on-chain transfer → deposit detection → notification.</p>
+          <ul class="pts">
+            <li><b>Chain reorgs</b> — detect broken parentHash, roll back and rescan; credit only after enough confirmations</li>
+            <li><b>OOM fix</b> — replaced an unbounded block queue with a bounded queue + back-pressure</li>
+            <li><b>Reliable delivery</b> — persist notifications before sending, retry failures, and deduplicate repeated deposit events</li>
+            <li><b>Scanner HA</b> — Redis lock for one active scanner, auto failover, resume from cursor</li>
+          </ul>
+          <div class="tags"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">MySQL</span><span class="tag">Redis</span><span class="tag">Blockchain</span></div>
+        </div>
+      </article>
+
+      <article class="job">
+        <div class="when"><div class="p">Oct 2018 – May 2022</div><div class="d">3 yrs 8 mos</div><div class="l">Hangzhou, China</div></div>
+        <div class="card">
+          <div class="co"><h3>DiDi</h3><span class="ft">China's Uber</span></div>
+          <div class="role">Search Tech Lead – Java Backend Engineer</div>
+          <p class="intro">Tech lead of the company-wide search service, leading a 5-person cross-functional team (2 Java backend, 1 QA, 1 data engineer, 1 frontend).</p>
+          <ul class="pts">
+            <li><b>Search from 0 to 1</b> — built the search service on Elasticsearch</li>
+            <li><b>SQL lineage parsing</b> — auto-extracts upstream/downstream table dependencies as a query service</li>
+            <li><b>Unified query APIs</b> — used by systems across the company</li>
+          </ul>
+          <div class="tags"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">MySQL</span><span class="tag">Elasticsearch</span></div>
+        </div>
+      </article>
+
+      <article class="job">
+        <div class="when"><div class="p">Oct 2016 – Oct 2018</div><div class="d">2 yrs 1 mo</div><div class="l">Hangzhou, China</div></div>
+        <div class="card">
+          <div class="co"><h3>Alibaba Group</h3></div>
+          <div class="role">Java Backend Engineer – Distributed Job Scheduling</div>
+          <p class="intro">Core developer of the distributed job scheduling system.</p>
+          <ul class="pts">
+            <li><b>Scale</b> — scheduled 1M+ hourly/daily/weekly/monthly jobs on Quartz</li>
+            <li><b>Master HA</b> — DB row-lock election with automatic takeover</li>
+            <li><b>Sharding</b> — logical-node mapping, so scaling only changes the mapping</li>
+            <li><b>Developer speed</b> — avg job development time cut from 36h to 17.45h</li>
+          </ul>
+          <div class="tags"><span class="tag">Java</span><span class="tag">Quartz</span><span class="tag">MySQL</span></div>
+        </div>
+      </article>
+
+      <article class="job">
+        <div class="when"><div class="p">Mar 2013 – Oct 2016</div><div class="d">3 yrs 8 mos</div><div class="l">Beijing, China</div></div>
+        <div class="card">
+          <div class="co"><h3>Ourpalm</h3></div>
+          <div class="role">Java Backend Engineer</div>
+          <p class="intro">Mobile game operations backend.</p>
+          <ul class="pts">
+            <li><b>Log collection SDK</b> — server-side game log SDK adopted by multiple games</li>
+            <li><b>Operations admin</b> — developed and maintained the Java admin system and scheduled jobs</li>
+          </ul>
+          <div class="tags"><span class="tag">Java</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="eyebrow">Skills</div>
+    <h2>Toolbox</h2>
+    <div class="sk">
+      <div class="skc"><h4><i></i>Core stack</h4>
+        <div class="tags"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">MySQL</span><span class="tag">Redis</span><span class="tag">Apache Kafka</span><span class="tag">Elasticsearch</span><span class="tag">SQL</span></div></div>
+      <div class="skc"><h4><i></i>Systems</h4>
+        <div class="tags"><span class="tag">Distributed Systems</span><span class="tag">Systems Design</span><span class="tag">Microservices</span><span class="tag">Concurrent Programming</span><span class="tag">Transaction Management</span><span class="tag">Finite State Machines</span></div></div>
+      <div class="skc"><h4><i></i>Domains</h4>
+        <div class="tags"><span class="tag">Payments</span><span class="tag">E-Wallets</span><span class="tag">Blockchain</span><span class="tag">Search</span><span class="tag">Job Scheduling</span></div></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <div class="eyebrow">Contact</div>
+      <h2>Open to remote backend roles.</h2>
+      <p>I take a module from design to production and work well in async, remote teams across time zones. The fastest way to reach me is LinkedIn.</p>
+      <div class="cta">
+        <a class="btn btn-primary li" href="https://www.linkedin.com/in/michael-java-backend/" target="_blank" rel="noopener">Message on LinkedIn
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        <a class="btn btn-ghost" href="/resume-en.pdf" download>Download PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>© 2026 Michael C.</span><span>michael.opc-x.org</span></footer>
+</main>
+</body>
+</html>
