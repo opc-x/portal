@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import qrcode from "../../lib/qrcode.js";
+import { pickLinks, pickYaml } from "../../lib/vpn-entries.js";
 import { gateMatches, gateValue, sameSecret } from "../../lib/vpn";
 
 export const dynamic = "force-dynamic";
@@ -13,26 +14,53 @@ function page(body: string, status = 200) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>三个节点</title>
+  <title>四个入口</title>
   <style>
     body { margin: 0; background: #101114; color: #f4f1ea; font: 17px/1.5 -apple-system, BlinkMacSystemFont, sans-serif; }
     main { max-width: 26rem; margin: 0 auto; padding: 2.5rem 1.25rem 3rem; }
     h1 { font-size: 1.7rem; line-height: 1.25; margin: 0 0 0.8rem; }
-    p { margin: 0 0 0.9rem; }
+    h2 { font-size: 1.2rem; line-height: 1.3; margin: 0 0 0.4rem; }
+    h3 { font-size: 0.95rem; line-height: 1.3; margin: 0.95rem 0 0.3rem; }
+    p { margin: 0 0 0.75rem; }
     form { display: grid; gap: 0.75rem; margin-top: 1.2rem; }
     input { font: inherit; padding: 0.8rem 0.9rem; border-radius: 0.7rem; border: 1px solid #3a3d44; background: #181a1f; color: inherit; }
-    button, .link { font: inherit; border: 0; border-radius: 0.7rem; background: #f4f1ea; color: #17181c; padding: 0.8rem 0.9rem; text-align: center; }
+    button { font: inherit; border: 0; border-radius: 0.7rem; background: #f4f1ea; color: #17181c; padding: 0.8rem 0.9rem; text-align: center; }
     .bad { color: #ffb4a8; }
-    h2 { font-size: 1.15rem; line-height: 1.3; margin: 1.5rem 0 0.55rem; }
-    .qr { background: white; border-radius: 1rem; padding: 0.8rem; margin: 1rem 0; }
+    article { border: 1px solid #34373e; border-radius: 1rem; padding: 1rem 1rem 0.3rem; margin: 0 0 1rem; }
+    .qr { background: white; border-radius: 1rem; padding: 0.8rem; margin: 0.4rem 0 0.8rem; }
     .qr svg { display: block; width: 100%; height: auto; }
-    .row { display: flex; gap: 0.5rem; align-items: stretch; margin: 0 0 0.9rem; }
+    .row { display: flex; gap: 0.5rem; align-items: stretch; margin: 0 0 0.75rem; }
     .row code { flex: 1; }
     .row button { width: auto; white-space: nowrap; }
-    code { display: block; overflow-wrap: anywhere; background: #181a1f; border-radius: 0.7rem; padding: 0.8rem; font-size: 0.82rem; margin: 0; }
+    code, pre { display: block; overflow-wrap: anywhere; background: #181a1f; border-radius: 0.7rem; padding: 0.8rem; font-size: 0.78rem; margin: 0; }
+    pre { white-space: pre-wrap; max-height: 16rem; overflow: auto; margin-bottom: 0.55rem; }
+    details { margin: 0.2rem 0 0.6rem; }
+    summary { font-weight: 650; padding: 0.7rem 0; cursor: pointer; }
+    section { margin-top: 0.4rem; }
   </style>
 </head>
-<body><main>${body}</main></body>
+<body><main>${body}</main>
+<script>
+  document.querySelectorAll("[data-copy], [data-copy-for]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const target = btn.getAttribute("data-copy-for");
+      const node = target ? document.getElementById(target) : null;
+      const text = node ? node.textContent || "" : btn.getAttribute("data-copy") || "";
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        const area = document.createElement("textarea");
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+      }
+      btn.textContent = "已复制";
+    });
+  });
+</script>
+</body>
 </html>`;
   return new NextResponse(html, {
     status,
@@ -68,61 +96,92 @@ function linkRow(url: string) {
   return `<div class="row"><code>${safe}</code><button type="button" data-copy="${safe}">复制</button></div>`;
 }
 
-function entryCard(origin: string, token: string, node: string, title: string, detail: string) {
+function rawBlock(id: string, label: string, note: string, text: string) {
+  const body = text.trim();
+  if (!body) return `<h3>${esc(label)}</h3><p>这条原文还没配上。</p>`;
+  return `
+    <h3>${esc(label)}</h3>
+    <p>${esc(note)}</p>
+    <pre id="${id}">${esc(body)}</pre>
+    <button type="button" data-copy-for="${id}">复制</button>
+  `;
+}
+
+function entryCard(
+  origin: string,
+  token: string,
+  node: string,
+  title: string,
+  detail: string,
+  links: string,
+  yaml: string,
+) {
   const query = `t=${encodeURIComponent(token)}${node ? `&node=${node}` : ""}`;
   const rocket = `${origin}/vpn/sub?${query}&client=rocket`;
   const clash = `${origin}/vpn/sub?${query}&client=clash`;
+  const key = node || "all";
   const qr = qrcode(0, "M");
   qr.addData(rocket);
   qr.make();
   const svg = qr.createSvgTag({ cellSize: 4, margin: 8, scalable: true });
   return `
-    <h2>${esc(title)}</h2>
-    <p>${esc(detail)}</p>
-    <div class="qr">${svg}</div>
-    <p>手机扫的是这一条。它回来的是节点。</p>
-    ${linkRow(rocket)}
-    <p>电脑用的是这一条。它回来的是带自动、手选和大陆直连的配置。</p>
-    ${linkRow(clash)}
+    <article>
+      <h2>${esc(title)}</h2>
+      <p>${esc(detail)}</p>
+      <h3>手机</h3>
+      <p>扫这个码，或者复制下面这条。回来的是节点。</p>
+      <div class="qr">${svg}</div>
+      ${linkRow(rocket)}
+      <h3>电脑</h3>
+      <p>复制这一条。回来的是带自动、手选和大陆直连的配置。</p>
+      ${linkRow(clash)}
+      <details>
+        <summary>备用原文</summary>
+        ${rawBlock(`${key}-links`, "节点", "以 vless 开头。域名挂了，把这一段直接交给手机软件。", links)}
+        ${rawBlock(`${key}-yaml`, "配置", "这是电脑那条地址回来的正文。域名挂了，把这一段直接导入电脑。", yaml)}
+      </details>
+    </article>
   `;
 }
 
 function panel(request: Request) {
   const token = process.env.VPN_SUB_TOKEN || "";
   const origin = originOf(request);
+  const storedLinks = process.env.VPN_NODE_LINKS || "";
+  const storedYaml = process.env.VPN_CLASH_YAML || "";
   const entries = [
     ["", "Jailbreak", "三台合在一份里。自动会在三台之间挑。"],
     ["tyo", "VPSTaxi-JP-TYO", "只有东京。配方一样，自动只能选这一台。"],
     ["ca", "RackNerd-US-CA", "只有加州。配方一样，自动只能选这一台。"],
     ["nyc", "LocLix-US-NYC", "只有纽约。配方一样，自动只能选这一台。"],
   ] as const;
+  const cards = entries
+    .map(([node, title, detail]) =>
+      entryCard(
+        origin,
+        token,
+        node,
+        title,
+        detail,
+        pickLinks(storedLinks, node),
+        pickYaml(storedYaml, node),
+      ),
+    )
+    .join("");
   return page(`
-    <h1>四个入口，配方一样。</h1>
-    <p>第一条是三台合在一起。后面三条各是一台，用来备用。四条都在这个域名上，域名挂了就一起挂。</p>
-    ${entries.map(([node, title, detail]) => entryCard(origin, token, node, title, detail)).join("")}
-    <h2>分流就这三条</h2>
-    <p>自动每 300 秒比一次谁先打开 gstatic 的小页面，慢的要比快的多出 50 毫秒才换。三台那份按 11 月 12 日测的延迟，多半选东京。单独那三份只有一台，自动也是这一台。内核认过这个写法，没有长时间盯着它自动来回切。</p>
-    <p>手动就是在「选择」里点某一台的名字。单独那三份只能点自己或直连。</p>
-    <p>中国网站名单和中国 IP 直连。大陆的站绕到东京或美国再回来，路更长，所以更慢。没进名单的站仍然走代理。这条没有单独拿大陆网站计时。</p>
-    <p>这份配置管的是进了 Clash 的连接。三台还在、密钥没变，就可以一直用。手机那条没有这段分流，它只有节点。</p>
-    <script>
-      document.querySelectorAll("[data-copy]").forEach((btn) => {
-        btn.addEventListener("click", async () => {
-          const text = btn.getAttribute("data-copy") || "";
-          try {
-            await navigator.clipboard.writeText(text);
-          } catch (e) {
-            const area = document.createElement("textarea");
-            area.value = text;
-            document.body.appendChild(area);
-            area.select();
-            document.execCommand("copy");
-            area.remove();
-          }
-          btn.textContent = "已复制";
-        });
-      });
-    </script>
+    <h1>先用链接，原文收在卡片里。</h1>
+    <p>每张卡片上面是怎么用。点开「备用原文」，才是这条订阅背后的节点和配置。四条都在这个域名上，域名挂了就一起挂，那时用原文。</p>
+    ${cards}
+    <section>
+      <h2>分流</h2>
+      <h3>自动</h3>
+      <p>每 300 秒比一次谁先打开 gstatic 的小页面，慢的要比快的多出 50 毫秒才换。三台那份按 11 月 12 日测的延迟，多半选东京。单独那三份只有一台，自动也是这一台。内核认过这个写法，没有长时间盯着它自动来回切。</p>
+      <h3>手动</h3>
+      <p>在「选择」里点某一台的名字。单独那三份只能点自己或直连。</p>
+      <h3>大陆直连</h3>
+      <p>中国网站名单和中国 IP 直连。大陆的站绕到东京或美国再回来，路更长，所以更慢。没进名单的站仍然走代理。这条没有单独拿大陆网站计时。</p>
+      <p>这份配置管的是进了 Clash 的连接。三台还在、密钥没变，就可以一直用。手机那条没有这段分流，它只有节点。</p>
+    </section>
   `);
 }
 
