@@ -3,6 +3,9 @@ import { sameSecret } from "../../../lib/vpn";
 
 export const dynamic = "force-dynamic";
 
+// Clash Verge 用这个头当卡片名。带引号的 filename="nodes.yaml" 会被存成一串乱码。
+const PROFILE_NAME = "attachment; filename*=UTF-8''%E4%B8%89%E8%8A%82%E7%82%B9";
+
 function clientOf(request: Request) {
   const asked = new URL(request.url).searchParams.get("client");
   if (asked === "clash" || asked === "rocket") return asked;
@@ -26,7 +29,7 @@ export function GET(request: Request) {
     return new NextResponse(yaml, {
       headers: {
         "content-type": "text/yaml; charset=utf-8",
-        "content-disposition": 'attachment; filename="nodes.yaml"',
+        "content-disposition": PROFILE_NAME,
         "cache-control": "no-store",
         "profile-update-interval": "24",
       },
@@ -40,6 +43,7 @@ export function GET(request: Request) {
     return new NextResponse(body, {
       headers: {
         "content-type": "text/plain; charset=utf-8",
+        "content-disposition": PROFILE_NAME,
         "cache-control": "no-store",
         "profile-update-interval": "24",
       },
