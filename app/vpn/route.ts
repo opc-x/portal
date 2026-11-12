@@ -23,9 +23,13 @@ function page(body: string, status = 200) {
     input { font: inherit; padding: 0.8rem 0.9rem; border-radius: 0.7rem; border: 1px solid #3a3d44; background: #181a1f; color: inherit; }
     button, .link { font: inherit; border: 0; border-radius: 0.7rem; background: #f4f1ea; color: #17181c; padding: 0.8rem 0.9rem; text-align: center; }
     .bad { color: #ffb4a8; }
+    h2 { font-size: 1.15rem; line-height: 1.3; margin: 1.5rem 0 0.55rem; }
     .qr { background: white; border-radius: 1rem; padding: 0.8rem; margin: 1rem 0; }
     .qr svg { display: block; width: 100%; height: auto; }
-    code { display: block; overflow-wrap: anywhere; background: #181a1f; border-radius: 0.7rem; padding: 0.8rem; font-size: 0.82rem; }
+    .row { display: flex; gap: 0.5rem; align-items: stretch; margin: 0 0 0.9rem; }
+    .row code { flex: 1; }
+    .row button { width: auto; white-space: nowrap; }
+    code { display: block; overflow-wrap: anywhere; background: #181a1f; border-radius: 0.7rem; padding: 0.8rem; font-size: 0.82rem; margin: 0; }
   </style>
 </head>
 <body><main>${body}</main></body>
@@ -55,6 +59,15 @@ function originOf(request: Request) {
   return `${proto}://${host}`;
 }
 
+function esc(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+}
+
+function linkRow(url: string) {
+  const safe = esc(url);
+  return `<div class="row"><code>${safe}</code><button type="button" data-copy="${safe}">复制</button></div>`;
+}
+
 async function panel(request: Request) {
   const token = process.env.VPN_SUB_TOKEN || "";
   const origin = originOf(request);
@@ -65,11 +78,36 @@ async function panel(request: Request) {
   qr.make();
   const svg = qr.createSvgTag({ cellSize: 4, margin: 8, scalable: true });
   return page(`
-    <h1>扫这个码，三个节点会一起出来。</h1>
-    <p>码里是一条地址。Shadowrocket 打开这条地址，拿到的是三台节点，所以列表里会有三台。</p>
+    <h1>这个码是第一条地址的图。</h1>
+    <p>图里只有一条地址。Shadowrocket 打开它，回来的是三台节点，所以一次列出三台。第二条地址才回来那份带规则的配置，两条不是同一份东西。</p>
     <div class="qr">${svg}</div>
-    <p>电脑上的 Clash Verge 用下面这条地址。它拿到的是带自动、手动和站点规则的配置。</p>
-    <code>${clash}</code>
+    <h2>手机扫的是这一条</h2>
+    ${linkRow(rocket)}
+    <h2>电脑用的是这一条</h2>
+    ${linkRow(clash)}
+    <h2>分流就这三条</h2>
+    <p>自动每 300 秒比一次谁先打开 gstatic 的小页面，慢的要比快的多出 50 毫秒才换。按 11 月 12 日测的延迟，多半选东京。内核认过这个写法，没有长时间盯着它自动来回切。</p>
+    <p>手动就是在「选择」里点某一台的名字。</p>
+    <p>中国网站名单和中国 IP 直连。大陆的站绕到东京或美国再回来，路更长，所以更慢。没进名单的站仍然走代理。这条没有单独拿大陆网站计时。</p>
+    <p>这份配置管的是进了 Clash 的连接。三台还在、密钥没变，就可以一直用。Clash 没在用这份，它不管。</p>
+    <script>
+      document.querySelectorAll("[data-copy]").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const text = btn.getAttribute("data-copy") || "";
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch (e) {
+            const area = document.createElement("textarea");
+            area.value = text;
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand("copy");
+            area.remove();
+          }
+          btn.textContent = "已复制";
+        });
+      });
+    </script>
   `);
 }
 
