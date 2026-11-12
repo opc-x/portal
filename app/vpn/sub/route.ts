@@ -3,8 +3,8 @@ import { sameSecret } from "../../../lib/vpn";
 
 export const dynamic = "force-dynamic";
 
-// Clash Verge 用这个头当卡片名。带引号的 filename="nodes.yaml" 会被存成一串乱码。
-const PROFILE_NAME = "attachment; filename*=UTF-8''%E4%B8%89%E8%8A%82%E7%82%B9";
+// Clash Verge 用这个头当卡片名。带引号的 filename= 会被存成乱码。
+const PROFILE_NAME = "attachment; filename*=UTF-8''Jailbreak";
 
 function clientOf(request: Request) {
   const asked = new URL(request.url).searchParams.get("client");
