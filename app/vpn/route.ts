@@ -68,28 +68,43 @@ function linkRow(url: string) {
   return `<div class="row"><code>${safe}</code><button type="button" data-copy="${safe}">复制</button></div>`;
 }
 
-async function panel(request: Request) {
-  const token = process.env.VPN_SUB_TOKEN || "";
-  const origin = originOf(request);
-  const rocket = `${origin}/vpn/sub?t=${encodeURIComponent(token)}&client=rocket`;
-  const clash = `${origin}/vpn/sub?t=${encodeURIComponent(token)}&client=clash`;
+function entryCard(origin: string, token: string, node: string, title: string, detail: string) {
+  const query = `t=${encodeURIComponent(token)}${node ? `&node=${node}` : ""}`;
+  const rocket = `${origin}/vpn/sub?${query}&client=rocket`;
+  const clash = `${origin}/vpn/sub?${query}&client=clash`;
   const qr = qrcode(0, "M");
   qr.addData(rocket);
   qr.make();
   const svg = qr.createSvgTag({ cellSize: 4, margin: 8, scalable: true });
-  return page(`
-    <h1>这个码是第一条地址的图。</h1>
-    <p>图里只有一条地址。Shadowrocket 打开它，回来的是三台节点，所以一次列出三台。第二条地址才回来那份带规则的配置，两条不是同一份东西。</p>
+  return `
+    <h2>${esc(title)}</h2>
+    <p>${esc(detail)}</p>
     <div class="qr">${svg}</div>
-    <h2>手机扫的是这一条</h2>
+    <p>手机扫的是这一条。它回来的是节点。</p>
     ${linkRow(rocket)}
-    <h2>电脑用的是这一条</h2>
+    <p>电脑用的是这一条。它回来的是带自动、手选和大陆直连的配置。</p>
     ${linkRow(clash)}
+  `;
+}
+
+function panel(request: Request) {
+  const token = process.env.VPN_SUB_TOKEN || "";
+  const origin = originOf(request);
+  const entries = [
+    ["", "Jailbreak", "三台合在一份里。自动会在三台之间挑。"],
+    ["tyo", "VPSTaxi-JP-TYO", "只有东京。配方一样，自动只能选这一台。"],
+    ["ca", "RackNerd-US-CA", "只有加州。配方一样，自动只能选这一台。"],
+    ["nyc", "LocLix-US-NYC", "只有纽约。配方一样，自动只能选这一台。"],
+  ] as const;
+  return page(`
+    <h1>四个入口，配方一样。</h1>
+    <p>第一条是三台合在一起。后面三条各是一台，用来备用。四条都在这个域名上，域名挂了就一起挂。</p>
+    ${entries.map(([node, title, detail]) => entryCard(origin, token, node, title, detail)).join("")}
     <h2>分流就这三条</h2>
-    <p>自动每 300 秒比一次谁先打开 gstatic 的小页面，慢的要比快的多出 50 毫秒才换。按 11 月 12 日测的延迟，多半选东京。内核认过这个写法，没有长时间盯着它自动来回切。</p>
-    <p>手动就是在「选择」里点某一台的名字。</p>
+    <p>自动每 300 秒比一次谁先打开 gstatic 的小页面，慢的要比快的多出 50 毫秒才换。三台那份按 11 月 12 日测的延迟，多半选东京。单独那三份只有一台，自动也是这一台。内核认过这个写法，没有长时间盯着它自动来回切。</p>
+    <p>手动就是在「选择」里点某一台的名字。单独那三份只能点自己或直连。</p>
     <p>中国网站名单和中国 IP 直连。大陆的站绕到东京或美国再回来，路更长，所以更慢。没进名单的站仍然走代理。这条没有单独拿大陆网站计时。</p>
-    <p>这份配置管的是进了 Clash 的连接。三台还在、密钥没变，就可以一直用。Clash 没在用这份，它不管。</p>
+    <p>这份配置管的是进了 Clash 的连接。三台还在、密钥没变，就可以一直用。手机那条没有这段分流，它只有节点。</p>
     <script>
       document.querySelectorAll("[data-copy]").forEach((btn) => {
         btn.addEventListener("click", async () => {

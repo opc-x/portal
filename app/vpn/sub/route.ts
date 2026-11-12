@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
+import { disposition, pickLinks, pickYaml, profileTitle } from "../../../lib/vpn-entries.js";
 import { sameSecret } from "../../../lib/vpn";
 
 export const dynamic = "force-dynamic";
 
-// Clash Verge 用这个头当卡片名。带引号的 filename= 会被存成乱码。
-const PROFILE_NAME = "attachment; filename*=UTF-8''Jailbreak";
+function nodeOf(request: Request) {
+  const node = new URL(request.url).searchParams.get("node") || "";
+  if (node === "" || node === "tyo" || node === "ca" || node === "nyc") return node;
+  return null;
+}
 
 function clientOf(request: Request) {
   const asked = new URL(request.url).searchParams.get("client");
@@ -22,14 +26,19 @@ export function GET(request: Request) {
     return new NextResponse("unauthorized", { status: 401, headers: { "cache-control": "no-store" } });
   }
 
+  const node = nodeOf(request);
+  if (node === null) {
+    return new NextResponse("unauthorized", { status: 401, headers: { "cache-control": "no-store" } });
+  }
+  const title = disposition(profileTitle(node));
   const client = clientOf(request);
   if (client === "clash") {
-    const yaml = process.env.VPN_CLASH_YAML || "";
+    const yaml = pickYaml(process.env.VPN_CLASH_YAML || "", node);
     if (!yaml) return new NextResponse("not configured", { status: 503, headers: { "cache-control": "no-store" } });
     return new NextResponse(yaml, {
       headers: {
         "content-type": "text/yaml; charset=utf-8",
-        "content-disposition": PROFILE_NAME,
+        "content-disposition": title,
         "cache-control": "no-store",
         "profile-update-interval": "24",
       },
@@ -37,13 +46,13 @@ export function GET(request: Request) {
   }
 
   if (client === "rocket") {
-    const links = process.env.VPN_NODE_LINKS || "";
+    const links = pickLinks(process.env.VPN_NODE_LINKS || "", node);
     if (!links) return new NextResponse("not configured", { status: 503, headers: { "cache-control": "no-store" } });
-    const body = Buffer.from(`${links.trim()}\n`, "utf8").toString("base64");
+    const body = Buffer.from(links, "utf8").toString("base64");
     return new NextResponse(body, {
       headers: {
         "content-type": "text/plain; charset=utf-8",
-        "content-disposition": PROFILE_NAME,
+        "content-disposition": title,
         "cache-control": "no-store",
         "profile-update-interval": "24",
       },
