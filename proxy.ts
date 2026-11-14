@@ -1,20 +1,32 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// /resume 用到的地址。/vpn 是单独的密码页和订阅地址。
+// 首页、/en、/rlist 走老站页面；/resume、/vpn 是独立页面。
 // 其它路径在 next.config 的旧 PDF 跳转之后，308 到 /resume。
 const PASS = new Set([
+  "/",
+  "/en",
+  "/rlist",
   "/resume",
   "/Michael-Resume-EN-dtcpay-tech-remote.pdf",
   "/michael-256.jpg",
   "/michael-256.webp",
   "/michael-512.jpg",
   "/michael-512.webp",
+  "/avatar.png",
+  "/favicon.ico",
 ]);
+
+const PASS_PREFIX = ["/_next/", "/pages/"];
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  if (PASS.has(pathname) || pathname === "/vpn" || pathname.startsWith("/vpn/")) {
+  if (
+    PASS.has(pathname) ||
+    PASS_PREFIX.some((p) => pathname.startsWith(p)) ||
+    pathname === "/vpn" ||
+    pathname.startsWith("/vpn/")
+  ) {
     return NextResponse.next();
   }
   const url = request.nextUrl.clone();
